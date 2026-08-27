@@ -1,0 +1,14 @@
+{
+  "name": "Construction Tool Tracker",
+  "short_name": "Tool Tracker",
+  "description": "Shared tool location, status, photo, and history tracker for a small construction crew.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

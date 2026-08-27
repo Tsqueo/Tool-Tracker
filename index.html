@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Construction Tool Tracker</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <section id="authScreen" class="auth-wrap">
+    <div class="auth-card">
+      <div class="brand">
+        <div class="brand-mark">TT</div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction crew inventory</p></div>
+      </div>
+      <form id="loginForm">
+        <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
+        <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required /></div>
+        <button class="btn accent" type="submit">Sign in</button>
+      </form>
+      <button id="resetPasswordBtn" class="btn" style="width:100%;margin-top:9px" type="button">Send password reset</button>
+      <p class="auth-help">Accounts are created by the owner in Firebase Authentication. There is intentionally no public sign-up button.</p>
+    </div>
+  </section>
+
+  <div id="app" class="app-shell hidden">
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark">TT</div><div><h1>Tool Tracker</h1><p>Live crew inventory</p></div></div>
+      <div class="top-actions"><span id="currentUserName" class="user-name small"></span><button id="signOutBtn" class="btn ghost smallbtn">Sign out</button></div>
+    </header>
+
+    <main class="page">
+      <div id="installBanner" class="install-banner hidden"><span>Add Tool Tracker to your home screen for an app-like experience.</span><button id="installBtn" class="btn accent smallbtn">Install</button></div>
+
+      <section id="dashboardView" class="view active">
+        <div class="hero-grid">
+          <div class="stat"><strong id="statTotal">0</strong><span>Total tools</span></div>
+          <div class="stat"><strong id="statInUse">0</strong><span>In use</span></div>
+          <div class="stat"><strong id="statAvailable">0</strong><span>Available</span></div>
+          <div class="stat"><strong id="statAttention">0</strong><span>Need attention</span></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Tools</h2><button id="addToolBtn" class="btn accent">+ Add tool</button></div>
+          <div class="panel-body">
+            <div class="toolbar">
+              <input id="searchInput" type="search" placeholder="Search label, tool, serial, location…" />
+              <select id="statusFilter"><option value="">All statuses</option><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select>
+              <select id="locationFilter"><option value="">All locations</option></select>
+              <button id="clearFiltersBtn" class="btn">Clear</button>
+            </div>
+          </div>
+        </div>
+        <div id="toolsGrid" class="tools-grid"></div>
+      </section>
+
+      <section id="locationsView" class="view">
+        <div class="panel">
+          <div class="panel-head"><h2>Locations</h2><button id="addLocationBtn" class="btn accent">+ Add location</button></div>
+          <div class="panel-body"><p class="muted small">Jobsites, shops, storage areas, and trucks are all editable. Add more whenever your operation changes.</p><div id="locationsList" class="list"></div></div>
+        </div>
+      </section>
+
+      <section id="historyView" class="view">
+        <div class="panel"><div class="panel-head"><h2>Recent history</h2></div><div class="panel-body"><div id="historyList" class="list"></div></div></div>
+      </section>
+
+      <section id="accountView" class="view">
+        <div class="panel"><div class="panel-head"><h2>My profile</h2></div><div class="panel-body">
+          <form id="profileForm" class="form-grid">
+            <div class="field full"><label for="displayNameInput">Display name</label><input id="displayNameInput" required /></div>
+            <div class="field full"><label>Email</label><input id="profileEmail" disabled /></div>
+            <div class="full"><button class="btn primary" type="submit">Save profile</button></div>
+          </form>
+        </div></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-btn active" data-view="dashboardView">Tools</button>
+      <button class="nav-btn" data-view="locationsView">Locations</button>
+      <button class="nav-btn" data-view="historyView">History</button>
+      <button class="nav-btn" data-view="accountView">Account</button>
+    </nav>
+  </div>
+
+  <div id="toolModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="dialog"><div class="dialog-head"><h2 id="toolModalTitle">Add tool</h2><button class="btn" data-close="toolModal">Close</button></div><div class="dialog-body">
+      <form id="toolForm" class="form-grid">
+        <input id="toolId" type="hidden" />
+        <div class="field"><label for="toolLabel">Tool label / ID</label><input id="toolLabel" required maxlength="40" /></div>
+        <div class="field"><label for="toolName">Tool name</label><input id="toolName" required maxlength="100" placeholder="e.g. DeWalt SDS Hammer Drill" /></div>
+        <div class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-001</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div>
+        <div class="field"><label for="toolCategory">Category</label><input id="toolCategory" maxlength="60" placeholder="Cordless, concrete, laser…" /></div>
+        <div class="field"><label for="toolSerial">Serial number</label><input id="toolSerial" maxlength="100" /></div>
+        <div class="field"><label for="toolStatus">Status</label><select id="toolStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select></div>
+        <div class="field"><label for="toolLocation">Location</label><select id="toolLocation"></select></div>
+        <div class="field full"><label for="toolPhoto">Phone photo</label><input id="toolPhoto" type="file" accept="image/*" capture="environment" /><span class="small muted">Images are uploaded to your Firebase Storage bucket. Max 8 MB.</span></div>
+        <div class="field full"><label for="toolNotes">Notes</label><textarea id="toolNotes" maxlength="1000"></textarea></div>
+        <div class="dialog-actions full"><button type="button" class="btn" data-close="toolModal">Cancel</button><button id="saveToolBtn" class="btn accent" type="submit">Save tool</button></div>
+      </form>
+    </div></div>
+  </div>
+
+  <div id="moveModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="dialog"><div class="dialog-head"><h2>Move / update tool</h2><button class="btn" data-close="moveModal">Close</button></div><div class="dialog-body">
+      <form id="moveForm" class="form-grid">
+        <input id="moveToolId" type="hidden" />
+        <div class="field"><label for="moveStatus">Status</label><select id="moveStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select></div>
+        <div class="field"><label for="moveLocation">Location</label><select id="moveLocation"></select></div>
+        <div class="field full"><label for="moveNote">History note</label><input id="moveNote" maxlength="250" placeholder="Optional: moved to north tower, sent for repair…" /></div>
+        <div class="dialog-actions full"><button type="button" class="btn" data-close="moveModal">Cancel</button><button class="btn accent" type="submit">Update</button></div>
+      </form>
+    </div></div>
+  </div>
+
+  <div id="locationModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="dialog"><div class="dialog-head"><h2 id="locationModalTitle">Add location</h2><button class="btn" data-close="locationModal">Close</button></div><div class="dialog-body">
+      <form id="locationForm" class="form-grid">
+        <input id="locationId" type="hidden" />
+        <div class="field"><label for="locationName">Name</label><input id="locationName" required maxlength="80" placeholder="e.g. Oak Street Jobsite" /></div>
+        <div class="field"><label for="locationType">Type</label><select id="locationType"><option>Jobsite</option><option>Shop</option><option>Truck</option><option>Storage</option><option>Other</option></select></div>
+        <div class="field full"><label><input id="locationActive" type="checkbox" checked style="width:auto" /> Active location</label></div>
+        <div class="dialog-actions full"><button type="button" class="btn" data-close="locationModal">Cancel</button><button class="btn accent" type="submit">Save location</button></div>
+      </form>
+    </div></div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
