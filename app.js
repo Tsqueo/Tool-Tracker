@@ -1,15 +1,10 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, updateProfile } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js';
 import {
-  getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
-  sendPasswordResetEmail, updateProfile
-} from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js';
-import {
-  getFirestore, collection, doc, getDoc, setDoc, addDoc, updateDoc,
+  getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc,
   onSnapshot, query, orderBy, limit, serverTimestamp
 } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js';
-import {
-  getStorage, ref, uploadBytes, getDownloadURL
-} from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js';
 import { firebaseConfig } from './firebase-config.js';
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -17,212 +12,192 @@ const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 
-const state = { user:null, tools:[], locations:[], history:[], users:new Map(), unsubscribers:[], installPrompt:null };
+const DEFAULT_PREFIXES = { DeWalt:'DW', Bosch:'B', Milwaukee:'MW', Makita:'MK', Hilti:'H', Festool:'F', Ridgid:'R', Metabo:'MT' };
+const DEFAULT_CATEGORIES = [
+  ['Saws','saw'],['Drills & Drivers','drill'],['Rotary Hammers','concrete'],['Lasers','laser'],
+  ['Vacuums & Dust','vacuum'],['Cordless','cordless'],['Measuring','measure'],['Other','other']
+];
+const ICONS = {
+  home:'<svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10M9.5 20v-6h5v6"/></svg>',
+  tools:'<svg viewBox="0 0 24 24"><path d="m14.7 6.3 3-3a4.3 4.3 0 0 1-5.6 5.6l-6.7 6.7a2.1 2.1 0 1 0 3 3l6.7-6.7a4.3 4.3 0 0 0 5.6-5.6l-3 3-3-3Z"/></svg>',
+  jobs:'<svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>',
+  categories:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+  locations:'<svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+  history:'<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>',
+  wishlist:'<svg viewBox="0 0 24 24"><path d="M12 21S4 16.5 4 9.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8 3.5C20 16.5 12 21 12 21Z"/></svg>',
+  admin:'<svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5c0 5 3.2 8.5 7.5 10 4.3-1.5 7.5-5 7.5-10V6L12 3Z"/><path d="m9 12 2 2 4-4"/></svg>',
+  account:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  saw:'<svg viewBox="0 0 24 24"><path d="M4 15h12l4 4H8L4 15Z"/><circle cx="10" cy="10" r="5"/><path d="M10 5v10M5 10h10"/></svg>',
+  drill:'<svg viewBox="0 0 24 24"><path d="M3 8h11l4 3-4 3H3V8Z"/><path d="M8 14v6h4l2-6M18 11h3"/></svg>',
+  laser:'<svg viewBox="0 0 24 24"><rect x="6" y="5" width="12" height="14" rx="2"/><path d="M9 12h6M12 9v6M2 12h3M19 12h3"/></svg>',
+  vacuum:'<svg viewBox="0 0 24 24"><path d="M7 5h8v12H7zM9 2h4v3M15 8h3c2 0 3 1.5 3 3.5V18"/><circle cx="10" cy="19" r="2"/></svg>',
+  concrete:'<svg viewBox="0 0 24 24"><path d="M4 15 15 4l5 5L9 20H4v-5Z"/><path d="m13 6 5 5M3 21h18"/></svg>',
+  cordless:'<svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 7h4M10 17h4"/></svg>',
+  measure:'<svg viewBox="0 0 24 24"><path d="M4 7h16v10H4zM7 7v4M10 7v2M13 7v4M16 7v2"/></svg>',
+  other:'<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>'
+};
+
+const state = {
+  user:null, profile:null, tools:[], locations:[], history:[], jobs:[], categories:[], wishlist:[], users:[],
+  settings:{businessName:'Tool Tracker',logoURL:'',brandPrefixes:{...DEFAULT_PREFIXES}}, unsubscribers:[], installPrompt:null,
+  toolJobFilter:null, specialToolFilter:null
+};
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
 const slugStatus = value => String(value || '').toLowerCase().replace(/\s+/g,'-');
+const isAdmin = () => state.profile?.role === 'admin';
+const visibleTools = () => state.tools.filter(t => isAdmin() || !t.privateTool);
+const displayName = (user=state.user) => state.profile?.displayName || user?.displayName || user?.email?.split('@')[0] || 'Employee';
 
-function toast(message, error=false) {
-  const el = $('toast'); el.textContent = message; el.classList.remove('hidden');
-  el.style.background = error ? '#991b1b' : '#111827';
-  clearTimeout(toast.timer); toast.timer = setTimeout(() => el.classList.add('hidden'), 3200);
+function toast(message,error=false){const el=$('toast');el.textContent=message;el.classList.remove('hidden');el.style.background=error?'#991b1b':'#111827';clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.add('hidden'),3300)}
+function formatDate(ts){if(!ts)return'Just now';const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleString([],{dateStyle:'medium',timeStyle:'short'})}
+function formatDateOnly(value){if(!value)return'—';const d=new Date(`${value}T12:00:00`);return Number.isNaN(d.valueOf())?value:d.toLocaleDateString([],{dateStyle:'medium'})}
+function openModal(id){$(id)?.classList.remove('hidden')}
+function closeModal(id){$(id)?.classList.add('hidden')}
+function icon(name){return ICONS[name]||ICONS.other}
+function paintIcons(){document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=icon(el.dataset.icon))}
+function currentLocation(id){return state.locations.find(l=>l.id===id)}
+function currentCategory(id){return state.categories.find(c=>c.id===id)}
+function currentJob(id){return state.jobs.find(j=>j.id===id)}
+function normalizeBrand(v){return String(v||'').trim().toLowerCase()}
+function brandPrefix(brand){const target=normalizeBrand(brand);for(const [name,prefix] of Object.entries(state.settings.brandPrefixes||{})){if(normalizeBrand(name)===target)return String(prefix).toUpperCase()}const letters=String(brand||'').replace(/[^A-Za-z]/g,'').toUpperCase();return letters?letters.slice(0,2):'T'}
+function nextToolLabel(brand=''){const prefix=brandPrefix(brand).replace(/[^A-Z0-9]/g,'')||'T';let max=0;for(const t of state.tools){const m=String(t.label||'').toUpperCase().match(new RegExp(`^${prefix}-?(\\d{1,6})$`));if(m)max=Math.max(max,Number(m[1]))}return`${prefix}-${String(max+1).padStart(2,'0')}`}
+function activeLocations(){return state.locations.filter(x=>x.active!==false).sort((a,b)=>(a.name||'').localeCompare(b.name||''))}
+function activeCategories(){return state.categories.filter(x=>x.active!==false).sort((a,b)=>(a.order??999)-(b.order??999)||(a.name||'').localeCompare(b.name||''))}
+function mapsURL(address){return`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address||'')}`}
+function warrantyState(date){if(!date)return null;const today=new Date();today.setHours(0,0,0,0);const expiry=new Date(`${date}T12:00:00`);const days=Math.ceil((expiry-today)/86400000);return{days,label:days<0?'Expired':days<=60?`${days} days left`:'Active'}}
+
+function applyTheme(theme){let resolved=theme;if(theme==='system')resolved=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=resolved;localStorage.setItem('tt-theme',theme);$('themeBtn').textContent=resolved==='dark'?'☀':'☾'}
+function updateGreeting(){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Vancouver',hour:'numeric',hour12:false}).formatToParts(new Date());const hour=Number(parts.find(p=>p.type==='hour')?.value||12);const greeting=hour>=3&&hour<=11?'Good morning':hour>=12&&hour<=17?'Good afternoon':'Good evening';$('greeting').textContent=`${greeting}, ${displayName()}`}
+function applyRoleUI(){document.querySelectorAll('.admin-only').forEach(el=>el.classList.toggle('hidden',!isAdmin()));$('profileRole').value=isAdmin()?'Admin':'Staff';}
+function applyBranding(){const name=state.settings.businessName||'Tool Tracker';$('topbarSubtitle').textContent=name==='Tool Tracker'?'Live crew inventory':name;const url=state.settings.logoURL||'';for(const id of ['topLogoWrap','dashboardLogo']){const el=$(id);el.innerHTML=url?`<img src="${esc(url)}" alt="Logo" />`:'<span>TT</span>'}}
+
+async function ensureUserProfile(user){
+  const refDoc=doc(db,'users',user.uid);const snap=await getDoc(refDoc);let data=snap.exists()?snap.data():null;
+  if(!data){const all=await getDocs(collection(db,'users'));const role=all.size===0?'admin':'staff';data={email:user.email||'',displayName:user.displayName||user.email?.split('@')[0]||'Employee',role,active:true,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};await setDoc(refDoc,data)}
+  else if(!data.role){const all=await getDocs(collection(db,'users'));const role=all.size<=1?'admin':'staff';await setDoc(refDoc,{role,active:data.active!==false,updatedAt:serverTimestamp()},{merge:true});data={...data,role}}
+  state.profile={id:user.uid,...data};
+  if(!sessionStorage.getItem('tt-signin-recorded')){sessionStorage.setItem('tt-signin-recorded','1');addDoc(collection(db,'signins'),{uid:user.uid,email:user.email||'',displayName:data.displayName||displayName(user),createdAt:serverTimestamp()}).catch(()=>{})}
 }
-function displayName(user=state.user) { return user?.displayName || user?.email?.split('@')[0] || 'Employee'; }
-function formatDate(ts) { if (!ts) return 'Just now'; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString([], {dateStyle:'medium',timeStyle:'short'}); }
-function openModal(id) { $(id).classList.remove('hidden'); }
-function closeModal(id) { $(id).classList.add('hidden'); }
+async function seedSettings(){const r=doc(db,'settings','app');const s=await getDoc(r);if(!s.exists())await setDoc(r,{businessName:'Tool Tracker',logoURL:'',brandPrefixes:DEFAULT_PREFIXES,updatedAt:serverTimestamp(),updatedBy:state.user.uid})}
+async function seedCategoriesIfEmpty(){if(state.categories.length)return;for(let i=0;i<DEFAULT_CATEGORIES.length;i++){const [name,iconKey]=DEFAULT_CATEGORIES[i];await addDoc(collection(db,'categories'),{name,iconKey,active:true,order:i+1,createdAt:serverTimestamp(),updatedAt:serverTimestamp(),updatedBy:state.user.uid})}}
+async function seedLocationsIfEmpty(){if(state.locations.length)return;for(const x of [{name:'Shop',type:'Shop'},{name:'In Transit',type:'Other'},{name:'Repair',type:'Repair'},{name:'Unassigned',type:'Other'}])await addDoc(collection(db,'locations'),{...x,active:true,createdAt:serverTimestamp(),updatedAt:serverTimestamp(),updatedBy:state.user.uid})}
 
-function currentLocation(id) { return state.locations.find(l => l.id === id); }
-function nextToolLabel() {
-  let max = 0;
-  for (const t of state.tools) {
-    const match = String(t.label || '').match(/(?:^|\D)(\d{1,6})$/);
-    if (match) max = Math.max(max, Number(match[1]));
-  }
-  return `T-${String(max + 1).padStart(3,'0')}`;
-}
-
-async function ensureUserProfile(user) {
-  const refDoc = doc(db,'users',user.uid);
-  const snap = await getDoc(refDoc);
-  if (!snap.exists()) {
-    await setDoc(refDoc, { email:user.email || '', displayName:displayName(user), active:true, createdAt:serverTimestamp(), updatedAt:serverTimestamp() });
-  }
-}
-
-async function seedLocationsIfEmpty() {
-  if (state.locations.length) return;
-  const defaults = [
-    {name:'Shop',type:'Shop',active:true},
-    {name:'In Transit',type:'Other',active:true},
-    {name:'Repair',type:'Other',active:true},
-    {name:'Unassigned',type:'Other',active:true}
-  ];
-  await Promise.all(defaults.map(x => addDoc(collection(db,'locations'), {...x, createdAt:serverTimestamp(), updatedAt:serverTimestamp(), updatedBy:state.user.uid})));
-}
-
-function startRealtime() {
-  state.unsubscribers.forEach(fn => fn()); state.unsubscribers=[];
-  state.unsubscribers.push(onSnapshot(query(collection(db,'locations'), orderBy('name')), snap => {
-    state.locations = snap.docs.map(d => ({id:d.id,...d.data()}));
-    renderLocations(); fillLocationSelects(); renderTools();
-    seedLocationsIfEmpty().catch(e => console.error(e));
-  }, e => toast(`Locations: ${e.message}`, true)));
-  state.unsubscribers.push(onSnapshot(query(collection(db,'tools'), orderBy('label')), snap => {
-    state.tools = snap.docs.map(d => ({id:d.id,...d.data()})); renderTools(); updateStats(); $('labelSuggestion').textContent = nextToolLabel();
-  }, e => toast(`Tools: ${e.message}`, true)));
-  state.unsubscribers.push(onSnapshot(query(collection(db,'history'), orderBy('createdAt','desc'), limit(100)), snap => {
-    state.history = snap.docs.map(d => ({id:d.id,...d.data()})); renderHistory();
-  }, e => toast(`History: ${e.message}`, true)));
+function startRealtime(){
+  state.unsubscribers.forEach(fn=>fn());state.unsubscribers=[];
+  const sub=(source,handler,label)=>state.unsubscribers.push(onSnapshot(source,handler,e=>toast(`${label}: ${e.message}`,true)));
+  sub(collection(db,'users'),snap=>{state.users=snap.docs.map(d=>({id:d.id,...d.data()}));const mine=state.users.find(u=>u.id===state.user.uid);if(mine){state.profile=mine;applyRoleUI();updateGreeting()}renderTeam()},'Team');
+  sub(collection(db,'settings'),snap=>{const app=snap.docs.find(d=>d.id==='app');if(app)state.settings={businessName:'Tool Tracker',logoURL:'',brandPrefixes:{...DEFAULT_PREFIXES},...app.data(),brandPrefixes:{...DEFAULT_PREFIXES,...(app.data().brandPrefixes||{})}};applyBranding();if($('businessName'))$('businessName').value=state.settings.businessName||'Tool Tracker';renderPrefixes()},'Settings');
+  sub(collection(db,'locations'),snap=>{state.locations=snap.docs.map(d=>({id:d.id,...d.data()}));fillLocationSelects();renderLocations();renderTools();renderJobs();seedLocationsIfEmpty().catch(console.error)},'Locations');
+  sub(collection(db,'categories'),snap=>{state.categories=snap.docs.map(d=>({id:d.id,...d.data()}));fillCategorySelects();renderCategories();renderTools();seedCategoriesIfEmpty().catch(console.error)},'Categories');
+  sub(collection(db,'jobs'),snap=>{state.jobs=snap.docs.map(d=>({id:d.id,...d.data()}));fillJobSelects();renderJobs();updateStats()},'Jobs');
+  sub(query(collection(db,'tools'),orderBy('label')),snap=>{state.tools=snap.docs.map(d=>({id:d.id,...d.data()}));renderTools();renderLocations();renderCategories();renderJobs();renderWarranty();updateStats();updateLabelSuggestion()},'Tools');
+  sub(query(collection(db,'history'),orderBy('createdAt','desc'),limit(150)),snap=>{state.history=snap.docs.map(d=>({id:d.id,...d.data()}));renderHistory();renderDashboardActivity()},'History');
+  sub(collection(db,'wishlist'),snap=>{state.wishlist=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>((b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)));renderWishlist();updateStats()},'Wishlist');
+  seedSettings().catch(console.error);
 }
 
-function fillLocationSelects() {
-  const active = state.locations.filter(x => x.active !== false);
-  const options = active.map(x => `<option value="${esc(x.id)}">${esc(x.name)} — ${esc(x.type || 'Other')}</option>`).join('');
-  $('toolLocation').innerHTML = options;
-  $('moveLocation').innerHTML = options;
-  $('locationFilter').innerHTML = '<option value="">All locations</option>' + active.map(x => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('');
+function openView(id){
+  if(id==='adminView'&&!isAdmin())return toast('Admin access only.',true);
+  if(id==='categoriesView'&&!isAdmin())return toast('Admin access only.',true);
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.openView===id||(id==='dashboardView'&&b.dataset.openView==='dashboardView')));
+  window.scrollTo({top:0,behavior:'smooth'});
 }
+function updateStats(){const tools=visibleTools();$('statTotal').textContent=tools.length;$('statJobs').textContent=state.jobs.filter(j=>j.status==='Active').length;$('statAttention').textContent=tools.filter(t=>['Repair','Lost'].includes(t.status)).length;$('statWishlist').textContent=state.wishlist.filter(w=>!['Purchased','Declined'].includes(w.status)).length}
+function renderDashboardActivity(){const rows=state.history.slice(0,5);$('dashboardActivity').innerHTML=rows.length?rows.map(historyHTML).join(''):'<div class="empty">Your first tool changes will appear here.</div>'}
+function historyHTML(h){return`<div class="history-item"><strong>${esc(h.toolLabel||'')} ${esc(h.toolName||'')}</strong><div>${esc(h.action||'Updated')}${h.note?` — ${esc(h.note)}`:''}</div><time>${esc(h.actorName||'Employee')} · ${formatDate(h.createdAt)}</time></div>`}
+function renderHistory(){$('historyList').innerHTML=state.history.length?state.history.map(historyHTML).join(''):'<div class="empty">No tool history yet.</div>'}
 
-function updateStats() {
-  $('statTotal').textContent = state.tools.length;
-  $('statInUse').textContent = state.tools.filter(t => t.status === 'In Use').length;
-  $('statAvailable').textContent = state.tools.filter(t => t.status === 'Available').length;
-  $('statAttention').textContent = state.tools.filter(t => ['Repair','Lost'].includes(t.status)).length;
-}
+function fillLocationSelects(){const active=activeLocations();const opts=active.map(x=>`<option value="${esc(x.id)}">${esc(x.name)} — ${esc(x.type||'Other')}</option>`).join('');$('toolLocation').innerHTML=opts;$('moveLocation').innerHTML=opts;$('locationFilter').innerHTML='<option value="">All locations</option>'+active.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}
+function fillCategorySelects(){const cats=activeCategories();$('toolCategory').innerHTML='<option value="">Uncategorized</option>'+cats.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');$('categoryFilter').innerHTML='<option value="">All categories</option>'+cats.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('')}
+function fillJobSelects(){$('locationJob').innerHTML='<option value="">None</option>'+state.jobs.filter(j=>j.status!=='Completed').sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(j=>`<option value="${esc(j.id)}">${esc(j.name)}</option>`).join('')}
+function filteredTools(){const q=$('searchInput').value.trim().toLowerCase(),status=$('statusFilter').value,loc=$('locationFilter').value,cat=$('categoryFilter').value;let rows=visibleTools().filter(t=>{const hay=[t.label,t.name,t.brand,t.model,t.serial,t.categoryName,t.category,t.locationName].join(' ').toLowerCase();const catMatch=!cat||t.categoryId===cat||(!t.categoryId&&currentCategory(cat)?.name===t.category);return(!q||hay.includes(q))&&(!status||t.status===status)&&(!loc||t.locationId===loc)&&catMatch});if(state.toolJobFilter){const ids=new Set(state.locations.filter(l=>l.jobId===state.toolJobFilter).map(l=>l.id));rows=rows.filter(t=>ids.has(t.locationId))}if(state.specialToolFilter==='attention')rows=rows.filter(t=>['Repair','Lost'].includes(t.status));return rows}
+function toolImage(t){return t.manufacturerPhotoURL||t.photoURL||''}
+function renderTools(){if(!$('toolsGrid'))return;const rows=filteredTools();if(!rows.length){$('toolsGrid').innerHTML='<div class="panel empty" style="grid-column:1/-1">No tools match this view.</div>';return}$('toolsGrid').innerHTML=rows.map(t=>{const img=toolImage(t),cat=t.categoryName||t.category||'Uncategorized';return`<article class="tool-card">${img?`<img class="tool-thumb" src="${esc(img)}" alt="${esc(t.name)}" loading="lazy" />`:`<div class="tool-placeholder">${icon('tools')}</div>`}<div class="tool-content"><div class="tool-title"><h3>${esc(t.name||'Unnamed tool')}</h3><span class="label">${esc(t.label||'—')}</span></div><div class="card-actions"><span class="badge ${slugStatus(t.status)}">${esc(t.status||'Available')}</span>${t.privateTool?'<span class="badge">Private</span>':''}</div><div class="meta"><span>📍 ${esc(t.locationName||'Unassigned')}</span><span>${esc(cat)}${t.brand?` · ${esc(t.brand)}`:''}${t.model?` · ${esc(t.model)}`:''}</span></div><div class="card-actions"><button class="btn accent smallbtn" data-move-tool="${t.id}">Move / status</button><button class="btn smallbtn" data-view-tool="${t.id}">Details</button></div></div></article>`}).join('')}
 
-function filteredTools() {
-  const text = $('searchInput').value.trim().toLowerCase(), status=$('statusFilter').value, loc=$('locationFilter').value;
-  return state.tools.filter(t => {
-    const hay = [t.label,t.name,t.category,t.serial,t.locationName,t.notes].join(' ').toLowerCase();
-    return (!text || hay.includes(text)) && (!status || t.status===status) && (!loc || t.locationId===loc);
-  });
-}
+function renderLocations(){const rows=[...state.locations].sort((a,b)=>(a.name||'').localeCompare(b.name||''));$('locationsList').innerHTML=rows.length?rows.map(l=>{const count=visibleTools().filter(t=>t.locationId===l.id).length;const job=currentJob(l.jobId);return`<div class="info-card"><div class="info-card-head"><div><h3>${esc(l.name)}</h3><p>${esc(l.type||'Other')}${job?` · ${esc(job.name)}`:''}</p></div>${isAdmin()?`<button class="btn smallbtn" data-edit-location="${l.id}">Edit</button>`:''}</div><div class="info-meta"><span>${count} tool${count===1?'':'s'}</span><span>${l.active===false?'Inactive':'Active'}</span></div></div>`}).join(''):'<div class="panel empty">No locations yet.</div>'}
+function renderJobs(){const rows=[...state.jobs].sort((a,b)=>((a.status==='Active'?0:1)-(b.status==='Active'?0:1))||(a.name||'').localeCompare(b.name||''));$('jobsList').innerHTML=rows.length?rows.map(j=>{const ids=new Set(state.locations.filter(l=>l.jobId===j.id).map(l=>l.id));const count=visibleTools().filter(t=>ids.has(t.locationId)).length;return`<div class="info-card"><div class="info-card-head"><div><h3>${esc(j.name)}</h3><p>${esc(j.address||'No address entered')}</p></div><span class="badge ${j.status==='Active'?'available':''}">${esc(j.status||'Active')}</span></div><div class="info-meta"><span>${count} tool${count===1?'':'s'} onsite</span>${j.contact?`<span>Contact: ${esc(j.contact)}</span>`:''}</div><div class="card-actions">${j.address?`<a class="btn smallbtn" href="${mapsURL(j.address)}" target="_blank" rel="noopener">Open Maps</a>`:''}<button class="btn accent smallbtn" data-job-tools="${j.id}">View tools</button>${isAdmin()?`<button class="btn smallbtn" data-edit-job="${j.id}">Edit</button>`:''}</div></div>`}).join(''):'<div class="panel empty">No jobsites yet. Add your first job and it will automatically become a tool location.</div>'}
+function renderCategories(){const rows=[...state.categories].sort((a,b)=>(a.order??999)-(b.order??999));$('categoriesList').innerHTML=rows.length?rows.map((c,i)=>{const count=visibleTools().filter(t=>t.categoryId===c.id||(!t.categoryId&&t.category===c.name)).length;return`<div class="info-card"><div class="info-card-head"><div class="brand"><span class="tile-icon" style="width:42px;height:42px">${icon(c.iconKey||'other')}</span><div><h3>${esc(c.name)}</h3><p>${count} tool${count===1?'':'s'} · ${c.active===false?'Inactive':'Active'}</p></div></div><div class="card-actions"><button class="btn smallbtn" data-category-up="${c.id}" ${i===0?'disabled':''}>↑</button><button class="btn smallbtn" data-category-down="${c.id}" ${i===rows.length-1?'disabled':''}>↓</button><button class="btn smallbtn" data-edit-category="${c.id}">Edit</button></div></div></div>`}).join(''):'<div class="panel empty">No categories yet.</div>'}
+function renderWishlist(){const rows=state.wishlist;$('wishlistList').innerHTML=rows.length?rows.map(w=>{const canEdit=isAdmin()||w.requestedBy===state.user.uid;return`<div class="info-card"><div class="info-card-head"><div><h3>${esc(w.name)}</h3><p>${esc(w.brand||'')}${w.reason?`${w.brand?' · ':''}${esc(w.reason)}`:''}</p></div><span class="badge ${slugStatus(w.status)}">${esc(w.status||'Requested')}</span></div><div class="info-meta"><span>${esc(w.priority||'Nice to have')}</span><span>Suggested by ${esc(w.requestedByName||'Crew')}</span><span>${formatDate(w.createdAt)}</span></div>${canEdit?`<div class="card-actions"><button class="btn smallbtn" data-edit-wish="${w.id}">Edit</button></div>`:''}</div>`}).join(''):'<div class="panel empty">No wishlist items yet. Crew suggestions will show here.</div>'}
+function renderWarranty(){if(!$('warrantyList'))return;const rows=visibleTools().filter(t=>t.warrantyExpiry).sort((a,b)=>String(a.warrantyExpiry).localeCompare(String(b.warrantyExpiry)));$('warrantyList').innerHTML=rows.length?rows.map(t=>{const w=warrantyState(t.warrantyExpiry);return`<div class="warranty-row"><div><strong>${esc(t.label)} · ${esc(t.name)}</strong><span class="small muted">Expires ${formatDateOnly(t.warrantyExpiry)}</span></div><span class="badge ${w?.days<0?'lost':w?.days<=60?'repair':'available'}">${esc(w?.label||'')}</span></div>`}).join(''):'<div class="empty">Add warranty expiry dates to important tools and they’ll appear here.</div>'}
+function renderTeam(){if(!$('teamList'))return;if(!isAdmin()){$('teamList').innerHTML='<div class="empty">Admin access only.</div>';return}const rows=[...state.users].sort((a,b)=>(a.displayName||a.email||'').localeCompare(b.displayName||b.email||''));$('teamList').innerHTML=rows.map(u=>`<div class="team-row"><div><strong>${esc(u.displayName||u.email||'Employee')}</strong><span class="small muted">${esc(u.email||'')}</span></div><select class="team-role" data-user-role="${u.id}" ${u.id===state.user.uid?'title="Keep at least one admin"':''}><option value="staff" ${u.role==='staff'?'selected':''}>Staff</option><option value="admin" ${u.role==='admin'?'selected':''}>Admin</option></select></div>`).join('')+'<p class="small muted">New employee sign-ins are still created in Firebase Authentication. After they sign in once, their profile appears here so you can set Staff or Admin.</p>'}
+function renderPrefixes(){if(!$('prefixList')||!isAdmin())return;const entries=Object.entries(state.settings.brandPrefixes||{}).sort((a,b)=>a[0].localeCompare(b[0]));$('prefixList').innerHTML=entries.map(([brand,prefix])=>`<div class="prefix-row"><input data-prefix-brand value="${esc(brand)}" aria-label="Brand" /><input data-prefix-value value="${esc(prefix)}" maxlength="5" aria-label="Prefix" /><button class="btn danger smallbtn" data-remove-prefix type="button">×</button></div>`).join('')+`<button id="savePrefixesBtn" class="btn primary smallbtn" type="button">Save prefixes</button>`}
 
-function renderTools() {
-  if (!$('toolsGrid')) return;
-  const rows = filteredTools();
-  if (!rows.length) { $('toolsGrid').innerHTML = '<div class="panel empty" style="grid-column:1/-1">No tools match this view.</div>'; return; }
-  $('toolsGrid').innerHTML = rows.map(t => `
-    <article class="tool-card">
-      ${t.photoURL ? `<img class="tool-photo" src="${esc(t.photoURL)}" alt="${esc(t.name)}" loading="lazy">` : '<div class="photo-placeholder">NO PHOTO</div>'}
-      <div class="tool-content">
-        <div class="tool-title"><h3>${esc(t.name)}</h3><span class="label">${esc(t.label)}</span></div>
-        <span class="badge ${slugStatus(t.status)}">${esc(t.status || 'Available')}</span>
-        <div class="meta"><span>📍 ${esc(t.locationName || 'Unassigned')}</span>${t.category ? `<span>Category: ${esc(t.category)}</span>`:''}${t.serial ? `<span>Serial: ${esc(t.serial)}</span>`:''}</div>
-        <div class="card-actions"><button class="btn accent smallbtn" data-move-tool="${t.id}">Move / status</button><button class="btn smallbtn" data-edit-tool="${t.id}">Edit</button></div>
-      </div>
-    </article>`).join('');
-}
+function updateLabelSuggestion(){const s=nextToolLabel($('toolBrand')?.value||'');if($('labelSuggestion'))$('labelSuggestion').textContent=s}
+function resetToolForm(){$('toolForm').reset();$('toolId').value='';$('toolStatus').value='Available';$('toolModalTitle').textContent='Add tool';$('privateTool').checked=false;const preferred=state.locations.find(l=>l.name==='Shop'&&l.active!==false)||activeLocations()[0];if(preferred)$('toolLocation').value=preferred.id;updateLabelSuggestion();$('toolLabel').value=$('labelSuggestion').textContent}
+function editTool(id){const t=state.tools.find(x=>x.id===id);if(!t)return;$('toolId').value=t.id;$('toolBrand').value=t.brand||'';$('toolLabel').value=t.label||'';$('toolName').value=t.name||'';$('toolCategory').value=t.categoryId||'';$('toolModel').value=t.model||'';$('toolSerial').value=t.serial||'';$('toolStatus').value=t.status||'Available';$('toolLocation').value=t.locationId||'';$('purchaseDate').value=t.purchaseDate||'';$('warrantyExpiry').value=t.warrantyExpiry||'';$('manufacturerPhotoURL').value=t.manufacturerPhotoURL||'';$('privateTool').checked=!!t.privateTool;$('toolNotes').value=t.notes||'';$('toolPhoto').value='';$('toolModalTitle').textContent='Edit tool';updateLabelSuggestion();openModal('toolModal')}
+function viewTool(id){const t=state.tools.find(x=>x.id===id);if(!t||(!isAdmin()&&t.privateTool))return;const cat=t.categoryName||t.category||'Uncategorized',w=warrantyState(t.warrantyExpiry);const photos=[];if(t.manufacturerPhotoURL)photos.push(`<div class="detail-photo-wrap"><img class="detail-photo" src="${esc(t.manufacturerPhotoURL)}" alt="Manufacturer photo"><small>Manufacturer / stock</small></div>`);if(t.photoURL)photos.push(`<div class="detail-photo-wrap"><img class="detail-photo" src="${esc(t.photoURL)}" alt="Actual tool photo"><small>Your actual tool</small></div>`);const hist=state.history.filter(h=>h.toolId===id).slice(0,10);$('detailTitle').textContent=`${t.label||''} · ${t.name||'Tool'}`;$('toolDetailBody').innerHTML=`<div class="detail-hero"><div class="detail-photo-grid">${photos.length?photos.join(''):`<div class="tool-placeholder" style="width:100%;min-height:180px">${icon('tools')}</div>`}</div><div><div class="card-actions"><span class="badge ${slugStatus(t.status)}">${esc(t.status||'Available')}</span>${t.privateTool?'<span class="badge">Private</span>':''}</div><h2>${esc(t.name||'Unnamed tool')}</h2><p class="muted">${esc(t.brand||'')} ${esc(t.model||'')}</p><div class="detail-data"><div><span>Label</span><strong>${esc(t.label||'—')}</strong></div><div><span>Location</span><strong>${esc(t.locationName||'Unassigned')}</strong></div><div><span>Category</span><strong>${esc(cat)}</strong></div><div><span>Serial</span><strong>${esc(t.serial||'—')}</strong></div><div><span>Purchased</span><strong>${formatDateOnly(t.purchaseDate)}</strong></div><div><span>Warranty</span><strong>${t.warrantyExpiry?`${formatDateOnly(t.warrantyExpiry)}${w?` · ${w.label}`:''}`:'—'}</strong></div></div><p>${esc(t.notes||'')}</p><div class="card-actions"><button class="btn accent" data-move-tool="${t.id}">Move / status</button><button class="btn" data-edit-tool="${t.id}">Edit</button></div></div></div><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><h3>Recent history</h3><div class="timeline">${hist.length?hist.map(historyHTML).join(''):'<div class="empty">No history yet.</div>'}</div>`;openModal('toolDetailModal')}
+function moveTool(id){const t=state.tools.find(x=>x.id===id);if(!t)return;$('moveToolId').value=id;$('moveStatus').value=t.status||'Available';$('moveLocation').value=t.locationId||'';$('moveNote').value='';openModal('moveModal')}
+async function writeHistory(tool,action,note=''){await addDoc(collection(db,'history'),{toolId:tool.id||'',toolLabel:tool.label||'',toolName:tool.name||'',action,note,actorUid:state.user.uid,actorName:displayName(),createdAt:serverTimestamp()})}
+async function saveTool(e){e.preventDefault();const id=$('toolId').value.trim(),location=currentLocation($('toolLocation').value);if(!location)return toast('Choose a location first.',true);const duplicate=state.tools.find(t=>String(t.label||'').trim().toLowerCase()===$('toolLabel').value.trim().toLowerCase()&&t.id!==id);if(duplicate)return toast('That tool label is already in use.',true);const category=currentCategory($('toolCategory').value);const payload={label:$('toolLabel').value.trim(),name:$('toolName').value.trim(),brand:$('toolBrand').value.trim(),model:$('toolModel').value.trim(),categoryId:category?.id||'',categoryName:category?.name||'',category:category?.name||'',serial:$('toolSerial').value.trim(),status:$('toolStatus').value,locationId:location.id,locationName:location.name,purchaseDate:$('purchaseDate').value,warrantyExpiry:$('warrantyExpiry').value,manufacturerPhotoURL:$('manufacturerPhotoURL').value.trim(),privateTool:isAdmin()&&$('privateTool').checked,notes:$('toolNotes').value.trim(),updatedAt:serverTimestamp(),updatedBy:state.user.uid,updatedByName:displayName()};const btn=$('saveToolBtn');btn.disabled=true;btn.textContent='Saving…';try{let toolRef,existing=id?state.tools.find(t=>t.id===id):null;if(id){toolRef=doc(db,'tools',id);await updateDoc(toolRef,payload)}else toolRef=await addDoc(collection(db,'tools'),{...payload,createdAt:serverTimestamp(),createdBy:state.user.uid});const photo=$('toolPhoto').files?.[0];if(photo){if(photo.size>8*1024*1024)throw new Error('Photo is over 8 MB.');const safe=photo.name.replace(/[^a-zA-Z0-9._-]/g,'_');const path=`tool-photos/${toolRef.id}/${Date.now()}-${safe}`;const sr=ref(storage,path);await uploadBytes(sr,photo,{contentType:photo.type});const photoURL=await getDownloadURL(sr);await updateDoc(toolRef,{photoURL,photoPath:path,updatedAt:serverTimestamp()});payload.photoURL=photoURL}await writeHistory({id:toolRef.id,...payload},id?'Tool details updated':'Tool added',existing?`Previous location: ${existing.locationName||'Unassigned'}`:'');closeModal('toolModal');toast(id?'Tool updated.':'Tool added.')}catch(err){console.error(err);toast(err.message||'Could not save tool.',true)}finally{btn.disabled=false;btn.textContent='Save tool'}}
+async function saveMove(e){e.preventDefault();const id=$('moveToolId').value,tool=state.tools.find(t=>t.id===id),location=currentLocation($('moveLocation').value);if(!tool||!location)return;const oldStatus=tool.status||'Available',oldLocation=tool.locationName||'Unassigned',status=$('moveStatus').value,note=$('moveNote').value.trim();try{await updateDoc(doc(db,'tools',id),{status,locationId:location.id,locationName:location.name,assignedToUid:status==='In Use'?state.user.uid:'',assignedToName:status==='In Use'?displayName():'',updatedAt:serverTimestamp(),updatedBy:state.user.uid,updatedByName:displayName()});await writeHistory(tool,`${oldStatus} @ ${oldLocation} → ${status} @ ${location.name}`,note);closeModal('moveModal');closeModal('toolDetailModal');toast('Tool updated.')}catch(err){toast(err.message,true)}}
 
-function renderLocations() {
-  if (!$('locationsList')) return;
-  if (!state.locations.length) { $('locationsList').innerHTML='<div class="empty">No locations yet.</div>'; return; }
-  $('locationsList').innerHTML = state.locations.map(l => {
-    const count=state.tools.filter(t=>t.locationId===l.id).length;
-    return `<div class="list-row"><div><h3>${esc(l.name)}</h3><p class="small muted">${esc(l.type || 'Other')} · ${count} tool${count===1?'':'s'} · ${l.active===false?'Inactive':'Active'}</p></div><button class="btn smallbtn" data-edit-location="${l.id}">Edit</button></div>`;
-  }).join('');
-}
+function resetJobForm(){$('jobForm').reset();$('jobId').value='';$('jobStatus').value='Active';$('jobModalTitle').textContent='Add job'}
+function editJob(id){const j=state.jobs.find(x=>x.id===id);if(!j)return;$('jobId').value=id;$('jobName').value=j.name||'';$('jobStatus').value=j.status||'Active';$('jobAddress').value=j.address||'';$('jobContact').value=j.contact||'';$('jobPhone').value=j.phone||'';$('jobNotes').value=j.notes||'';$('jobModalTitle').textContent='Edit job';openModal('jobModal')}
+async function saveJob(e){e.preventDefault();if(!isAdmin())return;const id=$('jobId').value,payload={name:$('jobName').value.trim(),status:$('jobStatus').value,address:$('jobAddress').value.trim(),contact:$('jobContact').value.trim(),phone:$('jobPhone').value.trim(),notes:$('jobNotes').value.trim(),updatedAt:serverTimestamp(),updatedBy:state.user.uid};try{let jobId=id;if(id)await updateDoc(doc(db,'jobs',id),payload);else{const r=await addDoc(collection(db,'jobs'),{...payload,createdAt:serverTimestamp()});jobId=r.id}const linked=state.locations.find(l=>l.jobId===jobId);const locPayload={name:payload.name,type:'Jobsite',jobId,active:payload.status!=='Completed',updatedAt:serverTimestamp(),updatedBy:state.user.uid};if(linked)await updateDoc(doc(db,'locations',linked.id),locPayload);else await addDoc(collection(db,'locations'),{...locPayload,createdAt:serverTimestamp()});closeModal('jobModal');toast('Job saved.')}catch(err){toast(err.message,true)}}
+function showJobTools(id){state.toolJobFilter=id;state.specialToolFilter=null;$('searchInput').value='';$('statusFilter').value='';$('locationFilter').value='';$('categoryFilter').value='';openView('toolsView');renderTools();toast(`Showing tools at ${currentJob(id)?.name||'jobsite'}.`)}
 
-function renderHistory() {
-  if (!$('historyList')) return;
-  if (!state.history.length) { $('historyList').innerHTML='<div class="empty">Tool changes will appear here.</div>'; return; }
-  $('historyList').innerHTML = state.history.map(h => `<div class="history-item"><strong>${esc(h.toolLabel || '')} ${esc(h.toolName || '')}</strong><div>${esc(h.action || 'Updated')}${h.note ? ` — ${esc(h.note)}`:''}</div><div class="small muted">${esc(h.actorName || 'Employee')} · ${formatDate(h.createdAt)}</div></div>`).join('');
-}
+function resetLocationForm(){$('locationForm').reset();$('locationId').value='';$('locationActive').checked=true;$('locationModalTitle').textContent='Add location'}
+function editLocation(id){const l=state.locations.find(x=>x.id===id);if(!l)return;$('locationId').value=id;$('locationName').value=l.name||'';$('locationType').value=l.type||'Other';$('locationJob').value=l.jobId||'';$('locationActive').checked=l.active!==false;$('locationModalTitle').textContent='Edit location';openModal('locationModal')}
+async function saveLocation(e){e.preventDefault();if(!isAdmin())return;const id=$('locationId').value,payload={name:$('locationName').value.trim(),type:$('locationType').value,jobId:$('locationJob').value,active:$('locationActive').checked,updatedAt:serverTimestamp(),updatedBy:state.user.uid};try{if(id)await updateDoc(doc(db,'locations',id),payload);else await addDoc(collection(db,'locations'),{...payload,createdAt:serverTimestamp()});closeModal('locationModal');toast('Location saved.')}catch(err){toast(err.message,true)}}
 
-async function writeHistory(tool, action, note='') {
-  await addDoc(collection(db,'history'), {
-    toolId:tool.id || '', toolLabel:tool.label || '', toolName:tool.name || '',
-    action, note, actorUid:state.user.uid, actorName:displayName(), createdAt:serverTimestamp()
-  });
-}
+function resetCategoryForm(){$('categoryForm').reset();$('categoryId').value='';$('categoryActive').checked=true;$('categoryModalTitle').textContent='Add category'}
+function editCategory(id){const c=state.categories.find(x=>x.id===id);if(!c)return;$('categoryId').value=id;$('categoryName').value=c.name||'';$('categoryIcon').value=c.iconKey||'other';$('categoryActive').checked=c.active!==false;$('categoryModalTitle').textContent='Edit category';openModal('categoryModal')}
+async function saveCategory(e){e.preventDefault();if(!isAdmin())return;const id=$('categoryId').value;const max=Math.max(0,...state.categories.map(c=>Number(c.order)||0));const payload={name:$('categoryName').value.trim(),iconKey:$('categoryIcon').value,active:$('categoryActive').checked,updatedAt:serverTimestamp(),updatedBy:state.user.uid};try{if(id)await updateDoc(doc(db,'categories',id),payload);else await addDoc(collection(db,'categories'),{...payload,order:max+1,createdAt:serverTimestamp()});closeModal('categoryModal');toast('Category saved.')}catch(err){toast(err.message,true)}}
+async function moveCategory(id,dir){if(!isAdmin())return;const rows=[...state.categories].sort((a,b)=>(a.order??999)-(b.order??999)),i=rows.findIndex(c=>c.id===id),j=i+dir;if(i<0||j<0||j>=rows.length)return;const a=rows[i],b=rows[j],ao=a.order??i+1,bo=b.order??j+1;await Promise.all([updateDoc(doc(db,'categories',a.id),{order:bo,updatedAt:serverTimestamp()}),updateDoc(doc(db,'categories',b.id),{order:ao,updatedAt:serverTimestamp()})])}
 
-function resetToolForm() {
-  $('toolForm').reset(); $('toolId').value=''; $('toolStatus').value='Available';
-  $('toolModalTitle').textContent='Add tool'; $('toolLabel').value=nextToolLabel(); $('labelSuggestion').textContent=nextToolLabel();
-  const preferred=state.locations.find(l=>l.name==='Shop'&&l.active!==false) || state.locations.find(l=>l.active!==false);
-  if (preferred) $('toolLocation').value=preferred.id;
-}
+function resetWishForm(){$('wishForm').reset();$('wishId').value='';$('wishStatus').value='Requested';$('wishModalTitle').textContent='Suggest an item';$('wishStatus').disabled=!isAdmin()}
+function editWish(id){const w=state.wishlist.find(x=>x.id===id);if(!w)return;if(!isAdmin()&&w.requestedBy!==state.user.uid)return;$('wishId').value=id;$('wishName').value=w.name||'';$('wishPriority').value=w.priority||'Nice to have';$('wishBrand').value=w.brand||'';$('wishStatus').value=w.status||'Requested';$('wishReason').value=w.reason||'';$('wishStatus').disabled=!isAdmin();$('wishModalTitle').textContent='Edit suggestion';openModal('wishModal')}
+async function saveWish(e){e.preventDefault();const id=$('wishId').value,existing=state.wishlist.find(w=>w.id===id);if(id&&!isAdmin()&&existing?.requestedBy!==state.user.uid)return;const payload={name:$('wishName').value.trim(),priority:$('wishPriority').value,brand:$('wishBrand').value.trim(),reason:$('wishReason').value.trim(),status:isAdmin()?$('wishStatus').value:(existing?.status||'Requested'),updatedAt:serverTimestamp(),updatedBy:state.user.uid};try{if(id)await updateDoc(doc(db,'wishlist',id),payload);else await addDoc(collection(db,'wishlist'),{...payload,status:'Requested',requestedBy:state.user.uid,requestedByName:displayName(),createdAt:serverTimestamp()});closeModal('wishModal');toast('Wishlist saved.')}catch(err){toast(err.message,true)}}
 
-function editTool(id) {
-  const t=state.tools.find(x=>x.id===id); if(!t)return;
-  $('toolId').value=t.id; $('toolLabel').value=t.label||''; $('toolName').value=t.name||''; $('toolCategory').value=t.category||'';
-  $('toolSerial').value=t.serial||''; $('toolStatus').value=t.status||'Available'; $('toolLocation').value=t.locationId||''; $('toolNotes').value=t.notes||'';
-  $('toolPhoto').value=''; $('toolModalTitle').textContent='Edit tool'; openModal('toolModal');
-}
+async function saveProfile(e){e.preventDefault();const name=$('displayNameInput').value.trim(),theme=$('profileTheme').value;if(!name)return;try{await updateProfile(state.user,{displayName:name});await setDoc(doc(db,'users',state.user.uid),{email:state.user.email||'',displayName:name,theme,active:true,updatedAt:serverTimestamp()},{merge:true});state.profile={...state.profile,displayName:name,theme};$('currentUserName').textContent=name;applyTheme(theme);updateGreeting();toast('Profile saved.')}catch(err){toast(err.message,true)}}
+async function saveBranding(e){e.preventDefault();if(!isAdmin())return;const payload={businessName:$('businessName').value.trim()||'Tool Tracker',updatedAt:serverTimestamp(),updatedBy:state.user.uid};const photo=$('logoUpload').files?.[0];try{if(photo){if(photo.size>8*1024*1024)throw new Error('Logo is over 8 MB.');const safe=photo.name.replace(/[^a-zA-Z0-9._-]/g,'_'),path=`tool-photos/_branding/${Date.now()}-${safe}`,sr=ref(storage,path);await uploadBytes(sr,photo,{contentType:photo.type});payload.logoURL=await getDownloadURL(sr)}await setDoc(doc(db,'settings','app'),payload,{merge:true});$('logoUpload').value='';toast('Branding saved.')}catch(err){toast(err.message,true)}}
+function addPrefixRow(){const save=$('savePrefixesBtn');const row=document.createElement('div');row.className='prefix-row';row.innerHTML='<input data-prefix-brand placeholder="Brand" aria-label="Brand" /><input data-prefix-value placeholder="ID" maxlength="5" aria-label="Prefix" /><button class="btn danger smallbtn" data-remove-prefix type="button">×</button>';save?.before(row)}
+async function savePrefixes(){if(!isAdmin())return;const brands=[...document.querySelectorAll('[data-prefix-brand]')],values=[...document.querySelectorAll('[data-prefix-value]')],map={};brands.forEach((b,i)=>{const brand=b.value.trim(),prefix=values[i]?.value.trim().toUpperCase();if(brand&&prefix)map[brand]=prefix});try{await setDoc(doc(db,'settings','app'),{brandPrefixes:map,updatedAt:serverTimestamp(),updatedBy:state.user.uid},{merge:true});toast('Brand prefixes saved.')}catch(err){toast(err.message,true)}}
+async function updateTeamRole(uid,role){if(!isAdmin())return;if(uid===state.user.uid&&role!=='admin'&&state.users.filter(u=>u.role==='admin').length<=1){renderTeam();return toast('Keep at least one admin account.',true)}try{await setDoc(doc(db,'users',uid),{role,updatedAt:serverTimestamp()},{merge:true});toast('Team role updated.')}catch(err){toast(err.message,true)}}
 
-function moveTool(id) {
-  const t=state.tools.find(x=>x.id===id); if(!t)return;
-  $('moveToolId').value=id; $('moveStatus').value=t.status||'Available'; $('moveLocation').value=t.locationId||''; $('moveNote').value=''; openModal('moveModal');
-}
+// Core controls
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value)}catch{toast('Sign-in failed. Check the email and password.',true)}});
+$('resetPasswordBtn').addEventListener('click',async()=>{const email=$('email').value.trim();if(!email)return toast('Enter your employee email first.',true);try{await sendPasswordResetEmail(auth,email);toast('Password reset email sent.')}catch{toast('Could not send reset email.',true)}});
+$('signOutBtn').addEventListener('click',()=>signOut(auth));$('homeBtn').addEventListener('click',()=>openView('dashboardView'));
+$('themeBtn').addEventListener('click',()=>{const current=document.documentElement.dataset.theme||'light',next=current==='dark'?'light':'dark';applyTheme(next);$('profileTheme').value=next});
+$('addToolBtn').addEventListener('click',()=>{resetToolForm();openModal('toolModal')});$('toolBrand').addEventListener('input',updateLabelSuggestion);$('useSuggestionBtn').addEventListener('click',()=>{$('toolLabel').value=$('labelSuggestion').textContent});$('toolForm').addEventListener('submit',saveTool);$('moveForm').addEventListener('submit',saveMove);
+$('searchStockBtn').addEventListener('click',()=>{const q=[$('toolBrand').value,$('toolModel').value,$('toolName').value,'manufacturer tool'].filter(Boolean).join(' ');if(!q)return toast('Enter a brand, model, or tool name first.',true);window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`,'_blank','noopener')});
+$('addJobBtn').addEventListener('click',()=>{resetJobForm();openModal('jobModal')});$('jobForm').addEventListener('submit',saveJob);
+$('addLocationBtn').addEventListener('click',()=>{resetLocationForm();openModal('locationModal')});$('locationForm').addEventListener('submit',saveLocation);
+$('addCategoryBtn').addEventListener('click',()=>{resetCategoryForm();openModal('categoryModal')});$('categoryForm').addEventListener('submit',saveCategory);
+$('addWishBtn').addEventListener('click',()=>{resetWishForm();openModal('wishModal')});$('wishForm').addEventListener('submit',saveWish);
+$('profileForm').addEventListener('submit',saveProfile);$('brandingForm').addEventListener('submit',saveBranding);$('addPrefixBtn').addEventListener('click',addPrefixRow);
+['searchInput','statusFilter','locationFilter','categoryFilter'].forEach(id=>$(id).addEventListener(id==='searchInput'?'input':'change',()=>{state.toolJobFilter=null;state.specialToolFilter=null;renderTools()}));
+$('clearFiltersBtn').addEventListener('click',()=>{$('searchInput').value='';$('statusFilter').value='';$('locationFilter').value='';$('categoryFilter').value='';state.toolJobFilter=null;state.specialToolFilter=null;renderTools()});
 
-async function saveTool(event) {
-  event.preventDefault();
-  const id=$('toolId').value.trim(); const location=currentLocation($('toolLocation').value);
-  if (!location) return toast('Choose a location first.',true);
-  const duplicate=state.tools.find(t=>t.label.trim().toLowerCase()===$('toolLabel').value.trim().toLowerCase() && t.id!==id);
-  if (duplicate) return toast('That tool label is already in use.',true);
-  const payload={ label:$('toolLabel').value.trim(), name:$('toolName').value.trim(), category:$('toolCategory').value.trim(), serial:$('toolSerial').value.trim(),
-    status:$('toolStatus').value, locationId:location.id, locationName:location.name, notes:$('toolNotes').value.trim(), updatedAt:serverTimestamp(), updatedBy:state.user.uid, updatedByName:displayName() };
-  const btn=$('saveToolBtn'); btn.disabled=true; btn.textContent='Saving…';
-  try {
-    let toolRef, existing=id ? state.tools.find(t=>t.id===id) : null;
-    if (id) { toolRef=doc(db,'tools',id); await updateDoc(toolRef,payload); }
-    else { toolRef=await addDoc(collection(db,'tools'), {...payload,createdAt:serverTimestamp(),createdBy:state.user.uid}); }
-    const photo=$('toolPhoto').files?.[0];
-    if (photo) {
-      if (photo.size > 8*1024*1024) throw new Error('Photo is over 8 MB.');
-      const safeName=photo.name.replace(/[^a-zA-Z0-9._-]/g,'_'); const path=`tool-photos/${toolRef.id}/${Date.now()}-${safeName}`;
-      const storageRef=ref(storage,path); await uploadBytes(storageRef,photo,{contentType:photo.type}); const photoURL=await getDownloadURL(storageRef);
-      await updateDoc(toolRef,{photoURL,photoPath:path,updatedAt:serverTimestamp()}); payload.photoURL=photoURL;
-    }
-    await writeHistory({id:toolRef.id,...payload}, id ? 'Tool details updated' : 'Tool added', existing ? `Previous location: ${existing.locationName || 'Unassigned'}` : '');
-    closeModal('toolModal'); toast(id?'Tool updated.':'Tool added.');
-  } catch(e) { console.error(e); toast(e.message || 'Could not save tool.',true); }
-  finally { btn.disabled=false; btn.textContent='Save tool'; }
-}
+document.addEventListener('click',e=>{
+  const button=e.target.closest('button,[data-open-view],[data-view-tool],[data-move-tool],[data-edit-tool],[data-edit-job],[data-job-tools],[data-edit-location],[data-edit-category],[data-edit-wish],[data-category-up],[data-category-down],[data-remove-prefix]');if(!button)return;
+  if(button.dataset.close)return closeModal(button.dataset.close);
+  if(button.dataset.openView){if(button.dataset.toolFilter){state.specialToolFilter=button.dataset.toolFilter;state.toolJobFilter=null;renderTools()}return openView(button.dataset.openView)}
+  if(button.dataset.viewTool)return viewTool(button.dataset.viewTool);
+  if(button.dataset.moveTool)return moveTool(button.dataset.moveTool);
+  if(button.dataset.editTool){closeModal('toolDetailModal');return editTool(button.dataset.editTool)}
+  if(button.dataset.editJob)return editJob(button.dataset.editJob);
+  if(button.dataset.jobTools)return showJobTools(button.dataset.jobTools);
+  if(button.dataset.editLocation)return editLocation(button.dataset.editLocation);
+  if(button.dataset.editCategory)return editCategory(button.dataset.editCategory);
+  if(button.dataset.editWish)return editWish(button.dataset.editWish);
+  if(button.dataset.categoryUp)return moveCategory(button.dataset.categoryUp,-1);
+  if(button.dataset.categoryDown)return moveCategory(button.dataset.categoryDown,1);
+  if(button.hasAttribute('data-remove-prefix')){button.closest('.prefix-row')?.remove();return}
+  if(button.id==='savePrefixesBtn')return savePrefixes();
+});
+document.addEventListener('change',e=>{if(e.target.matches('[data-user-role]'))updateTeamRole(e.target.dataset.userRole,e.target.value)});
 
-async function saveMove(event) {
-  event.preventDefault(); const id=$('moveToolId').value; const tool=state.tools.find(t=>t.id===id); const location=currentLocation($('moveLocation').value); if(!tool||!location)return;
-  const oldStatus=tool.status||'Available', oldLocation=tool.locationName||'Unassigned', status=$('moveStatus').value, note=$('moveNote').value.trim();
-  try {
-    await updateDoc(doc(db,'tools',id),{status,locationId:location.id,locationName:location.name,assignedToUid:status==='In Use'?state.user.uid:'',assignedToName:status==='In Use'?displayName():'',updatedAt:serverTimestamp(),updatedBy:state.user.uid,updatedByName:displayName()});
-    await writeHistory(tool, `${oldStatus} @ ${oldLocation} → ${status} @ ${location.name}`, note);
-    closeModal('moveModal'); toast('Tool updated.');
-  } catch(e){toast(e.message,true);}
-}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e;$('installBanner').classList.remove('hidden')});
+$('installBtn').addEventListener('click',async()=>{if(!state.installPrompt)return;await state.installPrompt.prompt();state.installPrompt=null;$('installBanner').classList.add('hidden')});
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(console.error));
 
-function resetLocationForm() { $('locationForm').reset(); $('locationId').value=''; $('locationActive').checked=true; $('locationModalTitle').textContent='Add location'; }
-function editLocation(id){ const l=state.locations.find(x=>x.id===id); if(!l)return; $('locationId').value=id;$('locationName').value=l.name||'';$('locationType').value=l.type||'Other';$('locationActive').checked=l.active!==false;$('locationModalTitle').textContent='Edit location';openModal('locationModal'); }
-async function saveLocation(event){ event.preventDefault(); const id=$('locationId').value; const payload={name:$('locationName').value.trim(),type:$('locationType').value,active:$('locationActive').checked,updatedAt:serverTimestamp(),updatedBy:state.user.uid}; try{ if(id)await updateDoc(doc(db,'locations',id),payload);else await addDoc(collection(db,'locations'),{...payload,createdAt:serverTimestamp()}); closeModal('locationModal');toast('Location saved.'); }catch(e){toast(e.message,true);} }
-
-async function saveProfile(event){ event.preventDefault(); const name=$('displayNameInput').value.trim(); if(!name)return; try{await updateProfile(state.user,{displayName:name});await setDoc(doc(db,'users',state.user.uid),{email:state.user.email||'',displayName:name,active:true,updatedAt:serverTimestamp()},{merge:true});$('currentUserName').textContent=name;toast('Profile saved.');}catch(e){toast(e.message,true);} }
-
-$('loginForm').addEventListener('submit', async e => { e.preventDefault(); try{ await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value); }catch(err){ toast('Sign-in failed. Check the email and password.',true); } });
-$('resetPasswordBtn').addEventListener('click', async()=>{const email=$('email').value.trim();if(!email)return toast('Enter your employee email first.',true);try{await sendPasswordResetEmail(auth,email);toast('Password reset email sent.');}catch(e){toast('Could not send reset email.',true);}});
-$('signOutBtn').addEventListener('click',()=>signOut(auth));
-$('addToolBtn').addEventListener('click',()=>{resetToolForm();openModal('toolModal');});
-$('useSuggestionBtn').addEventListener('click',()=>{$('toolLabel').value=nextToolLabel();});
-$('toolForm').addEventListener('submit',saveTool);
-$('moveForm').addEventListener('submit',saveMove);
-$('addLocationBtn').addEventListener('click',()=>{resetLocationForm();openModal('locationModal');});
-$('locationForm').addEventListener('submit',saveLocation);
-$('profileForm').addEventListener('submit',saveProfile);
-['searchInput','statusFilter','locationFilter'].forEach(id=>$(id).addEventListener(id==='searchInput'?'input':'change',renderTools));
-$('clearFiltersBtn').addEventListener('click',()=>{$('searchInput').value='';$('statusFilter').value='';$('locationFilter').value='';renderTools();});
-document.addEventListener('click',e=>{ const close=e.target.dataset.close;if(close)closeModal(close); const edit=e.target.dataset.editTool;if(edit)editTool(edit); const move=e.target.dataset.moveTool;if(move)moveTool(move); const loc=e.target.dataset.editLocation;if(loc)editLocation(loc); });
-document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===btn.dataset.view));}));
-
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e;$('installBanner').classList.remove('hidden');});
-$('installBtn').addEventListener('click',async()=>{if(!state.installPrompt)return;await state.installPrompt.prompt();state.installPrompt=null;$('installBanner').classList.add('hidden');});
-if ('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(console.error));
-
-onAuthStateChanged(auth, async user => {
+paintIcons();
+onAuthStateChanged(auth,async user=>{
   state.user=user;
-  if(user){
-    $('authScreen').classList.add('hidden');$('app').classList.remove('hidden');$('currentUserName').textContent=displayName(user);$('profileEmail').value=user.email||'';$('displayNameInput').value=displayName(user);
-    try{await ensureUserProfile(user);startRealtime();}catch(e){toast(`Firebase setup error: ${e.message}`,true);}
-  } else {
-    state.unsubscribers.forEach(fn=>fn());state.unsubscribers=[];$('app').classList.add('hidden');$('authScreen').classList.remove('hidden');
-  }
+  if(user){$('authScreen').classList.add('hidden');$('app').classList.remove('hidden');$('profileEmail').value=user.email||'';try{await ensureUserProfile(user);$('currentUserName').textContent=displayName();$('displayNameInput').value=displayName();$('businessName').value=state.settings.businessName||'Tool Tracker';$('profileTheme').value=state.profile.theme||localStorage.getItem('tt-theme')||'system';applyTheme($('profileTheme').value);applyRoleUI();updateGreeting();startRealtime();openView('dashboardView')}catch(err){console.error(err);toast(`Firebase setup error: ${err.message}`,true)}}
+  else{state.unsubscribers.forEach(fn=>fn());state.unsubscribers=[];$('app').classList.add('hidden');$('authScreen').classList.remove('hidden')}
 });

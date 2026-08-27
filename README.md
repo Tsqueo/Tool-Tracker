@@ -1,67 +1,38 @@
-# Construction Tool Tracker PWA
+# Tool Tracker V3
 
-A static, installable browser app for a small construction crew. It uses Firebase Authentication, Cloud Firestore, and Firebase Storage directly from the browser.
+This is the Firebase-backed V3 construction tool tracker. It keeps the existing `tools`, `locations`, `history`, and `users` data, then adds `jobs`, `categories`, `wishlist`, `settings`, and sign-in history.
 
-## Firebase services used
+## V3 features
+- Click-through dashboard tiles with built-in SVG icons (no external icon service)
+- Tool inventory with compact mobile cards, actual photos and optional manufacturer/stock photo URLs
+- Brand-aware suggested IDs (DW-01, B-01, etc.) with editable brand prefixes
+- Jobsites with addresses and one-tap Google Maps links
+- Jobs automatically become selectable tool locations
+- Customizable/reorderable tool categories
+- Shop, jobsites, trucks, storage, repair and other location types
+- Timestamped tool movement/history and sign-in records
+- Wishlist for crew suggestions
+- Warranty expiry tracking
+- Admin/staff UI roles; private tools are hidden from staff in the app
+- Owner branding/logo upload
+- Light/dark theme
+- PWA install support
 
-- Authentication: Email/Password for your four employee accounts
-- Cloud Firestore: tools, locations, users, and immutable history entries
-- Cloud Storage: tool photos under `tool-photos/{toolId}/...`
+## Updating the existing GitHub Pages app
+Upload/replace these files in the root of your existing `Tool-Tracker` repository:
+`index.html`, `app.js`, `styles.css`, `service-worker.js`, `manifest.webmanifest`, `icon.svg`, and `firebase-config.js`.
+Commit the changes. GitHub Pages will redeploy automatically.
 
-## One-time Firebase Console setup
+No Firebase database reset is needed. Existing tools remain.
 
-1. Firebase Console → **Build / Authentication** → **Get started** → enable **Email/Password**.
-2. Authentication → **Users** → create exactly the four employee accounts you want to use.
-3. Firebase Console → **Build / Firestore Database** → create a Firestore database. Choose a region appropriate for you. Start in production mode.
-4. Firestore → **Rules** → replace the rules with `firestore.rules` from this package → Publish.
-5. Storage → **Rules** → replace the rules with `storage.rules` from this package → Publish.
+## Firebase collections
+The app uses: `tools`, `locations`, `history`, `users`, `jobs`, `categories`, `wishlist`, `settings`, and `signins`.
 
-Do not use `allow read, write: if true` for a live app.
+## Important security note
+The currently supplied rules require a signed-in Firebase Authentication account. V3 also enforces Admin/Staff and private-tool visibility in the UI. Because employee accounts are manually created by the owner, this is suitable for the initial 4-person deployment. A later hardening revision can enforce every role/private rule at the Firestore rules layer after all employee role documents are established.
 
-## Easiest no-install launch: GitHub Pages
+## Manufacturer image lookup
+V3's “Search model” button opens an image search using the brand/model/name. A browser-only app cannot safely and reliably scrape a manufacturer's image automatically. Paste an approved manufacturer image URL into the stock-photo field; the employee's real phone photo remains stored separately in Firebase Storage.
 
-You do not need Node, npm, Firebase CLI, or a code editor.
-
-1. Sign in to github.com and create a new repository, for example `tool-tracker`.
-2. In the repository choose **Add file → Upload files**.
-3. Upload these files from this package into the repository root:
-   - index.html
-   - styles.css
-   - app.js
-   - firebase-config.js
-   - manifest.webmanifest
-   - service-worker.js
-   - icon.svg
-4. Open repository **Settings → Pages**.
-5. Under **Build and deployment**, choose **Deploy from a branch**.
-6. Select branch `main`, folder `/ (root)`, then Save.
-7. GitHub will show the public HTTPS address. Open it on each employee's phone and sign in.
-8. On Android/Chrome, use the app's Install prompt or browser menu → Add to Home screen.
-
-Security rule files and this README do not need to be uploaded to the public site. They can stay private/local; only paste their contents into Firebase Console.
-
-## First use
-
-The first authenticated session automatically creates starter locations: Shop, In Transit, Repair, and Unassigned. Go to **Locations** to rename/add jobsites or trucks.
-
-Add a tool from the Tools screen. The app suggests the next numeric label (`T-001`, `T-002`, etc.). Tool labels remain editable.
-
-Use **Move / status** for normal field movement. Every move creates a history entry with employee name and Firebase server timestamp.
-
-## Notes
-
-- The Firebase web config in `firebase-config.js` is expected to be visible in browser code. Security depends on Authentication + Security Rules.
-- Tool photos are restricted to authenticated users, image MIME types, and files smaller than 8 MB.
-- Tool and location documents cannot be deleted by the provided rules. Mark a location inactive or a tool Retired instead; this protects audit history.
-- This version is intentionally static and serverless, so there is no monthly web-server bill from the app itself. Firebase usage is billed according to your project plan and quotas.
-- The service worker caches the app shell. Firebase data itself still requires a network connection in this starter version.
-
-## File map
-
-- `index.html` — UI
-- `styles.css` — responsive/mobile styling
-- `app.js` — authentication, realtime Firestore, history, tool/location workflows, photo uploads
-- `firebase-config.js` — your Firebase project config
-- `manifest.webmanifest` + `service-worker.js` + `icon.svg` — PWA/install support
-- `firestore.rules` — Firestore access rules
-- `storage.rules` — Storage access + image-size/type validation
+## Team accounts
+Create new employee email/password accounts in Firebase Authentication. After an employee signs in once, their profile appears under Admin & Warranty → Team access, where an admin can set Staff or Admin.

@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#111827" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>Construction Tool Tracker</title>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
+  <title>Tool Tracker V3</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
@@ -13,121 +15,201 @@
 <body>
   <section id="authScreen" class="auth-wrap">
     <div class="auth-card">
-      <div class="brand">
-        <div class="brand-mark">TT</div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction crew inventory</p></div>
+      <div class="brand auth-brand">
+        <div class="brand-mark brand-mark-lg"><span>TT</span></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V3</p></div>
       </div>
-      <form id="loginForm">
+      <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
         <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required /></div>
         <button class="btn accent" type="submit">Sign in</button>
       </form>
-      <button id="resetPasswordBtn" class="btn" style="width:100%;margin-top:9px" type="button">Send password reset</button>
-      <p class="auth-help">Accounts are created by the owner in Firebase Authentication. There is intentionally no public sign-up button.</p>
+      <button id="resetPasswordBtn" class="btn wide" type="button">Send password reset</button>
+      <p class="auth-help">Employee accounts are created by the owner in Firebase Authentication. There is no public sign-up.</p>
     </div>
   </section>
 
   <div id="app" class="app-shell hidden">
     <header class="topbar">
-      <div class="brand"><div class="brand-mark">TT</div><div><h1>Tool Tracker</h1><p>Live crew inventory</p></div></div>
-      <div class="top-actions"><span id="currentUserName" class="user-name small"></span><button id="signOutBtn" class="btn ghost smallbtn">Sign out</button></div>
+      <button id="homeBtn" class="brand brand-button" type="button" aria-label="Dashboard">
+        <div id="topLogoWrap" class="brand-mark"><span>TT</span></div>
+        <div><h1>Tool Tracker</h1><p id="topbarSubtitle">Live crew inventory</p></div>
+      </button>
+      <div class="top-actions">
+        <button id="themeBtn" class="icon-button" type="button" title="Light / dark mode" aria-label="Toggle theme">☾</button>
+        <span id="currentUserName" class="user-name"></span>
+        <button id="signOutBtn" class="btn ghost smallbtn">Sign out</button>
+      </div>
     </header>
 
     <main class="page">
-      <div id="installBanner" class="install-banner hidden"><span>Add Tool Tracker to your home screen for an app-like experience.</span><button id="installBtn" class="btn accent smallbtn">Install</button></div>
+      <div id="installBanner" class="install-banner hidden"><span>Install Tool Tracker on this device for quick jobsite access.</span><button id="installBtn" class="btn accent smallbtn">Install</button></div>
 
       <section id="dashboardView" class="view active">
-        <div class="hero-grid">
-          <div class="stat"><strong id="statTotal">0</strong><span>Total tools</span></div>
-          <div class="stat"><strong id="statInUse">0</strong><span>In use</span></div>
-          <div class="stat"><strong id="statAvailable">0</strong><span>Available</span></div>
-          <div class="stat"><strong id="statAttention">0</strong><span>Need attention</span></div>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><h2>Tools</h2><button id="addToolBtn" class="btn accent">+ Add tool</button></div>
-          <div class="panel-body">
-            <div class="toolbar">
-              <input id="searchInput" type="search" placeholder="Search label, tool, serial, location…" />
-              <select id="statusFilter"><option value="">All statuses</option><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select>
-              <select id="locationFilter"><option value="">All locations</option></select>
-              <button id="clearFiltersBtn" class="btn">Clear</button>
-            </div>
+        <div class="dashboard-intro">
+          <div>
+            <div class="eyebrow">TOOL TRACKER · V3</div>
+            <h2 id="greeting">Good afternoon</h2>
+            <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
+          <div id="dashboardLogo" class="dashboard-logo"><span>TT</span></div>
         </div>
+
+        <div class="hero-grid">
+          <button class="stat stat-link" data-open-view="toolsView"><strong id="statTotal">0</strong><span>Total tracked</span></button>
+          <button class="stat stat-link" data-open-view="jobsView"><strong id="statJobs">0</strong><span>Active jobs</span></button>
+          <button class="stat stat-link" data-open-view="toolsView" data-tool-filter="attention"><strong id="statAttention">0</strong><span>Need attention</span></button>
+          <button class="stat stat-link" data-open-view="wishlistView"><strong id="statWishlist">0</strong><span>Wishlist pending</span></button>
+        </div>
+
+        <div id="dashboardTiles" class="dashboard-tiles">
+          <button class="dash-tile" data-open-view="toolsView"><span class="tile-icon" data-icon="tools"></span><span><strong>Tools</strong><small>Inventory, photos & movement</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="jobsView"><span class="tile-icon" data-icon="jobs"></span><span><strong>Jobs</strong><small>Jobsites, addresses & tools</small></span><b>›</b></button>
+          <button class="dash-tile admin-only" data-open-view="categoriesView"><span class="tile-icon" data-icon="categories"></span><span><strong>Tool Categories</strong><small>Customizable & reorderable</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="locationsView"><span class="tile-icon" data-icon="locations"></span><span><strong>Locations</strong><small>Shop, jobsites, trucks & storage</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="historyView"><span class="tile-icon" data-icon="history"></span><span><strong>Tool History</strong><small>Who changed what and when</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="wishlistView"><span class="tile-icon" data-icon="wishlist"></span><span><strong>Wishlist</strong><small>Crew requests & ideas</small></span><b>›</b></button>
+          <button class="dash-tile admin-only" data-open-view="adminView"><span class="tile-icon" data-icon="admin"></span><span><strong>Admin & Warranty</strong><small>Team, privacy, warranty & branding</small></span><b>›</b></button>
+        </div>
+
+        <div class="panel compact-panel">
+          <div class="panel-head"><h3>Recent activity</h3><button class="link-btn" data-open-view="historyView">View all</button></div>
+          <div id="dashboardActivity" class="panel-body mini-activity"></div>
+        </div>
+      </section>
+
+      <section id="toolsView" class="view">
+        <div class="section-heading">
+          <div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Tools</h2><p class="muted">Your tracked inventory and where it lives.</p></div>
+          <button id="addToolBtn" class="btn accent">+ Add tool</button>
+        </div>
+        <div class="panel filter-panel"><div class="panel-body">
+          <div class="toolbar">
+            <input id="searchInput" type="search" placeholder="Search label, tool, model, serial…" />
+            <select id="categoryFilter"><option value="">All categories</option></select>
+            <select id="statusFilter"><option value="">All statuses</option><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select>
+            <select id="locationFilter"><option value="">All locations</option></select>
+            <button id="clearFiltersBtn" class="btn">Clear</button>
+          </div>
+        </div></div>
         <div id="toolsGrid" class="tools-grid"></div>
       </section>
 
+      <section id="jobsView" class="view">
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Jobs</h2><p class="muted">Active and completed jobsites with map-ready addresses.</p></div><button id="addJobBtn" class="btn accent admin-only">+ Add job</button></div>
+        <div id="jobsList" class="card-list"></div>
+      </section>
+
+      <section id="categoriesView" class="view">
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Tool Categories</h2><p class="muted">Change names, icons and order whenever your inventory evolves.</p></div><button id="addCategoryBtn" class="btn accent admin-only">+ Add category</button></div>
+        <div id="categoriesList" class="card-list"></div>
+      </section>
+
       <section id="locationsView" class="view">
-        <div class="panel">
-          <div class="panel-head"><h2>Locations</h2><button id="addLocationBtn" class="btn accent">+ Add location</button></div>
-          <div class="panel-body"><p class="muted small">Jobsites, shops, storage areas, and trucks are all editable. Add more whenever your operation changes.</p><div id="locationsList" class="list"></div></div>
-        </div>
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Locations</h2><p class="muted">Jobsites, shops, storage and trucks can all coexist here.</p></div><button id="addLocationBtn" class="btn accent admin-only">+ Add location</button></div>
+        <div id="locationsList" class="card-list"></div>
       </section>
 
       <section id="historyView" class="view">
-        <div class="panel"><div class="panel-head"><h2>Recent history</h2></div><div class="panel-body"><div id="historyList" class="list"></div></div></div>
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Tool History</h2><p class="muted">Timestamped changes from the crew.</p></div></div>
+        <div class="panel"><div class="panel-body"><div id="historyList" class="timeline"></div></div></div>
+      </section>
+
+      <section id="wishlistView" class="view">
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Wishlist</h2><p class="muted">A place for the crew to suggest tools worth buying.</p></div><button id="addWishBtn" class="btn accent">+ Suggest item</button></div>
+        <div id="wishlistList" class="card-list"></div>
+      </section>
+
+      <section id="adminView" class="view">
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Admin & Warranty</h2><p class="muted">Owner controls, warranty watch and app branding.</p></div></div>
+        <div class="admin-grid">
+          <div class="panel"><div class="panel-head"><h3>Warranty watch</h3></div><div id="warrantyList" class="panel-body stack gap-sm"></div></div>
+          <div class="panel"><div class="panel-head"><h3>Team access</h3></div><div id="teamList" class="panel-body stack gap-sm"></div></div>
+          <div class="panel"><div class="panel-head"><h3>Branding</h3></div><div class="panel-body">
+            <form id="brandingForm" class="stack gap-md">
+              <div class="field"><label for="businessName">Dashboard/company name</label><input id="businessName" maxlength="80" placeholder="Tool Tracker" /></div>
+              <div class="field"><label for="logoUpload">Small logo image</label><input id="logoUpload" type="file" accept="image/*" /></div>
+              <button class="btn primary" type="submit">Save branding</button>
+            </form>
+          </div></div>
+          <div class="panel"><div class="panel-head"><h3>Brand ID prefixes</h3></div><div class="panel-body"><p class="muted small">Tool IDs remain fully editable. These prefixes only power the automatic suggestion.</p><div id="prefixList" class="prefix-list"></div><button id="addPrefixBtn" class="btn smallbtn">+ Prefix</button></div></div>
+        </div>
       </section>
 
       <section id="accountView" class="view">
-        <div class="panel"><div class="panel-head"><h2>My profile</h2></div><div class="panel-body">
-          <form id="profileForm" class="form-grid">
-            <div class="field full"><label for="displayNameInput">Display name</label><input id="displayNameInput" required /></div>
-            <div class="field full"><label>Email</label><input id="profileEmail" disabled /></div>
-            <div class="full"><button class="btn primary" type="submit">Save profile</button></div>
-          </form>
-        </div></div>
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>My Account</h2></div></div>
+        <div class="panel"><div class="panel-body"><form id="profileForm" class="form-grid">
+          <div class="field"><label for="displayNameInput">Display name</label><input id="displayNameInput" required /></div>
+          <div class="field"><label>Email</label><input id="profileEmail" disabled /></div>
+          <div class="field"><label>Role</label><input id="profileRole" disabled /></div>
+          <div class="field"><label for="profileTheme">Theme</label><select id="profileTheme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
+          <div class="dialog-actions full"><button class="btn primary" type="submit">Save profile</button></div>
+        </form></div></div>
       </section>
     </main>
 
     <nav class="bottom-nav" aria-label="Main navigation">
-      <button class="nav-btn active" data-view="dashboardView">Tools</button>
-      <button class="nav-btn" data-view="locationsView">Locations</button>
-      <button class="nav-btn" data-view="historyView">History</button>
-      <button class="nav-btn" data-view="accountView">Account</button>
+      <button class="nav-btn active" data-open-view="dashboardView"><span data-icon="home"></span>Home</button>
+      <button class="nav-btn" data-open-view="toolsView"><span data-icon="tools"></span>Tools</button>
+      <button class="nav-btn" data-open-view="jobsView"><span data-icon="jobs"></span>Jobs</button>
+      <button class="nav-btn" data-open-view="historyView"><span data-icon="history"></span>History</button>
+      <button class="nav-btn" data-open-view="accountView"><span data-icon="account"></span>Account</button>
     </nav>
   </div>
 
+  <!-- TOOL MODAL -->
   <div id="toolModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="dialog"><div class="dialog-head"><h2 id="toolModalTitle">Add tool</h2><button class="btn" data-close="toolModal">Close</button></div><div class="dialog-body">
+    <div class="dialog dialog-wide"><div class="dialog-head"><div><div class="eyebrow">INVENTORY</div><h2 id="toolModalTitle">Add tool</h2></div><button class="btn" data-close="toolModal">Close</button></div><div class="dialog-body">
       <form id="toolForm" class="form-grid">
         <input id="toolId" type="hidden" />
+        <div class="field"><label for="toolBrand">Brand</label><input id="toolBrand" list="brandOptions" maxlength="60" placeholder="DeWalt, Bosch, Milwaukee…" /></div>
         <div class="field"><label for="toolLabel">Tool label / ID</label><input id="toolLabel" required maxlength="40" /></div>
-        <div class="field"><label for="toolName">Tool name</label><input id="toolName" required maxlength="100" placeholder="e.g. DeWalt SDS Hammer Drill" /></div>
-        <div class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-001</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div>
-        <div class="field"><label for="toolCategory">Category</label><input id="toolCategory" maxlength="60" placeholder="Cordless, concrete, laser…" /></div>
+        <datalist id="brandOptions"><option>DeWalt</option><option>Bosch</option><option>Milwaukee</option><option>Makita</option><option>Hilti</option><option>Festool</option><option>Ridgid</option><option>Metabo</option></datalist>
+        <div class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-01</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div>
+        <div class="field"><label for="toolName">Tool name</label><input id="toolName" required maxlength="100" placeholder="e.g. 12 in. sliding mitre saw" /></div>
+        <div class="field"><label for="toolCategory">Category</label><select id="toolCategory"></select></div>
+        <div class="field"><label for="toolModel">Model number</label><input id="toolModel" maxlength="100" /></div>
         <div class="field"><label for="toolSerial">Serial number</label><input id="toolSerial" maxlength="100" /></div>
         <div class="field"><label for="toolStatus">Status</label><select id="toolStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select></div>
         <div class="field"><label for="toolLocation">Location</label><select id="toolLocation"></select></div>
-        <div class="field full"><label for="toolPhoto">Phone photo</label><input id="toolPhoto" type="file" accept="image/*" capture="environment" /><span class="small muted">Images are uploaded to your Firebase Storage bucket. Max 8 MB.</span></div>
-        <div class="field full"><label for="toolNotes">Notes</label><textarea id="toolNotes" maxlength="1000"></textarea></div>
+        <div class="field"><label for="purchaseDate">Purchase date</label><input id="purchaseDate" type="date" /></div>
+        <div class="field"><label for="warrantyExpiry">Warranty expiry</label><input id="warrantyExpiry" type="date" /></div>
+        <div class="field full"><label for="manufacturerPhotoURL">Manufacturer / stock photo URL</label><div class="inline-field"><input id="manufacturerPhotoURL" type="url" placeholder="Optional image URL" /><button id="searchStockBtn" class="btn smallbtn" type="button">Search model</button></div><span class="small muted">“Search model” opens an image search; paste a manufacturer-approved image URL here when desired.</span></div>
+        <div class="field full"><label for="toolPhoto">Your actual tool photo</label><input id="toolPhoto" type="file" accept="image/*" capture="environment" /><span class="small muted">Stored in Firebase Storage · max 8 MB.</span></div>
+        <div id="privateField" class="field full admin-only"><label class="check-row"><input id="privateTool" type="checkbox" /> <span><strong>Private admin tool</strong><small>Hidden from crew in the app.</small></span></label></div>
+        <div class="field full"><label for="toolNotes">Notes / condition</label><textarea id="toolNotes" maxlength="1200"></textarea></div>
         <div class="dialog-actions full"><button type="button" class="btn" data-close="toolModal">Cancel</button><button id="saveToolBtn" class="btn accent" type="submit">Save tool</button></div>
       </form>
     </div></div>
   </div>
 
-  <div id="moveModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="dialog"><div class="dialog-head"><h2>Move / update tool</h2><button class="btn" data-close="moveModal">Close</button></div><div class="dialog-body">
-      <form id="moveForm" class="form-grid">
-        <input id="moveToolId" type="hidden" />
-        <div class="field"><label for="moveStatus">Status</label><select id="moveStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select></div>
-        <div class="field"><label for="moveLocation">Location</label><select id="moveLocation"></select></div>
-        <div class="field full"><label for="moveNote">History note</label><input id="moveNote" maxlength="250" placeholder="Optional: moved to north tower, sent for repair…" /></div>
-        <div class="dialog-actions full"><button type="button" class="btn" data-close="moveModal">Cancel</button><button class="btn accent" type="submit">Update</button></div>
-      </form>
-    </div></div>
-  </div>
+  <!-- TOOL DETAIL -->
+  <div id="toolDetailModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog dialog-wide"><div class="dialog-head"><h2 id="detailTitle">Tool</h2><button class="btn" data-close="toolDetailModal">Close</button></div><div id="toolDetailBody" class="dialog-body"></div></div></div>
 
-  <div id="locationModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="dialog"><div class="dialog-head"><h2 id="locationModalTitle">Add location</h2><button class="btn" data-close="locationModal">Close</button></div><div class="dialog-body">
-      <form id="locationForm" class="form-grid">
-        <input id="locationId" type="hidden" />
-        <div class="field"><label for="locationName">Name</label><input id="locationName" required maxlength="80" placeholder="e.g. Oak Street Jobsite" /></div>
-        <div class="field"><label for="locationType">Type</label><select id="locationType"><option>Jobsite</option><option>Shop</option><option>Truck</option><option>Storage</option><option>Other</option></select></div>
-        <div class="field full"><label><input id="locationActive" type="checkbox" checked style="width:auto" /> Active location</label></div>
-        <div class="dialog-actions full"><button type="button" class="btn" data-close="locationModal">Cancel</button><button class="btn accent" type="submit">Save location</button></div>
-      </form>
-    </div></div>
-  </div>
+  <!-- MOVE -->
+  <div id="moveModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2>Move / update tool</h2><button class="btn" data-close="moveModal">Close</button></div><div class="dialog-body"><form id="moveForm" class="form-grid">
+    <input id="moveToolId" type="hidden" /><div class="field"><label for="moveStatus">Status</label><select id="moveStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select></div><div class="field"><label for="moveLocation">Location</label><select id="moveLocation"></select></div><div class="field full"><label for="moveNote">History note</label><input id="moveNote" maxlength="250" placeholder="Optional: moved to second floor, sent for repair…" /></div><div class="dialog-actions full"><button type="button" class="btn" data-close="moveModal">Cancel</button><button class="btn accent" type="submit">Update</button></div>
+  </form></div></div></div>
+
+  <!-- JOB -->
+  <div id="jobModal" class="modal hidden"><div class="dialog"><div class="dialog-head"><h2 id="jobModalTitle">Add job</h2><button class="btn" data-close="jobModal">Close</button></div><div class="dialog-body"><form id="jobForm" class="form-grid">
+    <input id="jobId" type="hidden" /><div class="field"><label for="jobName">Job name</label><input id="jobName" required maxlength="100" /></div><div class="field"><label for="jobStatus">Status</label><select id="jobStatus"><option>Active</option><option>On Hold</option><option>Completed</option></select></div><div class="field full"><label for="jobAddress">Street address</label><input id="jobAddress" maxlength="200" placeholder="Full address for Google Maps" /></div><div class="field"><label for="jobContact">Site contact</label><input id="jobContact" maxlength="100" /></div><div class="field"><label for="jobPhone">Phone</label><input id="jobPhone" type="tel" maxlength="40" /></div><div class="field full"><label for="jobNotes">Notes</label><textarea id="jobNotes" maxlength="800"></textarea></div><div class="dialog-actions full"><button class="btn" type="button" data-close="jobModal">Cancel</button><button class="btn accent" type="submit">Save job</button></div>
+  </form></div></div></div>
+
+  <!-- LOCATION -->
+  <div id="locationModal" class="modal hidden"><div class="dialog"><div class="dialog-head"><h2 id="locationModalTitle">Add location</h2><button class="btn" data-close="locationModal">Close</button></div><div class="dialog-body"><form id="locationForm" class="form-grid">
+    <input id="locationId" type="hidden" /><div class="field"><label for="locationName">Name</label><input id="locationName" required maxlength="80" /></div><div class="field"><label for="locationType">Type</label><select id="locationType"><option>Jobsite</option><option>Shop</option><option>Truck</option><option>Storage</option><option>Repair</option><option>Other</option></select></div><div id="locationJobField" class="field full"><label for="locationJob">Linked job (optional)</label><select id="locationJob"><option value="">None</option></select></div><div class="field full"><label class="check-row"><input id="locationActive" type="checkbox" checked /><span><strong>Active location</strong><small>Inactive locations stay in history but disappear from normal choices.</small></span></label></div><div class="dialog-actions full"><button type="button" class="btn" data-close="locationModal">Cancel</button><button class="btn accent" type="submit">Save location</button></div>
+  </form></div></div></div>
+
+  <!-- CATEGORY -->
+  <div id="categoryModal" class="modal hidden"><div class="dialog"><div class="dialog-head"><h2 id="categoryModalTitle">Add category</h2><button class="btn" data-close="categoryModal">Close</button></div><div class="dialog-body"><form id="categoryForm" class="form-grid">
+    <input id="categoryId" type="hidden" /><div class="field"><label for="categoryName">Category name</label><input id="categoryName" required maxlength="70" /></div><div class="field"><label for="categoryIcon">Icon</label><select id="categoryIcon"><option value="saw">Saw</option><option value="drill">Drill</option><option value="laser">Laser</option><option value="vacuum">Vacuum</option><option value="concrete">Concrete</option><option value="cordless">Cordless</option><option value="measure">Measuring</option><option value="other">Other</option></select></div><div class="field full"><label class="check-row"><input id="categoryActive" type="checkbox" checked /><span><strong>Active category</strong></span></label></div><div class="dialog-actions full"><button class="btn" type="button" data-close="categoryModal">Cancel</button><button class="btn accent" type="submit">Save category</button></div>
+  </form></div></div></div>
+
+  <!-- WISHLIST -->
+  <div id="wishModal" class="modal hidden"><div class="dialog"><div class="dialog-head"><h2 id="wishModalTitle">Suggest an item</h2><button class="btn" data-close="wishModal">Close</button></div><div class="dialog-body"><form id="wishForm" class="form-grid">
+    <input id="wishId" type="hidden" /><div class="field"><label for="wishName">Item</label><input id="wishName" required maxlength="120" /></div><div class="field"><label for="wishPriority">Priority</label><select id="wishPriority"><option>Nice to have</option><option>Useful</option><option>High</option></select></div><div class="field"><label for="wishBrand">Brand / model</label><input id="wishBrand" maxlength="120" /></div><div class="field"><label for="wishStatus">Status</label><select id="wishStatus"><option>Requested</option><option>Reviewing</option><option>Approved</option><option>Purchased</option><option>Declined</option></select></div><div class="field full"><label for="wishReason">Why would this help?</label><textarea id="wishReason" maxlength="800"></textarea></div><div class="dialog-actions full"><button class="btn" type="button" data-close="wishModal">Cancel</button><button class="btn accent" type="submit">Save suggestion</button></div>
+  </form></div></div></div>
 
   <div id="toast" class="toast hidden"></div>
   <script type="module" src="app.js"></script>
