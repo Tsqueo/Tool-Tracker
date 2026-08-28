@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V3.2</title>
+  <title>Tool Tracker V3.4</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="icon-192.png" />
@@ -18,7 +18,7 @@
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V3</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V3.4</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -37,6 +37,7 @@
         <div><h1>Tool Tracker</h1><p id="topbarSubtitle">Live crew inventory</p></div>
       </button>
       <div class="top-actions">
+        <button id="accountBtn" class="icon-button" type="button" title="My account" aria-label="My account"><span data-icon="account"></span></button>
         <button id="themeBtn" class="icon-button" type="button" title="Light / dark mode" aria-label="Toggle theme">☾</button>
         <span id="currentUserName" class="user-name"></span>
         <button id="signOutBtn" class="btn ghost smallbtn">Sign out</button>
@@ -49,11 +50,11 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V3.2</div>
+            <div class="eyebrow">TOOL TRACKER · V3.4</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
-          <div id="dashboardLogo" class="dashboard-logo"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
+          <div id="dashboardLogo" class="dashboard-company-logo"><img src="day-one-projects-2b.png" alt="Day One Projects logo" /></div>
         </div>
 
         <div class="mascot-hero" aria-label="Tool Tracker mascots on a steel beam">
@@ -62,17 +63,20 @@
         </div>
 
         <div class="hero-grid">
-          <button class="stat stat-link" data-open-view="toolsView"><strong id="statTotal">0</strong><span>Total tracked</span></button>
+          <button class="stat stat-link" data-open-view="toolsView"><strong id="statTotal">0</strong><span>Inventory</span></button>
           <button class="stat stat-link" data-open-view="jobsView"><strong id="statJobs">0</strong><span>Active jobs</span></button>
           <button class="stat stat-link" data-open-view="toolsView" data-tool-filter="attention"><strong id="statAttention">0</strong><span>Need attention</span></button>
           <button class="stat stat-link" data-open-view="wishlistView"><strong id="statWishlist">0</strong><span>Wishlist pending</span></button>
         </div>
 
         <div id="dashboardTiles" class="dashboard-tiles">
-          <button class="dash-tile" data-open-view="toolsView"><span class="tile-icon" data-icon="tools"></span><span><strong>Tools</strong><small>Inventory, photos & movement</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="toolsView"><span class="tile-icon" data-icon="inventory"></span><span><strong>Inventory</strong><small>Owned tools, photos & condition</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="jobsView"><span class="tile-icon" data-icon="jobs"></span><span><strong>Jobs</strong><small>Jobsites, addresses & tools</small></span><b>›</b></button>
           <button class="dash-tile admin-only" data-open-view="categoriesView"><span class="tile-icon" data-icon="categories"></span><span><strong>Tool Categories</strong><small>Customizable & reorderable</small></span><b>›</b></button>
-          <button class="dash-tile" data-open-view="locationsView"><span class="tile-icon" data-icon="locations"></span><span><strong>Locations</strong><small>Shop, jobsites, trucks & storage</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="mapView"><span class="tile-icon" data-icon="map"></span><span><strong>Map</strong><small>Where everything is today</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="locationsView"><span class="tile-icon" data-icon="locations"></span><span><strong>Locations</strong><small>Shop, jobsites & storage</small></span><b>›</b></button>
+          <button class="dash-tile" id="quickMoveBtn"><span class="tile-icon" data-icon="move"></span><span><strong>Quick Move</strong><small>Move a tool in a few taps</small></span><b>›</b></button>
+          <button class="dash-tile admin-only" id="jobCloseoutBtn"><span class="tile-icon" data-icon="closeout"></span><span><strong>Job Closeout</strong><small>Account for tools before wrapping up</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="historyView"><span class="tile-icon" data-icon="history"></span><span><strong>Tool History</strong><small>Who changed what and when</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="wishlistView"><span class="tile-icon" data-icon="wishlist"></span><span><strong>Wishlist</strong><small>Crew requests & ideas</small></span><b>›</b></button>
           <button class="dash-tile admin-only" data-open-view="adminView"><span class="tile-icon" data-icon="admin"></span><span><strong>Admin & Warranty</strong><small>Team, privacy, warranty & branding</small></span><b>›</b></button>
@@ -86,7 +90,7 @@
 
       <section id="toolsView" class="view">
         <div class="section-heading">
-          <div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Tools</h2><p class="muted">Your tracked inventory and where it lives.</p></div>
+          <div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Inventory</h2><p class="muted">Everything you own, where it lives, and when it was last verified.</p></div>
           <button id="addToolBtn" class="btn accent">+ Add tool</button>
         </div>
         <div class="panel filter-panel"><div class="panel-body">
@@ -104,6 +108,11 @@
       <section id="jobsView" class="view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Jobs</h2><p class="muted">Active and completed jobsites with map-ready addresses.</p></div><button id="addJobBtn" class="btn accent admin-only">+ Add job</button></div>
         <div id="jobsList" class="card-list"></div>
+      </section>
+
+      <section id="mapView" class="view">
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Map</h2><p class="muted">A manual live look-in based on your jobsite addresses — no GPS trackers required.</p></div></div>
+        <div class="map-board panel"><div class="map-board-head"><span data-icon="map"></span><div><strong>Where everything is today</strong><small>Each pin is a jobsite/location you maintain in Tool Tracker.</small></div></div><div id="mapPins" class="map-pins"></div></div>
       </section>
 
       <section id="categoriesView" class="view">
@@ -156,10 +165,9 @@
 
     <nav class="bottom-nav" aria-label="Main navigation">
       <button class="nav-btn active" data-open-view="dashboardView"><span data-icon="home"></span>Home</button>
-      <button class="nav-btn" data-open-view="toolsView"><span data-icon="tools"></span>Tools</button>
       <button class="nav-btn" data-open-view="jobsView"><span data-icon="jobs"></span>Jobs</button>
-      <button class="nav-btn" data-open-view="historyView"><span data-icon="history"></span>History</button>
-      <button class="nav-btn" data-open-view="accountView"><span data-icon="account"></span>Account</button>
+      <button class="nav-btn" data-open-view="mapView"><span data-icon="map"></span>Map</button>
+      <button class="nav-btn" data-open-view="toolsView"><span data-icon="inventory"></span>Inventory</button>
     </nav>
   </div>
 
@@ -171,7 +179,7 @@
         <div class="field"><label for="toolBrand">Brand</label><input id="toolBrand" list="brandOptions" maxlength="60" placeholder="DeWalt, Bosch, Milwaukee…" /></div>
         <div class="field"><label for="toolLabel">Tool label / ID</label><input id="toolLabel" required maxlength="40" /></div>
         <datalist id="brandOptions"><option>DeWalt</option><option>Bosch</option><option>Milwaukee</option><option>Makita</option><option>Hilti</option><option>Festool</option><option>Ridgid</option><option>Metabo</option></datalist>
-        <div class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-01</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div>
+        <div class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-01</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div><div id="duplicateWarning" class="full duplicate-warning hidden"></div>
         <div class="field"><label for="toolName">Tool name</label><input id="toolName" required maxlength="100" placeholder="e.g. 12 in. sliding mitre saw" /></div>
         <div class="field"><label for="toolCategory">Category</label><select id="toolCategory"></select></div>
         <div class="field"><label for="toolModel">Model number</label><input id="toolModel" maxlength="100" /></div>
@@ -180,6 +188,7 @@
         <div class="field"><label for="toolLocation">Location</label><select id="toolLocation"></select></div>
         <div class="field"><label for="purchaseDate">Purchase date</label><input id="purchaseDate" type="date" /></div>
         <div class="field"><label for="warrantyExpiry">Warranty expiry</label><input id="warrantyExpiry" type="date" /></div>
+        <div class="field"><label for="lastVerified">Last verified</label><input id="lastVerified" type="date" /></div><div class="field"><label for="photoReminderMonths">Condition photo reminder</label><select id="photoReminderMonths"><option value="0">Off</option><option value="6" selected>Every 6 months</option><option value="12">Annually</option></select></div>
         <div class="field full"><label for="manufacturerPhotoURL">Photo 1 — Manufacturer / primary image</label><div class="inline-field"><input id="manufacturerPhotoURL" type="url" placeholder="Optional image URL" /><button id="searchStockBtn" class="btn smallbtn" type="button">Search model</button></div><input id="manufacturerPhotoFile" type="file" accept="image/*" /><span class="small muted">Use a manufacturer image URL or upload one. This is the image shown on the inventory card when available.</span></div>
         <div class="field full"><label for="toolPhoto">Photo 2 — Our actual tool</label><input id="toolPhoto" type="file" accept="image/*" capture="environment" /><span class="small muted">A photo of your specific tool for identification/condition. Two photos maximum per tool · max 8 MB each.</span></div>
         <div id="privateField" class="field full admin-only"><label class="check-row"><input id="privateTool" type="checkbox" /> <span><strong>Private admin tool</strong><small>Hidden from crew in the app.</small></span></label></div>
@@ -217,6 +226,13 @@
     <input id="wishId" type="hidden" /><div class="field"><label for="wishName">Item</label><input id="wishName" required maxlength="120" /></div><div class="field"><label for="wishPriority">Priority</label><select id="wishPriority"><option>Nice to have</option><option>Useful</option><option>High</option></select></div><div class="field"><label for="wishBrand">Brand / model</label><input id="wishBrand" maxlength="120" /></div><div class="field"><label for="wishStatus">Status</label><select id="wishStatus"><option>Requested</option><option>Reviewing</option><option>Approved</option><option>Purchased</option><option>Declined</option></select></div><div class="field full"><label for="wishReason">Why would this help?</label><textarea id="wishReason" maxlength="800"></textarea></div><div class="dialog-actions full"><button class="btn" type="button" data-close="wishModal">Cancel</button><button class="btn accent" type="submit">Save suggestion</button></div>
   </form></div></div></div>
 
+
+
+  <!-- QUICK MOVE PICKER -->
+  <div id="quickMoveModal" class="modal hidden"><div class="dialog"><div class="dialog-head"><h2>Quick Move</h2><button class="btn" data-close="quickMoveModal">Close</button></div><div class="dialog-body"><div class="field"><label for="quickMoveToolSelect">Choose tool</label><select id="quickMoveToolSelect"></select></div><div class="dialog-actions"><button class="btn" data-close="quickMoveModal">Cancel</button><button id="quickMoveContinueBtn" class="btn accent" type="button">Continue</button></div></div></div></div>
+
+  <!-- JOB CLOSEOUT -->
+  <div id="closeoutModal" class="modal hidden"><div class="dialog dialog-wide"><div class="dialog-head"><h2>Job Closeout</h2><button class="btn" data-close="closeoutModal">Close</button></div><div class="dialog-body"><div class="closeout-controls"><div class="field"><label for="closeoutJobSelect">Job</label><select id="closeoutJobSelect"></select></div><button id="loadCloseoutBtn" class="btn accent" type="button">Review tools</button></div><div id="closeoutBody" class="closeout-body"><div class="empty">Choose an active job to review everything assigned there.</div></div></div></div></div>
 
   <div id="imagePreviewModal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="dialog image-preview-dialog"><div class="dialog-head"><h2 id="imagePreviewTitle">Tool photo</h2><button class="btn" data-close="imagePreviewModal">Close</button></div><div class="image-preview-body"><img id="imagePreviewImg" src="" alt="Tool photo preview" /></div></div>
