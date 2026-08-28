@@ -7,16 +7,17 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V3</title>
+  <title>Tool Tracker V3.2</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <section id="authScreen" class="auth-wrap">
     <div class="auth-card">
       <div class="brand auth-brand">
-        <div class="brand-mark brand-mark-lg"><span>TT</span></div>
+        <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
         <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V3</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
@@ -32,7 +33,7 @@
   <div id="app" class="app-shell hidden">
     <header class="topbar">
       <button id="homeBtn" class="brand brand-button" type="button" aria-label="Dashboard">
-        <div id="topLogoWrap" class="brand-mark"><span>TT</span></div>
+        <div id="topLogoWrap" class="brand-mark"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
         <div><h1>Tool Tracker</h1><p id="topbarSubtitle">Live crew inventory</p></div>
       </button>
       <div class="top-actions">
@@ -48,11 +49,16 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V3</div>
+            <div class="eyebrow">TOOL TRACKER · V3.2</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
-          <div id="dashboardLogo" class="dashboard-logo"><span>TT</span></div>
+          <div id="dashboardLogo" class="dashboard-logo"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
+        </div>
+
+        <div class="mascot-hero" aria-label="Tool Tracker mascots on a steel beam">
+          <img src="dashboard-mascots-beam.jpg" alt="Tool Tracker worker and cat sitting on a steel beam" />
+          <div class="mascot-caption"><strong>Tools accounted for. Lunch questionable.</strong><span>Jobsite morale department</span></div>
         </div>
 
         <div class="hero-grid">
@@ -174,8 +180,8 @@
         <div class="field"><label for="toolLocation">Location</label><select id="toolLocation"></select></div>
         <div class="field"><label for="purchaseDate">Purchase date</label><input id="purchaseDate" type="date" /></div>
         <div class="field"><label for="warrantyExpiry">Warranty expiry</label><input id="warrantyExpiry" type="date" /></div>
-        <div class="field full"><label for="manufacturerPhotoURL">Manufacturer / stock photo URL</label><div class="inline-field"><input id="manufacturerPhotoURL" type="url" placeholder="Optional image URL" /><button id="searchStockBtn" class="btn smallbtn" type="button">Search model</button></div><span class="small muted">“Search model” opens an image search; paste a manufacturer-approved image URL here when desired.</span></div>
-        <div class="field full"><label for="toolPhoto">Your actual tool photo</label><input id="toolPhoto" type="file" accept="image/*" capture="environment" /><span class="small muted">Stored in Firebase Storage · max 8 MB.</span></div>
+        <div class="field full"><label for="manufacturerPhotoURL">Photo 1 — Manufacturer / primary image</label><div class="inline-field"><input id="manufacturerPhotoURL" type="url" placeholder="Optional image URL" /><button id="searchStockBtn" class="btn smallbtn" type="button">Search model</button></div><input id="manufacturerPhotoFile" type="file" accept="image/*" /><span class="small muted">Use a manufacturer image URL or upload one. This is the image shown on the inventory card when available.</span></div>
+        <div class="field full"><label for="toolPhoto">Photo 2 — Our actual tool</label><input id="toolPhoto" type="file" accept="image/*" capture="environment" /><span class="small muted">A photo of your specific tool for identification/condition. Two photos maximum per tool · max 8 MB each.</span></div>
         <div id="privateField" class="field full admin-only"><label class="check-row"><input id="privateTool" type="checkbox" /> <span><strong>Private admin tool</strong><small>Hidden from crew in the app.</small></span></label></div>
         <div class="field full"><label for="toolNotes">Notes / condition</label><textarea id="toolNotes" maxlength="1200"></textarea></div>
         <div class="dialog-actions full"><button type="button" class="btn" data-close="toolModal">Cancel</button><button id="saveToolBtn" class="btn accent" type="submit">Save tool</button></div>
@@ -210,6 +216,11 @@
   <div id="wishModal" class="modal hidden"><div class="dialog"><div class="dialog-head"><h2 id="wishModalTitle">Suggest an item</h2><button class="btn" data-close="wishModal">Close</button></div><div class="dialog-body"><form id="wishForm" class="form-grid">
     <input id="wishId" type="hidden" /><div class="field"><label for="wishName">Item</label><input id="wishName" required maxlength="120" /></div><div class="field"><label for="wishPriority">Priority</label><select id="wishPriority"><option>Nice to have</option><option>Useful</option><option>High</option></select></div><div class="field"><label for="wishBrand">Brand / model</label><input id="wishBrand" maxlength="120" /></div><div class="field"><label for="wishStatus">Status</label><select id="wishStatus"><option>Requested</option><option>Reviewing</option><option>Approved</option><option>Purchased</option><option>Declined</option></select></div><div class="field full"><label for="wishReason">Why would this help?</label><textarea id="wishReason" maxlength="800"></textarea></div><div class="dialog-actions full"><button class="btn" type="button" data-close="wishModal">Cancel</button><button class="btn accent" type="submit">Save suggestion</button></div>
   </form></div></div></div>
+
+
+  <div id="imagePreviewModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="dialog image-preview-dialog"><div class="dialog-head"><h2 id="imagePreviewTitle">Tool photo</h2><button class="btn" data-close="imagePreviewModal">Close</button></div><div class="image-preview-body"><img id="imagePreviewImg" src="" alt="Tool photo preview" /></div></div>
+  </div>
 
   <div id="toast" class="toast hidden"></div>
   <script type="module" src="app.js"></script>

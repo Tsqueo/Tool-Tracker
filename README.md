@@ -1,38 +1,26 @@
-# Tool Tracker V3
+# Tool Tracker V3.2
 
-This is the Firebase-backed V3 construction tool tracker. It keeps the existing `tools`, `locations`, `history`, and `users` data, then adds `jobs`, `categories`, `wishlist`, `settings`, and sign-in history.
+Production PWA revision for the Tool Tracker Firebase project.
 
-## V3 features
-- Click-through dashboard tiles with built-in SVG icons (no external icon service)
-- Tool inventory with compact mobile cards, actual photos and optional manufacturer/stock photo URLs
-- Brand-aware suggested IDs (DW-01, B-01, etc.) with editable brand prefixes
-- Jobsites with addresses and one-tap Google Maps links
-- Jobs automatically become selectable tool locations
-- Customizable/reorderable tool categories
-- Shop, jobsites, trucks, storage, repair and other location types
-- Timestamped tool movement/history and sign-in records
-- Wishlist for crew suggestions
-- Warranty expiry tracking
-- Admin/staff UI roles; private tools are hidden from staff in the app
-- Owner branding/logo upload
-- Light/dark theme
-- PWA install support
+## V3.2 highlights
 
-## Updating the existing GitHub Pages app
-Upload/replace these files in the root of your existing `Tool-Tracker` repository:
-`index.html`, `app.js`, `styles.css`, `service-worker.js`, `manifest.webmanifest`, `icon.svg`, and `firebase-config.js`.
-Commit the changes. GitHub Pages will redeploy automatically.
+- Hybrid industrial TT logo is now the PWA/home-screen icon and the app/header/dashboard logo.
+- Dashboard includes the worker + cat steel-beam artwork and more compact navigation tiles.
+- Employee names are display-normalized to start with capitals (for example `tony` -> `Tony`).
+- Tool cards are clickable. Tap a card to open full tool details.
+- Tool detail supports a larger photo preview by tapping either image.
+- Full Edit Tool workflow remains available from both the card and details screen, including category changes.
+- Exactly two image slots per tool: **Manufacturer / Primary** and **Our Tool**. Manufacturer/Primary is used on inventory cards when present; Our Tool is the fallback.
+- Manufacturer/Primary can be entered as a URL or uploaded from a file. Our Tool can be captured/uploaded from the phone.
+- Active Jobs automatically create/repair linked Jobsite locations, so a tool can be moved directly to an active job without separately creating the location.
+- Existing Firebase data is preserved; this is a front-end/data-compatible upgrade.
 
-No Firebase database reset is needed. Existing tools remain.
+## Deploy through GitHub Pages
 
-## Firebase collections
-The app uses: `tools`, `locations`, `history`, `users`, `jobs`, `categories`, `wishlist`, `settings`, and `signins`.
+Upload the contents of this folder over the existing repository files and commit. GitHub Pages will rebuild automatically from `main` / `(root)`.
 
-## Important security note
-The currently supplied rules require a signed-in Firebase Authentication account. V3 also enforces Admin/Staff and private-tool visibility in the UI. Because employee accounts are manually created by the owner, this is suitable for the initial 4-person deployment. A later hardening revision can enforce every role/private rule at the Firestore rules layer after all employee role documents are established.
+After deployment, close and reopen the installed PWA/browser tab once so the V3.2 service worker replaces the older cache.
 
-## Manufacturer image lookup
-V3's “Search model” button opens an image search using the brand/model/name. A browser-only app cannot safely and reliably scrape a manufacturer's image automatically. Paste an approved manufacturer image URL into the stock-photo field; the employee's real phone photo remains stored separately in Firebase Storage.
+## Firebase
 
-## Team accounts
-Create new employee email/password accounts in Firebase Authentication. After an employee signs in once, their profile appears under Admin & Warranty → Team access, where an admin can set Staff or Admin.
+No new Firebase project is required. Existing Authentication, Cloud Firestore, and Storage remain in use. The included rules files are reference copies; if your currently published rules already require authenticated users and allow `tool-photos/{toolId}/{fileName}` image uploads up to 8 MB, they do not need to be republished for V3.2.
