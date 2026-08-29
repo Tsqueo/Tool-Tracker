@@ -7,10 +7,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V3.4</title>
+  <title>Tool Tracker V3.4.1</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,7 +19,7 @@
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V3.4</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V3.4.1</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -50,7 +51,7 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V3.4</div>
+            <div class="eyebrow">TOOL TRACKER · V3.4.1</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -58,7 +59,7 @@
         </div>
 
         <div class="mascot-hero" aria-label="Tool Tracker mascots on a steel beam">
-          <img src="dashboard-mascots-beam.jpg" alt="Tool Tracker worker and cat sitting on a steel beam" />
+          <img src="dashboard-mascots-wide.jpg" alt="Tool Tracker worker and cat sitting on a steel beam" />
           <div class="mascot-caption"><strong>Tools accounted for. Lunch questionable.</strong><span>Jobsite morale department</span></div>
         </div>
 
@@ -112,7 +113,7 @@
 
       <section id="mapView" class="view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Map</h2><p class="muted">A manual live look-in based on your jobsite addresses — no GPS trackers required.</p></div></div>
-        <div class="map-board panel"><div class="map-board-head"><span data-icon="map"></span><div><strong>Where everything is today</strong><small>Each pin is a jobsite/location you maintain in Tool Tracker.</small></div></div><div id="mapPins" class="map-pins"></div></div>
+        <div class="map-board panel"><div class="map-board-head"><span data-icon="map"></span><div><strong>Where everything is today</strong><small>Interactive jobsite pins based on the addresses in Jobs. No GPS trackers.</small></div></div><div id="liveMap" class="live-map" aria-label="Interactive jobsite map"></div><div id="mapStatus" class="map-status muted small">Map pins load from active job addresses.</div></div>
       </section>
 
       <section id="categoriesView" class="view">
@@ -139,16 +140,22 @@
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Admin & Warranty</h2><p class="muted">Owner controls, warranty watch and app branding.</p></div></div>
         <div class="admin-grid">
           <div class="panel"><div class="panel-head"><h3>Warranty watch</h3></div><div id="warrantyList" class="panel-body stack gap-sm"></div></div>
-          <div class="panel"><div class="panel-head"><h3>Team access</h3></div><div id="teamList" class="panel-body stack gap-sm"></div></div>
-          <div class="panel"><div class="panel-head"><h3>Branding</h3></div><div class="panel-body">
+          <div class="panel"><div class="panel-head"><h3>Team access</h3></div><div class="panel-body stack gap-md"><form id="staffCreateForm" class="stack gap-sm"><div class="field"><label for="staffName">Employee name</label><input id="staffName" maxlength="80" placeholder="e.g. Mike" /></div><div class="field"><label for="staffEmail">Employee email</label><input id="staffEmail" type="email" placeholder="name@company.com" /></div><div class="field"><label for="staffTempPassword">Temporary password</label><input id="staffTempPassword" type="password" minlength="8" placeholder="8+ characters" /></div><button class="btn accent" type="submit">Create crew sign-in</button><p class="small muted">Creates a Firebase Authentication account and Staff profile. Have the employee use “Send password reset” on first sign-in to choose their own password.</p></form><div id="teamList" class="stack gap-sm"></div></div></div>
+          <div class="panel"><div class="panel-head"><h3>Company Branding</h3></div><div class="panel-body">
             <form id="brandingForm" class="stack gap-md">
-              <div class="field"><label for="businessName">Dashboard/company name</label><input id="businessName" maxlength="80" placeholder="Tool Tracker" /></div>
-              <div class="field"><label for="logoUpload">Small logo image</label><input id="logoUpload" type="file" accept="image/*" /></div>
-              <button class="btn primary" type="submit">Save branding</button>
+              <div class="field"><label for="businessName">Company display name</label><input id="businessName" maxlength="80" placeholder="Tool Tracker" /></div>
+              <div class="field"><label for="logoUpload">Dashboard company logo</label><input id="logoUpload" type="file" accept="image/*" /></div>
+              <p class="small muted">Displayed on the dashboard. This does not change the fixed Tool Tracker TT app logo.</p><button class="btn primary" type="submit">Update company branding</button>
             </form>
           </div></div>
           <div class="panel"><div class="panel-head"><h3>Brand ID prefixes</h3></div><div class="panel-body"><p class="muted small">Tool IDs remain fully editable. These prefixes only power the automatic suggestion.</p><div id="prefixList" class="prefix-list"></div><button id="addPrefixBtn" class="btn smallbtn">+ Prefix</button></div></div>
         </div>
+      </section>
+
+      <section id="personalView" class="view admin-only">
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Personal</h2><p class="muted">Your private tool arsenal — separate from company counts, jobs and numbering.</p></div><button id="addPersonalToolBtn" class="btn accent">+ Add personal tool</button></div>
+        <div class="personal-summary panel"><div class="panel-body"><strong id="personalCount">0 personal tools</strong><span class="muted small">Receipts, purchase price and warranty records stay with each tool. Crew cannot see this section.</span></div></div>
+        <div id="personalToolsGrid" class="tools-grid"></div>
       </section>
 
       <section id="accountView" class="view">
@@ -168,6 +175,7 @@
       <button class="nav-btn" data-open-view="jobsView"><span data-icon="jobs"></span>Jobs</button>
       <button class="nav-btn" data-open-view="mapView"><span data-icon="map"></span>Map</button>
       <button class="nav-btn" data-open-view="toolsView"><span data-icon="inventory"></span>Inventory</button>
+      <button class="nav-btn admin-only" data-open-view="personalView"><span data-icon="personal"></span>Personal</button>
     </nav>
   </div>
 
@@ -175,7 +183,7 @@
   <div id="toolModal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="dialog dialog-wide"><div class="dialog-head"><div><div class="eyebrow">INVENTORY</div><h2 id="toolModalTitle">Add tool</h2></div><button class="btn" data-close="toolModal">Close</button></div><div class="dialog-body">
       <form id="toolForm" class="form-grid">
-        <input id="toolId" type="hidden" />
+        <input id="toolId" type="hidden" /><input id="toolScope" type="hidden" value="company" />
         <div class="field"><label for="toolBrand">Brand</label><input id="toolBrand" list="brandOptions" maxlength="60" placeholder="DeWalt, Bosch, Milwaukee…" /></div>
         <div class="field"><label for="toolLabel">Tool label / ID</label><input id="toolLabel" required maxlength="40" /></div>
         <datalist id="brandOptions"><option>DeWalt</option><option>Bosch</option><option>Milwaukee</option><option>Makita</option><option>Hilti</option><option>Festool</option><option>Ridgid</option><option>Metabo</option></datalist>
@@ -187,10 +195,13 @@
         <div class="field"><label for="toolStatus">Status</label><select id="toolStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select></div>
         <div class="field"><label for="toolLocation">Location</label><select id="toolLocation"></select></div>
         <div class="field"><label for="purchaseDate">Purchase date</label><input id="purchaseDate" type="date" /></div>
+        <div class="field"><label for="purchasePrice">Purchase price</label><input id="purchasePrice" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" /></div>
+        <div class="field"><label for="retailer">Retailer</label><input id="retailer" maxlength="120" placeholder="Home Depot, KMS Tools…" /></div>
         <div class="field"><label for="warrantyExpiry">Warranty expiry</label><input id="warrantyExpiry" type="date" /></div>
         <div class="field"><label for="lastVerified">Last verified</label><input id="lastVerified" type="date" /></div><div class="field"><label for="photoReminderMonths">Condition photo reminder</label><select id="photoReminderMonths"><option value="0">Off</option><option value="6" selected>Every 6 months</option><option value="12">Annually</option></select></div>
         <div class="field full"><label for="manufacturerPhotoURL">Photo 1 — Manufacturer / primary image</label><div class="inline-field"><input id="manufacturerPhotoURL" type="url" placeholder="Optional image URL" /><button id="searchStockBtn" class="btn smallbtn" type="button">Search model</button></div><input id="manufacturerPhotoFile" type="file" accept="image/*" /><span class="small muted">Use a manufacturer image URL or upload one. This is the image shown on the inventory card when available.</span></div>
         <div class="field full"><label for="toolPhoto">Photo 2 — Our actual tool</label><input id="toolPhoto" type="file" accept="image/*" capture="environment" /><span class="small muted">A photo of your specific tool for identification/condition. Two photos maximum per tool · max 8 MB each.</span></div>
+        <div class="field full receipt-field"><label for="receiptFile">Receipt / proof of purchase</label><div class="inline-field"><input id="receiptFile" type="file" accept="image/*,application/pdf" capture="environment" /><button id="readReceiptBtn" class="btn smallbtn" type="button">Read receipt</button></div><span id="receiptScanStatus" class="small muted">Upload a photo or PDF. Image receipts can be read locally to suggest date, retailer and price; you can edit every value before saving.</span></div>
         <div id="privateField" class="field full admin-only"><label class="check-row"><input id="privateTool" type="checkbox" /> <span><strong>Private admin tool</strong><small>Hidden from crew in the app.</small></span></label></div>
         <div class="field full"><label for="toolNotes">Notes / condition</label><textarea id="toolNotes" maxlength="1200"></textarea></div>
         <div class="dialog-actions full"><button type="button" class="btn" data-close="toolModal">Cancel</button><button id="saveToolBtn" class="btn accent" type="submit">Save tool</button></div>
@@ -200,6 +211,12 @@
 
   <!-- TOOL DETAIL -->
   <div id="toolDetailModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog dialog-wide"><div class="dialog-head"><h2 id="detailTitle">Tool</h2><button class="btn" data-close="toolDetailModal">Close</button></div><div id="toolDetailBody" class="dialog-body"></div></div></div>
+
+  <!-- VERIFY -->
+  <div id="verifyModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2>Verify tool</h2><button class="btn" data-close="verifyModal">Close</button></div><div class="dialog-body"><form id="verifyForm" class="form-grid"><input id="verifyToolId" type="hidden" /><div id="verifyLocationField" class="field full"><label for="verifyLocation">Confirm location</label><select id="verifyLocation"></select></div><div class="field"><label for="verifyStatus">Condition / status</label><select id="verifyStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option><option>Owned</option></select></div><div class="field"><label for="verifyPhoto">Current condition photo</label><input id="verifyPhoto" type="file" accept="image/*" capture="environment" /></div><div class="field full"><label for="verifyNote">Verification note</label><input id="verifyNote" maxlength="300" placeholder="Optional condition/location note" /></div><div class="dialog-actions full"><button class="btn" type="button" data-close="verifyModal">Cancel</button><button class="btn accent" type="submit">Verify now</button></div></form></div></div></div>
+
+  <!-- QUICK EDIT -->
+  <div id="quickEditModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2 id="quickEditTitle">Quick edit</h2><button class="btn" data-close="quickEditModal">Close</button></div><div class="dialog-body"><form id="quickEditForm" class="stack gap-md"><input id="quickEditToolId" type="hidden" /><input id="quickEditField" type="hidden" /><div id="quickEditControl" class="field"></div><div class="dialog-actions"><button class="btn" type="button" data-close="quickEditModal">Cancel</button><button class="btn accent" type="submit">Save change</button></div></form></div></div></div>
 
   <!-- MOVE -->
   <div id="moveModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2>Move / update tool</h2><button class="btn" data-close="moveModal">Close</button></div><div class="dialog-body"><form id="moveForm" class="form-grid">
@@ -239,6 +256,7 @@
   </div>
 
   <div id="toast" class="toast hidden"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

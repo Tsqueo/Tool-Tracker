@@ -1,10 +1,40 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Initial 4-person deployment: Firebase Authentication is required for all app data.
-    // V3's Admin/Staff/private controls are also enforced in the application UI.
-    match /{document=**} {
-      allow read, write: if request.auth != null;
+    function signedIn() { return request.auth != null; }
+    function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function admin() { return signedIn() && me().data.role == 'admin' && me().data.active != false; }
+    function activeUser() { return signedIn() && me().data.active != false; }
+
+    match /users/{uid} {
+      allow read: if activeUser();
+      allow create: if signedIn() && (request.auth.uid == uid || admin());
+      allow update: if admin() || (activeUser() && request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName','theme','avatarURL','updatedAt']));
+      allow delete: if admin();
     }
+
+    match /tools/{toolId} {
+      allow read: if activeUser() && (resource.data.privateTool != true && resource.data.inventoryScope != 'personal' || admin());
+      allow create: if activeUser() && (request.resource.data.privateTool != true && request.resource.data.inventoryScope != 'personal' || admin());
+      allow update: if admin() || (activeUser()
+        && resource.data.privateTool != true && resource.data.inventoryScope != 'personal'
+        && request.resource.data.privateTool != true && request.resource.data.inventoryScope != 'personal'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'name','brand','model','serial','status','locationId','locationName','categoryId','categoryName','category',
+          'notes','photoReminderMonths','photoURL','photoPath','manufacturerPhotoURL','manufacturerPhotoPath','conditionPhotoAt','lastVerified',
+          'assignedToUid','assignedToName','updatedAt','updatedBy','updatedByName'
+        ]));
+      allow delete: if admin();
+    }
+
+    match /personalHistory/{id} { allow read, write: if admin(); }
+    match /history/{id} { allow read: if activeUser(); allow create: if activeUser(); allow update, delete: if admin(); }
+    match /jobs/{id} { allow read: if activeUser(); allow write: if admin(); }
+    match /locations/{id} { allow read: if activeUser(); allow write: if admin(); }
+    match /categories/{id} { allow read: if activeUser(); allow write: if admin(); }
+    match /settings/{id} { allow read: if activeUser(); allow write: if admin(); }
+    match /signins/{id} { allow create: if signedIn(); allow read: if admin(); }
+    match /wishlist/{id} { allow read: if activeUser(); allow create: if activeUser(); allow update: if activeUser(); allow delete: if admin(); }
   }
 }

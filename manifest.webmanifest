@@ -1,7 +1,7 @@
 {
-  "name": "Tool Tracker V3.4",
+  "name": "Tool Tracker V3.4.1",
   "short_name": "Tool Tracker",
-  "description": "Construction tool inventory, jobsite location and history tracker",
+  "description": "Construction tool inventory, personal tools, receipts, jobsite map and crew history tracker",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

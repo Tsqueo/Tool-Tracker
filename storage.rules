@@ -1,12 +1,22 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function isImageOrPdf() { return request.resource.contentType.matches('image/.*') || request.resource.contentType == 'application/pdf'; }
+    match /tool-files/{toolId}/{fileName} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.resource.size < 10 * 1024 * 1024 && isImageOrPdf();
+      allow delete: if signedIn();
+    }
+    match /personal-files/{uid}/{toolId}/{fileName} {
+      allow read, delete: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid && request.resource.size < 10 * 1024 * 1024 && isImageOrPdf();
+    }
+    // Compatibility with V3.2/V3.4 image paths and dashboard branding.
     match /tool-photos/{toolId}/{fileName} {
-      allow read: if request.auth != null;
-      allow create, update: if request.auth != null
-                            && request.resource.size < 8 * 1024 * 1024
-                            && request.resource.contentType.matches('image/.*');
-      allow delete: if request.auth != null;
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.resource.size < 8 * 1024 * 1024 && request.resource.contentType.matches('image/.*');
+      allow delete: if signedIn();
     }
   }
 }
