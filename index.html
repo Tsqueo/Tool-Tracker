@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V4.3 — Purpose Built.</title>
+  <title>Tool Tracker V4.3.1 — Purpose Built.</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -19,7 +19,7 @@
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3 · Purpose Built.</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3.1 · Purpose Built.</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -60,7 +60,7 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.3</div>
+            <div class="eyebrow">TOOL TRACKER · V4.3.1</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -109,7 +109,7 @@
           <div class="toolbar">
             <input id="searchInput" type="search" placeholder="Search label, tool, model, serial…" />
             <select id="categoryFilter"><option value="">All categories</option></select>
-            <select id="powerFilter"><option value="">Corded + cordless</option><option value="Corded">Corded tools</option><option value="Cordless">Cordless tools</option></select>
+            <select id="powerFilter"><option value="">All power types</option><option value="Cordless">Cordless</option><option value="Corded">Corded</option><option value="Not set">Not set</option></select>
             <select id="statusFilter"><option value="">All statuses</option><option>Available</option><option>In Use</option><option>Repair</option><option>Missing</option><option>Retired</option></select>
             <select id="locationFilter"><option value="">All locations</option></select>
             <button id="clearFiltersBtn" class="btn">Clear</button>
@@ -184,14 +184,14 @@
 
       <section id="photosView" class="view admin-only-view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Photos & Documents</h2><p class="muted">Admin-only tool photos, receipts and ownership records.</p></div></div>
-        <div class="panel"><div class="panel-body"><div class="toolbar"><select id="photoMode"><option>Current Tool Photos</option><option>Condition History</option><option>Verification Photos</option><option>Receipts & Documents</option></select><input id="photoSearch" type="search" placeholder="Filter tool, brand, category…"><label class="check-row"><input id="missingPhotoOnly" type="checkbox"> Missing current photo</label></div></div></div>
+        <div class="panel"><div class="panel-body"><div class="toolbar"><select id="photoMode"><option>Current Tool Photos</option><option>Visual Condition History</option><option>Receipts & Documents</option></select><input id="photoSearch" type="search" placeholder="Filter tool, brand, category…"><label class="check-row"><input id="missingPhotoOnly" type="checkbox"> Missing current photo</label></div></div></div>
         <div id="masterPhotosGrid" class="master-photo-grid"></div>
       </section>
 
       <section id="insuranceView" class="view admin-only-view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Insurance</h2><p class="muted">Company inventory only. Purchase price is history; current replacement cost is today’s new-equivalent value.</p></div><button id="exportInsuranceBtn" class="btn accent">Export CSV</button></div>
-        <div class="insurance-stats"><div class="stat"><strong id="insuredCount">0</strong><span>Active assets</span></div><div class="stat"><strong id="replacementTotal">$0</strong><span>Verified replacement value</span></div><div class="stat"><strong id="missingSerialCount">0</strong><span>Missing serials</span></div><div class="stat"><strong id="missingEvidenceCount">0</strong><span>Missing current photos</span></div></div>
-        <div class="panel"><div class="panel-head"><h3>Insurance readiness</h3><span id="insuranceCompleteness" class="badge">0% complete</span></div><div class="panel-body dataset-toolbar"><input id="insuranceSearch" type="search" placeholder="Search tool, ID, brand…"><select id="insuranceFilter"><option value="">All readiness</option><option value="needs">Needs valuation</option><option value="complete">Complete</option></select></div><div id="insuranceList" class="panel-body"></div><div class="dataset-footer"><button id="insuranceLoadMore" class="btn hidden" type="button">Load more</button></div></div>
+        <div class="insurance-stats"><div class="stat"><strong id="insuredCount">0</strong><span>Active assets</span></div><div class="stat"><strong id="replacementTotal">$0</strong><span>Verified replacement value</span></div><button class="stat stat-button" data-insurance-filter="serial"><strong id="missingSerialCount">0</strong><span>Missing serial numbers</span></button><button class="stat stat-button" data-insurance-filter="photo"><strong id="missingEvidenceCount">0</strong><span>Assets missing photos</span></button></div>
+        <div class="panel"><div class="panel-head"><h3>Insurance readiness</h3><span id="insuranceCompleteness" class="badge">0% complete</span></div><div class="panel-body dataset-toolbar"><input id="insuranceSearch" type="search" placeholder="Search tool, ID, brand…"><select id="insuranceFilter"><option value="">All readiness</option><option value="needs">Needs valuation</option><option value="review">Review due</option><option value="serial">Missing serial number</option><option value="photo">Missing photo</option><option value="complete">Complete</option></select></div><div id="insuranceList" class="panel-body"></div><div class="dataset-footer"><button id="insuranceLoadMore" class="btn hidden" type="button">Load more</button></div></div>
       </section>
 
       <section id="reportsView" class="view admin-only-view">
@@ -233,6 +233,8 @@
     </nav>
   </div>
 
+  <div id="photoHistoryModal" class="modal hidden"><div class="dialog dialog-wide"><div class="dialog-head"><h2 id="photoHistoryTitle">Photo & Condition History</h2><button class="btn" data-close="photoHistoryModal">Close</button></div><div id="photoHistoryBody" class="dialog-body photo-history-list"></div></div></div>
+
   <!-- TOOL MODAL -->
   <div id="toolModal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="dialog dialog-wide"><div class="dialog-head"><div><div class="eyebrow">INVENTORY</div><h2 id="toolModalTitle">Add tool</h2></div><button class="btn" data-close="toolModal">Close</button></div><div class="dialog-body">
@@ -241,7 +243,7 @@
         <details class="field full intake-scan nameplate-details"><summary>Optional shortcut — scan nameplate</summary><div class="nameplate-inner"><input id="nameplateFile" class="visually-hidden-file" type="file" accept="image/*" capture="environment" /><div class="nameplate-actions"><label for="nameplateFile" class="btn nameplate-camera">📷 Take Nameplate Photo</label><button id="scanNameplateBtn" class="btn accent" type="button">Read Nameplate</button></div><span id="nameplateScanStatus" class="small muted">Manual entry always works. If you scan, Tool Tracker only suggests Brand, Model, Serial and possibly Category — review or overwrite anything before saving.</span><details id="detectedTextDetails" class="detected-text hidden"><summary>Detected text</summary><pre id="nameplateDetectedText"></pre></details></div></details>
         <div class="field"><label for="toolName">Tool name</label><input id="toolName" required maxlength="100" placeholder="e.g. 12 in. sliding mitre saw" /></div>
         <div class="field"><label for="toolCategory">Category</label><select id="toolCategory"></select></div>
-        <div class="field"><label for="toolPowerType">Tool type</label><select id="toolPowerType"><option value="Corded">Corded</option><option value="Cordless">Cordless</option></select><span class="small muted">Category says what it is; Corded/Cordless is a secondary classification.</span></div>
+        <div class="field"><label for="toolPowerType">Power source</label><select id="toolPowerType"><option value="">Not set</option><option value="Cordless">Cordless</option><option value="Corded">Corded</option></select><span class="small muted">Category says what it is; Corded/Cordless is a secondary classification.</span></div>
         <div class="field"><label for="toolBrand">Brand</label><input id="toolBrand" list="brandOptions" maxlength="60" placeholder="DeWalt, Bosch, Milwaukee…" /></div>
         <div class="field"><label for="toolModel">Model number</label><input id="toolModel" maxlength="100" /></div>
         <datalist id="brandOptions"><option>DeWalt</option><option>Bosch</option><option>Milwaukee</option><option>Makita</option><option>Hilti</option><option>Festool</option><option>Ridgid</option><option>Metabo</option></datalist>
