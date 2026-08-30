@@ -23,13 +23,13 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
           'name','brand','model','serial','status','locationId','locationName','categoryId','categoryName','category',
           'notes','photoReminderMonths','photoURL','photoPath','manufacturerPhotoURL','manufacturerPhotoPath','conditionPhotoAt','lastVerified',
-          'assignedToUid','assignedToName','updatedAt','updatedBy','updatedByName'
+          'assignedToUid','assignedToName','needsAttention','attentionReason','attentionReportedBy','attentionReportedByName','attentionReportedAt','attentionDeferredUntil','attentionDeferredReason','updatedAt','updatedBy','updatedByName'
         ]));
       allow delete: if admin();
     }
 
-    match /personalHistory/{id} { allow read, write: if admin(); }
-    match /history/{id} { allow read: if activeUser(); allow create: if activeUser(); allow update, delete: if admin(); }
+    match /personalHistory/{id} { allow read: if admin(); allow create: if admin(); allow update, delete: if false; }
+    match /history/{id} { allow read: if activeUser(); allow create: if activeUser(); allow update, delete: if false; }
     match /jobs/{id} { allow read: if activeUser(); allow write: if admin(); }
     match /locations/{id} { allow read: if activeUser(); allow write: if admin(); }
     match /categories/{id} { allow read: if activeUser(); allow write: if admin(); }

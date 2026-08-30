@@ -1,7 +1,7 @@
 {
-  "name": "Tool Tracker V3.4.1",
+  "name": "Tool Tracker V4.0 \u2014 Purpose Built.",
   "short_name": "Tool Tracker",
-  "description": "Construction tool inventory, personal tools, receipts, jobsite map and crew history tracker",
+  "description": "Purpose Built. Construction inventory, jobs, verification and insurance readiness.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

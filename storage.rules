@@ -6,7 +6,7 @@ service firebase.storage {
     match /tool-files/{toolId}/{fileName} {
       allow read: if signedIn();
       allow create, update: if signedIn() && request.resource.size < 10 * 1024 * 1024 && isImageOrPdf();
-      allow delete: if signedIn();
+      allow delete: if false;
     }
     match /personal-files/{uid}/{toolId}/{fileName} {
       allow read, delete: if signedIn() && request.auth.uid == uid;
@@ -16,7 +16,7 @@ service firebase.storage {
     match /tool-photos/{toolId}/{fileName} {
       allow read: if signedIn();
       allow create, update: if signedIn() && request.resource.size < 8 * 1024 * 1024 && request.resource.contentType.matches('image/.*');
-      allow delete: if signedIn();
+      allow delete: if false;
     }
   }
 }
