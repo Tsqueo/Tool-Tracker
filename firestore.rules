@@ -41,6 +41,17 @@ service cloud.firestore {
     match /categories/{id} { allow read: if activeUser(); allow write: if admin(); }
     match /settings/{id} { allow read: if activeUser(); allow write: if admin(); }
     match /signins/{id} { allow create: if signedIn(); allow read: if admin(); }
-    match /wishlist/{id} { allow read: if activeUser(); allow create: if activeUser(); allow update: if activeUser(); allow delete: if admin(); }
+    match /wishlist/{id} {
+      allow read: if activeUser();
+      allow create: if activeUser()
+        && request.resource.data.requestedBy == request.auth.uid
+        && request.resource.data.status == 'Requested';
+      allow update: if admin() || (activeUser()
+        && resource.data.requestedBy == request.auth.uid
+        && request.resource.data.requestedBy == resource.data.requestedBy
+        && request.resource.data.status == resource.data.status
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','priority','brand','reason','updatedAt','updatedBy']));
+      allow delete: if admin();
+    }
   }
 }
