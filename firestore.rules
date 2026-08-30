@@ -22,7 +22,7 @@ service cloud.firestore {
         && request.resource.data.privateTool != true && request.resource.data.inventoryScope != 'personal'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
           'name','brand','model','serial','condition','status','locationId','locationName','categoryId','categoryName','category',
-          'notes','photoURL','photoPath','conditionPhotoAt',
+          'powerType','notes','photoURL','photoPath','conditionPhotoAt',
           'assignedToUid','assignedToName','needsAttention','attentionReason','attentionReportedBy','attentionReportedByName','attentionReportedAt','attentionDeferredUntil','attentionDeferredReason','updatedAt','updatedBy','updatedByName'
         ])) || (activeUser()
         && resource.data.privateTool != true && resource.data.inventoryScope != 'personal'

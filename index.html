@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V4.2 — Purpose Built.</title>
+  <title>Tool Tracker V4.3 — Purpose Built.</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -19,7 +19,7 @@
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.2 · Purpose Built.</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3 · Purpose Built.</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -43,6 +43,8 @@
         <button class="desktop-nav-btn" data-open-view="jobsView"><span data-icon="jobs"></span>Jobs</button>
         <button class="desktop-nav-btn" data-open-view="mapView"><span data-icon="map"></span>Map</button>
         <button class="desktop-nav-btn admin-only" data-open-view="reportsView"><span data-icon="reports"></span>Reports</button>
+        <button class="desktop-nav-btn admin-only" data-open-view="personalView"><span data-icon="personal"></span>Personal</button>
+        <button class="desktop-nav-btn admin-only" data-open-view="adminView"><span data-icon="admin"></span>Admin</button>
       </nav>
       <div class="top-actions">
         <button id="accountBtn" class="icon-button" type="button" title="My account" aria-label="My account"><span data-icon="account"></span></button>
@@ -58,7 +60,7 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.2</div>
+            <div class="eyebrow">TOOL TRACKER · V4.3</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -66,7 +68,7 @@
         </div>
 
         <div class="mascot-hero" aria-label="Tool Tracker mascots on a steel beam">
-          <img src="dashboard-mascots-beam.jpg" alt="Tool Tracker worker and cat sitting on a steel beam" />
+          <img src="mascot-master.png" alt="Tool Tracker worker and cat sitting on a steel beam" />
           <div class="mascot-caption"><strong id="moraleJoke">Inventory verified. Everything is where it belongs. We’re as surprised as you are.</strong><button class="morale-link" id="moraleLink" type="button">Jobsite Morale Department</button></div>
         </div>
 
@@ -79,7 +81,7 @@
 
         <div id="dashboardTiles" class="dashboard-tiles">
           <button class="dash-tile admin-only" data-open-view="categoriesView"><span class="tile-icon" data-icon="categories"></span><span><strong>Tool Categories</strong><small>Customize your tool categories</small></span><b>›</b></button>
-          <button class="dash-tile" data-open-view="locationsView"><span class="tile-icon" data-icon="locations"></span><span><strong>Locations</strong><small>Shops, jobsites & storage</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="locationsView"><span class="tile-icon" data-icon="locations"></span><span><strong>Locations</strong><small>Jobsites and storage</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="mapView"><span class="tile-icon" data-icon="map"></span><span><strong>Map</strong><small>Where everything is today</small></span><b>›</b></button>
           <button class="dash-tile" id="quickMoveBtn"><span class="tile-icon" data-icon="move"></span><span><strong>Quick Move</strong><small>Move a tool in a few taps</small></span><b>›</b></button>
           <button class="dash-tile" id="jobCloseoutBtn"><span class="tile-icon" data-icon="closeout"></span><span><strong>Job Closeout</strong><small>Account for tools before wrapping up</small></span><b>›</b></button>
@@ -107,6 +109,7 @@
           <div class="toolbar">
             <input id="searchInput" type="search" placeholder="Search label, tool, model, serial…" />
             <select id="categoryFilter"><option value="">All categories</option></select>
+            <select id="powerFilter"><option value="">Corded + cordless</option><option value="Corded">Corded tools</option><option value="Cordless">Cordless tools</option></select>
             <select id="statusFilter"><option value="">All statuses</option><option>Available</option><option>In Use</option><option>Repair</option><option>Missing</option><option>Retired</option></select>
             <select id="locationFilter"><option value="">All locations</option></select>
             <button id="clearFiltersBtn" class="btn">Clear</button>
@@ -142,7 +145,7 @@
       </section>
 
       <section id="wishlistView" class="view">
-        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Wishlist</h2><p class="muted">A place for the crew to suggest tools worth buying.</p></div><button id="addWishBtn" class="btn accent">+ Suggest item</button></div>
+        <div class="section-heading wishlist-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Wishlist</h2><p class="muted">A place for the crew to suggest tools worth buying.</p></div><button id="addWishBtn" class="btn accent">+ Suggest item</button></div>
         <div id="wishlistAllowance" class="wishlist-allowance"></div><div id="wishlistList" class="card-list"></div>
       </section>
 
@@ -180,7 +183,7 @@
       </section>
 
       <section id="photosView" class="view admin-only-view">
-        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Photos & Documents</h2><p class="muted">One current photo per active company asset. Historical evidence stays with the tool.</p></div></div>
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Photos & Documents</h2><p class="muted">Admin-only tool photos, receipts and ownership records.</p></div></div>
         <div class="panel"><div class="panel-body"><div class="toolbar"><select id="photoMode"><option>Current Tool Photos</option><option>Condition History</option><option>Verification Photos</option><option>Receipts & Documents</option></select><input id="photoSearch" type="search" placeholder="Filter tool, brand, category…"><label class="check-row"><input id="missingPhotoOnly" type="checkbox"> Missing current photo</label></div></div></div>
         <div id="masterPhotosGrid" class="master-photo-grid"></div>
       </section>
@@ -188,7 +191,7 @@
       <section id="insuranceView" class="view admin-only-view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Insurance</h2><p class="muted">Company inventory only. Purchase price is history; current replacement cost is today’s new-equivalent value.</p></div><button id="exportInsuranceBtn" class="btn accent">Export CSV</button></div>
         <div class="insurance-stats"><div class="stat"><strong id="insuredCount">0</strong><span>Active assets</span></div><div class="stat"><strong id="replacementTotal">$0</strong><span>Verified replacement value</span></div><div class="stat"><strong id="missingSerialCount">0</strong><span>Missing serials</span></div><div class="stat"><strong id="missingEvidenceCount">0</strong><span>Missing current photos</span></div></div>
-        <div class="panel"><div class="panel-head"><h3>Insurance readiness</h3><span id="insuranceCompleteness" class="badge">0% complete</span></div><div id="insuranceList" class="panel-body"></div></div>
+        <div class="panel"><div class="panel-head"><h3>Insurance readiness</h3><span id="insuranceCompleteness" class="badge">0% complete</span></div><div class="panel-body dataset-toolbar"><input id="insuranceSearch" type="search" placeholder="Search tool, ID, brand…"><select id="insuranceFilter"><option value="">All readiness</option><option value="needs">Needs valuation</option><option value="complete">Complete</option></select></div><div id="insuranceList" class="panel-body"></div><div class="dataset-footer"><button id="insuranceLoadMore" class="btn hidden" type="button">Load more</button></div></div>
       </section>
 
       <section id="reportsView" class="view admin-only-view">
@@ -201,17 +204,17 @@
           <button class="report-card" data-report="verification"><span data-icon="closeout"></span><strong>Verification</strong><small>Last verified, due & overdue</small></button>
           <button class="report-card" data-report="history"><span data-icon="history"></span><strong>Tool History</strong><small>Export the audit trail</small></button>
         </div>
-        <div class="panel"><div class="panel-head"><h3 id="reportTitle">Choose a report</h3><button id="exportReportBtn" class="btn accent hidden" type="button">Export CSV</button></div><div id="reportBody" class="panel-body"><div class="empty">Choose a report above to preview it here.</div></div></div>
+        <div class="panel"><div class="panel-head"><h3 id="reportTitle">Choose a report</h3><button id="exportReportBtn" class="btn accent hidden" type="button">Export CSV</button></div><div id="reportControls" class="panel-body dataset-toolbar hidden"><input id="reportSearch" type="search" placeholder="Search this report…"></div><div id="reportBody" class="panel-body"><div class="empty">Choose a report above to preview it here.</div></div><div class="dataset-footer"><button id="reportLoadMore" class="btn hidden" type="button">Load more</button></div></div>
       </section>
 
       <section id="renumberView" class="view admin-only-view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Manage Tool IDs</h2><p class="muted">Visible Tool IDs can change. Permanent asset records and history do not.</p></div><button id="saveRenumberBtn" class="btn accent">Preview & Apply</button></div>
-        <div class="panel"><div class="panel-body"><div id="renumberList" class="renumber-list"></div></div></div>
+        <div class="panel"><div class="panel-body dataset-toolbar"><input id="renumberSearch" type="search" placeholder="Search Tool ID, name or brand…"></div><div class="panel-body"><div id="renumberList" class="renumber-list"></div></div><div class="dataset-footer"><button id="renumberLoadMore" class="btn hidden" type="button">Load more</button></div></div>
       </section>
 
       <section id="moraleView" class="view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Jobsite Morale Department</h2><p class="muted"><em>Productivity-neutral since 2026.</em></p></div></div>
-        <div class="morale-office"><img src="dashboard-mascots-beam.jpg" alt="Hero and Jeeves, Jobsite Morale Department staff"><div><span class="eyebrow">AUTHORIZED PERSONNEL: QUESTIONABLE</span><strong>Hero & Jeeves</strong><small>Acting Directors of Morale, Snacks & Unverified Complaints</small></div></div><div class="morale-grid">
+        <div class="morale-office"><img src="mascot-master.png" alt="Hero and Jeeves, Jobsite Morale Department staff"><div><span class="eyebrow">AUTHORIZED PERSONNEL: QUESTIONABLE</span><strong>Hero & Jeeves</strong><small>Acting Directors of Morale, Snacks & Unverified Complaints</small></div></div><div class="morale-grid">
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">DEPARTMENT BULLETIN <b id="bulletinNo"></b></span><h3 id="moraleBulletin"></h3><p class="muted">STATUS: NOTICE IGNORED AS EXPECTED. · FILED WITHOUT ACTION.</p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">THE FOREMAN’S PUZZLE</span><h3 id="puzzleTitle">The Three Boxes</h3><p id="puzzleText">Three boxes are marked A, B and C. A says “The key is not here.” B says “The key is in C.” C says “B is lying.” Exactly one statement is true. Which box contains the key?</p><div class="card-actions"><button id="puzzleHint" class="btn">Hint</button><input id="puzzleAnswer" placeholder="A, B or C" maxlength="1"><button id="puzzleSubmit" class="btn accent">Submit Answer</button><button id="puzzleReveal" class="btn">Give Up</button></div><p id="puzzleResult" class="muted"></p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">USELESS KNOWLEDGE</span><h3 id="uselessFact">The hook on a tape measure is supposed to move.</h3><p class="muted">Its small amount of play compensates for the hook thickness when measuring inside versus outside an edge.</p><button id="moreFactsBtn" class="btn">Unfortunately, tell me more.</button><div id="moreFacts" class="more-facts"></div></div></article>
@@ -235,9 +238,10 @@
     <div class="dialog dialog-wide"><div class="dialog-head"><div><div class="eyebrow">INVENTORY</div><h2 id="toolModalTitle">Add tool</h2></div><button class="btn" data-close="toolModal">Close</button></div><div class="dialog-body">
       <form id="toolForm" class="form-grid tool-form-v41">
         <input id="toolId" type="hidden" /><input id="toolScope" type="hidden" value="company" />
-        <details class="field full intake-scan nameplate-details"><summary>Quick start — scan tool / nameplate</summary><div class="nameplate-inner"><div class="inline-field"><input id="nameplateFile" type="file" accept="image/*" capture="environment" /><button id="scanNameplateBtn" class="btn accent" type="button">Read nameplate</button></div><span id="nameplateScanStatus" class="small muted">Optional. Tool Tracker will suggest brand, model, serial and category where it can. Review everything before saving.</span></div></details>
+        <details class="field full intake-scan nameplate-details"><summary>Optional shortcut — scan nameplate</summary><div class="nameplate-inner"><input id="nameplateFile" class="visually-hidden-file" type="file" accept="image/*" capture="environment" /><div class="nameplate-actions"><label for="nameplateFile" class="btn nameplate-camera">📷 Take Nameplate Photo</label><button id="scanNameplateBtn" class="btn accent" type="button">Read Nameplate</button></div><span id="nameplateScanStatus" class="small muted">Manual entry always works. If you scan, Tool Tracker only suggests Brand, Model, Serial and possibly Category — review or overwrite anything before saving.</span><details id="detectedTextDetails" class="detected-text hidden"><summary>Detected text</summary><pre id="nameplateDetectedText"></pre></details></div></details>
         <div class="field"><label for="toolName">Tool name</label><input id="toolName" required maxlength="100" placeholder="e.g. 12 in. sliding mitre saw" /></div>
         <div class="field"><label for="toolCategory">Category</label><select id="toolCategory"></select></div>
+        <div class="field"><label for="toolPowerType">Tool type</label><select id="toolPowerType"><option value="Corded">Corded</option><option value="Cordless">Cordless</option></select><span class="small muted">Category says what it is; Corded/Cordless is a secondary classification.</span></div>
         <div class="field"><label for="toolBrand">Brand</label><input id="toolBrand" list="brandOptions" maxlength="60" placeholder="DeWalt, Bosch, Milwaukee…" /></div>
         <div class="field"><label for="toolModel">Model number</label><input id="toolModel" maxlength="100" /></div>
         <datalist id="brandOptions"><option>DeWalt</option><option>Bosch</option><option>Milwaukee</option><option>Makita</option><option>Hilti</option><option>Festool</option><option>Ridgid</option><option>Metabo</option></datalist>
