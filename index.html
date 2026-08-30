@@ -51,7 +51,7 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.0 <em class="purpose-built">Purpose Built.</em></div>
+            <div class="eyebrow">TOOL TRACKER · V4.1 <em class="purpose-built">Purpose Built.</em></div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -99,7 +99,7 @@
           <div class="toolbar">
             <input id="searchInput" type="search" placeholder="Search label, tool, model, serial…" />
             <select id="categoryFilter"><option value="">All categories</option></select>
-            <select id="statusFilter"><option value="">All statuses</option><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select>
+            <select id="statusFilter"><option value="">All statuses</option><option>Available</option><option>In Use</option><option>Repair</option><option>Missing</option><option>Retired</option></select>
             <select id="locationFilter"><option value="">All locations</option></select>
             <button id="clearFiltersBtn" class="btn">Clear</button>
           </div>
@@ -189,11 +189,11 @@
 
       <section id="moraleView" class="view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Jobsite Morale Department</h2><p class="muted"><em>Productivity-neutral since 2026.</em></p></div></div>
-        <div class="morale-grid">
-          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">DEPARTMENT BULLETIN <b id="bulletinNo"></b></span><h3 id="moraleBulletin"></h3><p class="muted">STATUS: NOTICE IGNORED AS EXPECTED.</p></div></article>
+        <div class="morale-office"><img src="dashboard-mascots-beam.jpg" alt="Hero and Jeeves, Jobsite Morale Department staff"><div><span class="eyebrow">AUTHORIZED PERSONNEL: QUESTIONABLE</span><strong>Hero & Jeeves</strong><small>Acting Directors of Morale, Snacks & Unverified Complaints</small></div></div><div class="morale-grid">
+          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">DEPARTMENT BULLETIN <b id="bulletinNo"></b></span><h3 id="moraleBulletin"></h3><p class="muted">STATUS: NOTICE IGNORED AS EXPECTED. · FILED WITHOUT ACTION.</p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">THE FOREMAN’S PUZZLE</span><h3 id="puzzleTitle">The Three Boxes</h3><p id="puzzleText">Three boxes are marked A, B and C. A says “The key is not here.” B says “The key is in C.” C says “B is lying.” Exactly one statement is true. Which box contains the key?</p><div class="card-actions"><button id="puzzleHint" class="btn">Hint</button><input id="puzzleAnswer" placeholder="A, B or C" maxlength="1"><button id="puzzleSubmit" class="btn accent">Submit Answer</button><button id="puzzleReveal" class="btn">Give Up</button></div><p id="puzzleResult" class="muted"></p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">USELESS KNOWLEDGE</span><h3 id="uselessFact">The hook on a tape measure is supposed to move.</h3><p class="muted">Its small amount of play compensates for the hook thickness when measuring inside versus outside an edge.</p><button id="moreFactsBtn" class="btn">Unfortunately, tell me more.</button><div id="moreFacts" class="more-facts"></div></div></article>
-          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">INCIDENT REPORT <b id="incidentNo"></b></span><h3>Unauthorized Drill Relocation</h3><p>A cordless drill was discovered approximately four feet from assigned storage. Witnesses described the situation as “pretty normal.”</p><p class="muted">STATUS: HEROICALLY RESOLVED.</p></div></article>
+          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">INCIDENT REPORT <b id="incidentNo"></b></span><h3>Unauthorized Drill Relocation</h3><p>A cordless drill was discovered approximately four feet from assigned storage. Witnesses described the situation as “pretty normal.”</p><p class="muted">STATUS: HEROICALLY RESOLVED. · MANAGEMENT DENIES INVOLVEMENT.</p></div></article>
         </div>
         <div class="morale-end"><strong>END OF WEEKLY MATERIAL</strong><span>You’ve reached the end of this week’s productivity loss.</span><b>Please return to pretending to work.</b><small>This department has no operational authority whatsoever.</small></div>
       </section>
@@ -201,9 +201,9 @@
 
     <nav class="bottom-nav" aria-label="Main navigation">
       <button class="nav-btn active" data-open-view="dashboardView"><span data-icon="home"></span>Home</button>
+      <button class="nav-btn" data-open-view="toolsView"><span data-icon="inventory"></span>Inventory</button>
       <button class="nav-btn" data-open-view="jobsView"><span data-icon="jobs"></span>Jobs</button>
       <button class="nav-btn" data-open-view="mapView"><span data-icon="map"></span>Map</button>
-      <button class="nav-btn" data-open-view="toolsView"><span data-icon="inventory"></span>Inventory</button>
       <button class="nav-btn admin-only" data-open-view="personalView"><span data-icon="personal"></span>Personal</button>
     </nav>
   </div>
@@ -211,28 +211,36 @@
   <!-- TOOL MODAL -->
   <div id="toolModal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="dialog dialog-wide"><div class="dialog-head"><div><div class="eyebrow">INVENTORY</div><h2 id="toolModalTitle">Add tool</h2></div><button class="btn" data-close="toolModal">Close</button></div><div class="dialog-body">
-      <form id="toolForm" class="form-grid">
+      <form id="toolForm" class="form-grid tool-form-v41">
         <input id="toolId" type="hidden" /><input id="toolScope" type="hidden" value="company" />
-        <div class="field"><label for="toolBrand">Brand</label><input id="toolBrand" list="brandOptions" maxlength="60" placeholder="DeWalt, Bosch, Milwaukee…" /></div>
-        <div class="field"><label for="toolLabel">Tool label / ID</label><input id="toolLabel" required maxlength="40" /></div>
-        <datalist id="brandOptions"><option>DeWalt</option><option>Bosch</option><option>Milwaukee</option><option>Makita</option><option>Hilti</option><option>Festool</option><option>Ridgid</option><option>Metabo</option></datalist>
-        <div class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-01</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div><div id="duplicateWarning" class="full duplicate-warning hidden"></div>
+        <div class="field full intake-scan"><label for="nameplateFile">Quick start — scan tool / nameplate</label><div class="inline-field"><input id="nameplateFile" type="file" accept="image/*" capture="environment" /><button id="scanNameplateBtn" class="btn accent" type="button">Read nameplate</button></div><span id="nameplateScanStatus" class="small muted">Optional. Tool Tracker will suggest brand, model, serial and category where it can. Review everything before saving.</span></div>
         <div class="field"><label for="toolName">Tool name</label><input id="toolName" required maxlength="100" placeholder="e.g. 12 in. sliding mitre saw" /></div>
         <div class="field"><label for="toolCategory">Category</label><select id="toolCategory"></select></div>
+        <div class="field"><label for="toolBrand">Brand</label><input id="toolBrand" list="brandOptions" maxlength="60" placeholder="DeWalt, Bosch, Milwaukee…" /></div>
         <div class="field"><label for="toolModel">Model number</label><input id="toolModel" maxlength="100" /></div>
+        <datalist id="brandOptions"><option>DeWalt</option><option>Bosch</option><option>Milwaukee</option><option>Makita</option><option>Hilti</option><option>Festool</option><option>Ridgid</option><option>Metabo</option></datalist>
+        <div class="field"><label for="toolLabel">Tool label / ID</label><input id="toolLabel" required maxlength="40" /></div>
         <div class="field"><label for="toolSerial">Serial number</label><input id="toolSerial" maxlength="100" /></div>
-        <div class="field"><label for="toolStatus">Status</label><select id="toolStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select></div>
-        <div class="field"><label for="toolLocation">Location</label><select id="toolLocation"></select></div>
-        <div class="field"><label for="purchaseDate">Purchase date</label><input id="purchaseDate" type="date" /></div>
-        <div class="field"><label for="purchasePrice">Purchase price</label><input id="purchasePrice" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" /></div>
-        <div class="field"><label for="retailer">Retailer</label><input id="retailer" maxlength="120" placeholder="Home Depot, KMS Tools…" /></div>
-        <div class="field"><label for="warrantyExpiry">Warranty expiry</label><input id="warrantyExpiry" type="date" /></div>
-        <div class="field"><label for="lastVerified">Last verified</label><input id="lastVerified" type="date" /></div><div class="field"><label for="photoReminderMonths">Condition photo reminder</label><select id="photoReminderMonths"><option value="0">Off</option><option value="6" selected>Every 6 months</option><option value="12">Annually</option></select></div>
-        <div class="field full"><label for="manufacturerPhotoURL">Photo 1 — Manufacturer / primary image</label><div class="inline-field"><input id="manufacturerPhotoURL" type="url" placeholder="Optional image URL" /><button id="searchStockBtn" class="btn smallbtn" type="button">Search model</button></div><input id="manufacturerPhotoFile" type="file" accept="image/*" /><span class="small muted">Use a manufacturer image URL or upload one. This is the image shown on the inventory card when available.</span></div>
-        <div class="field full"><label for="toolPhoto">Photo 2 — Our actual tool</label><input id="toolPhoto" type="file" accept="image/*" capture="environment" /><span class="small muted">A photo of your specific tool for identification/condition. Two photos maximum per tool · max 8 MB each.</span></div>
-        <div class="field full receipt-field"><label for="receiptFile">Receipt / proof of purchase</label><div class="inline-field"><input id="receiptFile" type="file" accept="image/*,application/pdf" capture="environment" /><button id="readReceiptBtn" class="btn smallbtn" type="button">Read receipt</button></div><span id="receiptScanStatus" class="small muted">Upload a photo or PDF. Image receipts can be read locally to suggest date, retailer and price; you can edit every value before saving.</span></div>
+        <div class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-01</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div><div id="duplicateWarning" class="full duplicate-warning hidden"></div>
+        <div class="field"><label for="toolCondition">Condition</label><select id="toolCondition"><option>Good</option><option>Needs Service</option><option>Damaged</option></select></div>
+        <div class="field"><label for="toolStatus">Status</label><select id="toolStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Missing</option><option>Retired</option></select></div>
+        <div class="field full"><label for="toolLocation">Location</label><select id="toolLocation"></select></div>
+        <div class="field full actual-photo-field"><label for="toolPhoto">Current Tool Photo — Primary</label><input id="toolPhoto" type="file" accept="image/*" capture="environment" /><span class="small muted">Photo of the actual tool you own. This is the primary inventory image and current identification/condition photo.</span></div>
+        <div class="field full admin-only"><label for="pairedToolId">Paired tool</label><select id="pairedToolId"><option value="">No paired tool</option></select><span class="small muted">Optional. Pair a saw with its stand, grinder with vacuum, or another real-world combination. Moving one will offer to move its partner too.</span></div>
+        <details class="full form-details"><summary>More details</summary><div class="form-grid details-grid">
+          <div class="field full"><label for="toolNotes">Notes</label><textarea id="toolNotes" maxlength="1200"></textarea></div>
+          <div class="field"><label for="photoReminderMonths">Verification interval</label><select id="photoReminderMonths"><option value="0">Off</option><option value="6" selected>Every 6 months</option><option value="12">Annually</option></select></div>
+          <div class="field admin-only"><label for="manufacturerPhotoURL">Manufacturer Reference</label><input id="manufacturerPhotoURL" type="url" placeholder="Optional image URL" /></div>
+          <div class="field full admin-only"><label for="manufacturerPhotoFile">Manufacturer reference image</label><input id="manufacturerPhotoFile" type="file" accept="image/*" /><span class="small muted">Optional secondary reference only. It never replaces the photo of your actual tool.</span></div>
+        </div></details>
+        <details class="full form-details admin-only" id="ownershipDetails"><summary>Purchase, receipt & warranty</summary><div class="form-grid details-grid">
+          <div class="field"><label for="purchaseDate">Purchase date</label><input id="purchaseDate" type="date" /></div>
+          <div class="field"><label for="purchasePrice">Purchase price</label><input id="purchasePrice" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" /></div>
+          <div class="field"><label for="retailer">Retailer</label><input id="retailer" maxlength="120" placeholder="Home Depot, KMS Tools…" /></div>
+          <div class="field"><label for="warrantyExpiry">Warranty expiry</label><input id="warrantyExpiry" type="date" /></div>
+          <div class="field full receipt-field"><label for="receiptFile">Receipt / proof of purchase</label><div class="inline-field"><input id="receiptFile" type="file" accept="image/*,application/pdf" capture="environment" /><button id="readReceiptBtn" class="btn smallbtn" type="button">Read receipt</button></div><span id="receiptScanStatus" class="small muted">Image receipts can suggest date, retailer and price; review every suggestion before saving.</span></div>
+        </div></details>
         <div id="privateField" class="field full admin-only"><label class="check-row"><input id="privateTool" type="checkbox" /> <span><strong>Private admin tool</strong><small>Hidden from crew in the app.</small></span></label></div>
-        <div class="field full"><label for="toolNotes">Notes / condition</label><textarea id="toolNotes" maxlength="1200"></textarea></div>
         <div class="dialog-actions full"><button type="button" class="btn" data-close="toolModal">Cancel</button><button id="saveToolBtn" class="btn accent" type="submit">Save tool</button></div>
       </form>
     </div></div>
@@ -242,14 +250,14 @@
   <div id="toolDetailModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog dialog-wide"><div class="dialog-head"><h2 id="detailTitle">Tool</h2><button class="btn" data-close="toolDetailModal">Close</button></div><div id="toolDetailBody" class="dialog-body"></div></div></div>
 
   <!-- VERIFY -->
-  <div id="verifyModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2>Physical Verification</h2><button class="btn" data-close="verifyModal">Close</button></div><div class="dialog-body"><form id="verifyForm" class="form-grid"><input id="verifyToolId" type="hidden" /><div class="field full"><label class="check-row"><input id="verifySeen" type="checkbox" required /><span><strong>I physically see this tool now</strong></span></label></div><div id="verifyLocationField" class="field full"><label for="verifyLocation">Confirm location</label><select id="verifyLocation"></select></div><div class="field"><label for="verifyStatus">Condition / status</label><select id="verifyStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option><option>Owned</option></select></div><div class="field"><label for="verifyPhoto">Current condition photo (required)</label><input id="verifyPhoto" type="file" accept="image/*" capture="environment" required /></div><div class="field full"><label for="verifyNote">Verification note</label><input id="verifyNote" maxlength="300" placeholder="Optional condition/location note" /></div><div class="dialog-actions full"><button class="btn" type="button" data-close="verifyModal">Cancel</button><button class="btn accent" type="submit">Verify now</button></div></form></div></div></div>
+  <div id="verifyModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2>Physical Verification</h2><button class="btn" data-close="verifyModal">Close</button></div><div class="dialog-body"><form id="verifyForm" class="form-grid"><input id="verifyToolId" type="hidden" /><div class="field full"><label class="check-row"><input id="verifySeen" type="checkbox" required /><span><strong>I physically see this tool now</strong><small>Verification means you have laid eyes on the actual tool.</small></span></label></div><div id="verifyLocationField" class="field full"><label for="verifyLocation">Confirm location</label><select id="verifyLocation"></select></div><div class="field"><label for="verifyCondition">Condition</label><select id="verifyCondition"><option>Good</option><option>Needs Service</option><option>Damaged</option></select></div><div class="field"><label for="verifyStatus">Status</label><select id="verifyStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Missing</option><option>Retired</option><option>Owned</option></select></div><div class="field full"><label for="verifyPhoto">Current condition photo (required)</label><input id="verifyPhoto" type="file" accept="image/*" capture="environment" required /></div><div class="field full"><label for="verifyNote">Verification note</label><input id="verifyNote" maxlength="300" placeholder="Optional condition/location note" /></div><div class="dialog-actions full"><button class="btn" type="button" data-close="verifyModal">Cancel</button><button class="btn accent" type="submit">Verify now</button></div></form></div></div></div>
 
   <!-- QUICK EDIT -->
   <div id="quickEditModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2 id="quickEditTitle">Quick edit</h2><button class="btn" data-close="quickEditModal">Close</button></div><div class="dialog-body"><form id="quickEditForm" class="stack gap-md"><input id="quickEditToolId" type="hidden" /><input id="quickEditField" type="hidden" /><div id="quickEditControl" class="field"></div><div class="dialog-actions"><button class="btn" type="button" data-close="quickEditModal">Cancel</button><button class="btn accent" type="submit">Save change</button></div></form></div></div></div>
 
   <!-- MOVE -->
   <div id="moveModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2>Move / update tool</h2><button class="btn" data-close="moveModal">Close</button></div><div class="dialog-body"><form id="moveForm" class="form-grid">
-    <input id="moveToolId" type="hidden" /><div class="field"><label for="moveStatus">Status</label><select id="moveStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Lost</option><option>Retired</option></select></div><div class="field"><label for="moveLocation">Location</label><select id="moveLocation"></select></div><div class="field full"><label for="moveNote">History note</label><input id="moveNote" maxlength="250" placeholder="Optional: moved to second floor, sent for repair…" /></div><div class="dialog-actions full"><button type="button" class="btn" data-close="moveModal">Cancel</button><button class="btn accent" type="submit">Update</button></div>
+    <input id="moveToolId" type="hidden" /><div class="field"><label for="moveStatus">Status</label><select id="moveStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Missing</option><option>Retired</option></select></div><div class="field"><label for="moveLocation">Location</label><select id="moveLocation"></select></div><div class="field full"><label for="moveNote">History note</label><input id="moveNote" maxlength="250" placeholder="Optional: moved to second floor, sent for repair…" /></div><div class="dialog-actions full"><button type="button" class="btn" data-close="moveModal">Cancel</button><button class="btn accent" type="submit">Update</button></div>
   </form></div></div></div>
 
   <!-- JOB -->
@@ -264,7 +272,7 @@
 
   <!-- CATEGORY -->
   <div id="categoryModal" class="modal hidden"><div class="dialog"><div class="dialog-head"><h2 id="categoryModalTitle">Add category</h2><button class="btn" data-close="categoryModal">Close</button></div><div class="dialog-body"><form id="categoryForm" class="form-grid">
-    <input id="categoryId" type="hidden" /><div class="field"><label for="categoryName">Category name</label><input id="categoryName" required maxlength="70" /></div><div class="field"><label for="categoryIcon">Icon</label><select id="categoryIcon"><option value="saw">Saw</option><option value="drill">Drill</option><option value="laser">Laser</option><option value="vacuum">Vacuum</option><option value="concrete">Concrete</option><option value="cordless">Cordless</option><option value="measure">Measuring</option><option value="other">Other</option></select></div><div class="field full"><label class="check-row"><input id="categoryActive" type="checkbox" checked /><span><strong>Active category</strong></span></label></div><div class="dialog-actions full"><button class="btn" type="button" data-close="categoryModal">Cancel</button><button class="btn accent" type="submit">Save category</button></div>
+    <input id="categoryId" type="hidden" /><div class="field"><label for="categoryName">Category name</label><input id="categoryName" required maxlength="70" /></div><div class="field"><label for="categoryIcon">Icon</label><select id="categoryIcon"><option value="saw">Saw</option><option value="stand">Saw stand / support</option><option value="drill">Drill / driver</option><option value="concrete">Rotary hammer / concrete</option><option value="grinder">Grinder</option><option value="laser">Laser</option><option value="vacuum">Vacuum / dust extractor</option><option value="compressor">Compressor</option><option value="nailer">Nailer / fastening</option><option value="cordless">Battery / cordless</option><option value="measure">Measuring</option><option value="electrical">Electrical / cords</option><option value="plumbing">Plumbing</option><option value="safety">Safety / harness</option><option value="storage">Storage / Jobox</option><option value="ladder">Ladder</option><option value="scaffold">Scaffold</option><option value="generator">Generator</option><option value="lighting">Lighting</option><option value="demolition">Demolition</option><option value="equipment">Equipment</option><option value="other">Other</option></select></div><div class="field full"><label class="check-row"><input id="categoryActive" type="checkbox" checked /><span><strong>Active category</strong></span></label></div><div class="dialog-actions full"><button class="btn" type="button" data-close="categoryModal">Cancel</button><button class="btn accent" type="submit">Save category</button></div>
   </form></div></div></div>
 
   <!-- WISHLIST -->

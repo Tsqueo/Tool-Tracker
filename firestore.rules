@@ -21,10 +21,16 @@ service cloud.firestore {
         && resource.data.privateTool != true && resource.data.inventoryScope != 'personal'
         && request.resource.data.privateTool != true && request.resource.data.inventoryScope != 'personal'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-          'name','brand','model','serial','status','locationId','locationName','categoryId','categoryName','category',
-          'notes','photoReminderMonths','photoURL','photoPath','manufacturerPhotoURL','manufacturerPhotoPath','conditionPhotoAt','lastVerified',
+          'name','brand','model','serial','condition','status','locationId','locationName','categoryId','categoryName','category',
+          'notes','photoURL','photoPath','conditionPhotoAt',
           'assignedToUid','assignedToName','needsAttention','attentionReason','attentionReportedBy','attentionReportedByName','attentionReportedAt','attentionDeferredUntil','attentionDeferredReason','updatedAt','updatedBy','updatedByName'
-        ]));
+        ])) || (activeUser()
+        && resource.data.privateTool != true && resource.data.inventoryScope != 'personal'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'lastVerified','condition','status','locationId','locationName','photoURL','photoPath','previousConditionPhotoURL','conditionPhotoAt','updatedAt','updatedBy','updatedByName'
+        ])
+        && request.resource.data.lastVerified == request.resource.data.conditionPhotoAt
+        && request.resource.data.photoURL != resource.data.photoURL);
       allow delete: if admin();
     }
 
