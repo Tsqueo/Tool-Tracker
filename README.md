@@ -1,31 +1,26 @@
-# Tool Tracker V3.4.1
+# Tool Tracker V4.3.2 — Purpose Built.
 
-V3.4.1 is a refinement/pilot build based directly on V3.4. It keeps the established dashboard and flow while applying the usability and multi-user changes found during real-world testing.
+V4.3.2 is the foundation-cleanup release built directly from the deployed V4.3.1 baseline. It focuses on real-use performance, workflow completion, data integrity, and mobile/desktop polish.
 
-## Highlights
+## Included
 
-- Personal inventory is Admin-only, has its own `P-<brand>-##` numbering sequence, and does not affect company counts, Jobs, Map, or crew views.
-- Purchase records now include receipt attachment, purchase price, retailer, purchase date, warranty, and editable receipt-reading suggestions for image receipts.
-- Crew sign-ins can be created from Admin > Team access using Firebase Authentication. Each user gets their own name/role and activity attribution.
-- Company tool verification is actionable: verify location/status, add a current condition photo, and clear overdue warnings.
-- Tool Detail supports permission-aware quick edits; crew can update operational information while Admin controls business-sensitive fields.
-- Map is now an interactive OpenStreetMap/Leaflet view using active job addresses as pins. Address geocoding requires internet access.
-- Android/browser back navigation now uses page history states instead of immediately exiting from deeper app views.
-- Dashboard Recent Activity is capped at 3 items on mobile and 5 on desktop; full history remains available through View All.
-- Company Branding labels are clearer and explicitly separate from the fixed TT app identity.
-- PWA icons were rebuilt from the proper TT logo for Android and Apple home-screen use.
-- Mascot hero uses a wide composite so the hard hat and beam stay visible without large dead side gutters.
+- Save/Verify one-tap locking, visible upload/save stages, and client-side tool-photo resizing/compression.
+- Partial-success nameplate scanning with raw detected text and no false “suggestions ready” state.
+- Conditions: New, Good, Fair, Missing Parts, Needs Service, Damaged. The last three raise Needs Attention and require a fresh condition photo.
+- Live Job Closeout rebuilding from current tool assignment state.
+- Visible two-way paired-equipment controls and paired-move prompt.
+- Admin-only individual and bulk Personal ↔ Company inventory transfers using the same permanent asset record.
+- Transfer history, Tool ID continuity, and an Ownership Transfers history filter.
+- Suggested Tool ID placement before manual Tool ID entry.
+- Visual condition-history records alongside verification photos.
+- Updated Jobs, Inventory, Photos & Documents, Reports, and Manage Tool IDs icon language.
+- Long-category layout cleanup, mobile masthead cleanup, Morale puzzle completion lock, and restrained incident-status styling.
+- A dedicated desktop dashboard density/framing pass while preserving the existing desktop header.
 
-## Firebase update required
+## Intentionally not included
 
-V3.4.1 adds stronger role/private-data rules and new Storage paths for receipts/personal files. After uploading the web files, deploy the included `firestore.rules` and `storage.rules` in Firebase before the crew pilot or Personal receipt uploads. The Firebase project/config itself does not need to change.
+Job Setup and the optional branded TT / Purpose Built launch animation remain shelved for V4.4.
 
-Email/Password Authentication must remain enabled. The in-app crew creator uses Firebase Authentication to create the pilot staff account and then stores the Staff profile in Firestore.
+## Firebase
 
-## Receipt reading
-
-Image receipts use Tesseract.js in the browser to suggest retailer, date and total. Suggestions are never auto-saved: review/edit the fields before saving. PDF receipts are stored and linked to the tool, but automatic reading is currently image-only.
-
-## App icon refresh
-
-Android/iOS may cache the previous installed icon. After V3.4.1 is deployed, remove the old home-screen/PWA install once and reinstall it to force the new TT icon.
+Deploy the included `firestore.rules` and `storage.rules` with the web files. Existing Firestore asset documents remain in place; visible Tool IDs can change without replacing the permanent Firestore document ID.

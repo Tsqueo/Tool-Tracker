@@ -27,7 +27,7 @@ service cloud.firestore {
         ])) || (activeUser()
         && resource.data.privateTool != true && resource.data.inventoryScope != 'personal'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-          'lastVerified','condition','status','locationId','locationName','photoURL','photoPath','previousConditionPhotoURL','conditionPhotoAt','updatedAt','updatedBy','updatedByName'
+          'lastVerified','condition','status','locationId','locationName','photoURL','photoPath','previousConditionPhotoURL','conditionPhotoAt','needsAttention','attentionReason','attentionReportedBy','attentionReportedByName','attentionReportedAt','attentionDeferredUntil','updatedAt','updatedBy','updatedByName'
         ])
         && request.resource.data.lastVerified == request.resource.data.conditionPhotoAt
         && request.resource.data.photoURL != resource.data.photoURL);
