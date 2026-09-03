@@ -1,6 +1,6 @@
-# Tool Tracker V4.3.3 — Purpose Built.
+# Tool Tracker V4.3.4 — Purpose Built.
 
-V4.3.3 is the focused data-entry and known-bug cleanup release built directly from the deployed V4.3.2 baseline. It preserves the V4.3.2 save/upload pipeline that performed well with real inventory.
+V4.3.4 is the focused data-entry and known-bug cleanup release built directly from the deployed V4.3.2 baseline. It preserves the V4.3.2 save/upload pipeline that performed well with real inventory.
 
 ## What changed
 
@@ -12,4 +12,4 @@ V4.3.3 is the focused data-entry and known-bug cleanup release built directly fr
 - Jobs and Inventory navigation icons received a small presentation refinement: a clearer side-profile tower crane and a more recognizable open construction Jobox.
 - Receipt expansion and multi-item receipt creation remain parked for a later revision.
 
-No Firestore or Storage rule changes are required for V4.3.3.
+No Firestore or Storage rule changes are required for V4.3.4.

@@ -7,19 +7,19 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V4.3.3 — Purpose Built.</title>
+  <title>Tool Tracker V4.3.4 — Purpose Built.</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body><div id="startupSplash" class="startup-splash"><img src="tt-logo.png" alt=""><strong>Tool Tracker</strong><em>Purpose Built.</em></div>
   <section id="authScreen" class="auth-wrap">
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3.3 · Purpose Built.</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3.4 · Purpose Built.</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -60,7 +60,7 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.3.3</div>
+            <div class="eyebrow">TOOL TRACKER · V4.3.4</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -80,18 +80,18 @@
         </div>
 
         <div id="dashboardTiles" class="dashboard-tiles">
-          <button class="dash-tile admin-only" data-open-view="categoriesView"><span class="tile-icon" data-icon="categories"></span><span><strong>Tool Categories</strong><small>Customize your tool categories</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="categoriesView"><span class="tile-icon" data-icon="categories"></span><span><strong>Tool Categories</strong><small>Customize your tool categories</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="locationsView"><span class="tile-icon" data-icon="locations"></span><span><strong>Locations</strong><small>Jobsites and storage</small></span><b>›</b></button>
-          <button class="dash-tile" data-open-view="mapView"><span class="tile-icon" data-icon="map"></span><span><strong>Map</strong><small>Where everything is today</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="toolsView" data-tool-filter="attention"><span class="tile-icon" data-icon="tools"></span><span><strong>Needs Attention</strong><small>Verification and tool issues</small></span><b>›</b></button>
           <button class="dash-tile" id="quickMoveBtn"><span class="tile-icon" data-icon="move"></span><span><strong>Quick Move</strong><small>Move a tool in a few taps</small></span><b>›</b></button>
-          <button class="dash-tile" id="jobCloseoutBtn"><span class="tile-icon" data-icon="closeout"></span><span><strong>Job Closeout</strong><small>Account for tools before wrapping up</small></span><b>›</b></button>
-          <button class="dash-tile" data-open-view="historyView"><span class="tile-icon" data-icon="history"></span><span><strong>Tool History</strong><small>Who changed what and when</small></span><b>›</b></button>
-          <button class="dash-tile admin-only" data-open-view="photosView"><span class="tile-icon" data-icon="folder"></span><span><strong>Photos & Documents</strong><small>Tool photos, receipts & records</small></span><b>›</b></button>
-          <button class="dash-tile admin-only" data-open-view="adminView"><span class="tile-icon" data-icon="admin"></span><span><strong>Admin & Warranty</strong><small>Team access, warranty & settings</small></span><b>›</b></button>
-          <button class="dash-tile admin-only" data-open-view="insuranceView"><span class="tile-icon" data-icon="admin"></span><span><strong>Insurance</strong><small>Replacement values & records</small></span><b>›</b></button>
+          <button class="dash-tile admin-only" id="jobCloseoutBtn"><span class="tile-icon" data-icon="closeout"></span><span><strong>Job Closeout</strong><small>Account for tools before wrapping up</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="wishlistView"><span class="tile-icon" data-icon="wishlist"></span><span><strong>Wishlist</strong><small>Crew requests & ideas</small></span><b>›</b></button>
-          <button class="dash-tile admin-only" data-open-view="renumberView"><span class="tile-icon" data-icon="tag"></span><span><strong>Manage Tool IDs</strong><small>Update tool IDs</small></span><b>›</b></button>
+          <button class="dash-tile admin-only" data-open-view="photosView"><span class="tile-icon" data-icon="folder"></span><span><strong>Photos & Documents</strong><small>Tool photos, receipts & records</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="historyView"><span class="tile-icon" data-icon="history"></span><span><strong>Tool History</strong><small>Who changed what and when</small></span><b>›</b></button>
+          <button class="dash-tile admin-only" data-open-view="insuranceView"><span class="tile-icon" data-icon="admin"></span><span><strong>Insurance</strong><small>Replacement values & records</small></span><b>›</b></button>
           <button class="dash-tile admin-only" data-open-view="reportsView"><span class="tile-icon" data-icon="reports"></span><span><strong>Reports</strong><small>Export inventory & records</small></span><b>›</b></button>
+          <button class="dash-tile admin-only" data-open-view="renumberView"><span class="tile-icon" data-icon="tag"></span><span><strong>Manage Assets</strong><small>IDs, transfers & pairing</small></span><b>›</b></button>
+          <button class="dash-tile admin-only" data-open-view="adminView"><span class="tile-icon" data-icon="admin"></span><span><strong>Admin & Warranty</strong><small>Team access, warranty & settings</small></span><b>›</b></button>
         </div>
 
         <div class="panel compact-panel">
@@ -103,7 +103,7 @@
       <section id="toolsView" class="view">
         <div class="section-heading">
           <div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Inventory</h2><p class="muted">Everything you own, where it lives, and when it was last verified.</p></div>
-          <div class="heading-actions"><button id="bulkCompanyTransferBtn" class="btn admin-only" type="button">Move to Personal</button><button id="addToolBtn" class="btn accent">+ Add tool</button></div>
+          <div class="heading-actions"><button id="addToolBtn" class="btn accent">+ Add tool</button></div>
         </div>
         <div class="panel filter-panel"><div class="panel-body">
           <div class="toolbar">
@@ -166,7 +166,7 @@
       </section>
 
       <section id="personalView" class="view admin-only">
-        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Personal</h2><p class="muted">Your private tool arsenal — separate from company counts, jobs and numbering.</p></div><div class="heading-actions"><button id="bulkPersonalTransferBtn" class="btn" type="button">Move to Company</button><button id="addPersonalToolBtn" class="btn accent">+ Add personal tool</button></div></div>
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Personal</h2><p class="muted">Your private tool arsenal — separate from company counts, jobs and numbering.</p></div><div class="heading-actions"><button id="addPersonalToolBtn" class="btn accent">+ Add personal tool</button></div></div>
         <div class="personal-summary panel"><div class="panel-body"><strong id="personalCount">0 personal tools</strong><span class="muted small">Receipts, purchase price and warranty records stay with each tool. Crew cannot see this section.</span></div></div>
         <div id="personalToolsGrid" class="tools-grid"></div>
       </section>
@@ -208,8 +208,8 @@
       </section>
 
       <section id="renumberView" class="view admin-only-view">
-        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Manage Tool IDs</h2><p class="muted">Visible Tool IDs can change. Permanent asset records and history do not.</p></div><button id="saveRenumberBtn" class="btn accent">Preview & Apply</button></div>
-        <div class="panel"><div class="panel-body dataset-toolbar"><input id="renumberSearch" type="search" placeholder="Search Tool ID, name or brand…"></div><div class="panel-body"><div id="renumberList" class="renumber-list"></div></div><div class="dataset-footer"><button id="renumberLoadMore" class="btn hidden" type="button">Load more</button></div></div>
+        <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Manage Assets</h2><p class="muted">Structural asset controls. Visible Tool IDs can change; permanent asset identity and history do not.</p></div><button id="saveRenumberBtn" class="btn accent">Preview & Apply</button></div>
+        <div class="panel"><div class="panel-body"><div class="card-actions"><button id="manageToPersonalBtn" class="btn">Company → Personal</button><button id="manageToCompanyBtn" class="btn">Personal → Company</button></div><p class="small muted">Ownership transfers preserve permanent asset identity and history. Pairing remains pool-safe: Company↔Company and Personal↔Personal only.</p></div></div><div class="panel"><div class="panel-body dataset-toolbar"><input id="renumberSearch" type="search" placeholder="Search Tool ID, name or brand…"></div><div class="panel-body"><div id="renumberList" class="renumber-list"></div></div><div class="dataset-footer"><button id="renumberLoadMore" class="btn hidden" type="button">Load more</button></div></div>
       </section>
 
       <section id="moraleView" class="view">
@@ -240,7 +240,7 @@
     <div class="dialog dialog-wide"><div class="dialog-head"><div><div class="eyebrow">INVENTORY</div><h2 id="toolModalTitle">Add tool</h2></div><button class="btn" data-close="toolModal">Close</button></div><div class="dialog-body">
       <form id="toolForm" class="form-grid tool-form-v41">
         <input id="toolId" type="hidden" /><input id="toolScope" type="hidden" value="company" />
-        <details class="field full intake-scan nameplate-details"><summary>Optional shortcut — scan nameplate</summary><div class="nameplate-inner"><input id="nameplateFile" class="visually-hidden-file" type="file" accept="image/*" capture="environment" /><div class="nameplate-actions"><label for="nameplateFile" class="btn nameplate-camera">📷 Take Nameplate Photo</label><button id="scanNameplateBtn" class="btn accent" type="button">Read Nameplate</button></div><span id="nameplateScanStatus" class="small muted">For faster entry, photograph the information/nameplate label. Tool Tracker prioritizes Model and Brand; Serial is only suggested when clearly labeled.</span><details id="detectedTextDetails" class="detected-text hidden"><summary>Detected text</summary><pre id="nameplateDetectedText"></pre></details></div></details>
+        <details class="field full intake-scan nameplate-details"><summary>Optional shortcut — scan nameplate</summary><div class="nameplate-inner"><input id="nameplateFile" class="visually-hidden-file" type="file" accept="image/*" capture="environment" /><div class="nameplate-actions"><label for="nameplateFile" class="btn nameplate-camera">📷 Take Nameplate Photo</label><button id="scanNameplateBtn" class="btn accent" type="button">Read Nameplate</button></div><span id="nameplateScanStatus" class="small muted">For faster entry, photograph the information/nameplate label. Tool Tracker looks for Brand and Model only. Review suggestions before saving.</span><details id="detectedTextDetails" class="detected-text hidden"><summary>Detected text</summary><pre id="nameplateDetectedText"></pre></details></div></details>
         <div class="field"><label for="toolName">Tool name</label><input id="toolName" required maxlength="100" placeholder="e.g. 12 in. sliding mitre saw" /></div>
         <div class="field"><label for="toolCategory">Category</label><select id="toolCategory"></select></div>
         <div class="field"><label for="toolPowerType">Power source</label><select id="toolPowerType"><option value="">Not set</option><option value="Cordless">Cordless</option><option value="Corded">Corded</option></select></div>
@@ -298,7 +298,7 @@
 
   <!-- CATEGORY -->
   <div id="categoryModal" class="modal hidden"><div class="dialog"><div class="dialog-head"><h2 id="categoryModalTitle">Add category</h2><button class="btn" data-close="categoryModal">Close</button></div><div class="dialog-body"><form id="categoryForm" class="form-grid">
-    <input id="categoryId" type="hidden" /><div class="field"><label for="categoryName">Category name</label><input id="categoryName" required maxlength="70" /></div><div class="field"><label for="categoryIcon">Icon</label><select id="categoryIcon"><option value="saw">Saw</option><option value="stand">Saw stand / support</option><option value="drill">Drill / driver</option><option value="concrete">Rotary hammer / concrete</option><option value="grinder">Grinder</option><option value="laser">Laser</option><option value="vacuum">Vacuum / dust extractor</option><option value="compressor">Compressor</option><option value="nailer">Nailer / fastening</option><option value="cordless">Battery / cordless</option><option value="measure">Measuring</option><option value="electrical">Electrical / cords</option><option value="plumbing">Plumbing</option><option value="safety">Safety / harness</option><option value="storage">Storage / Jobox</option><option value="ladder">Ladder</option><option value="scaffold">Scaffold</option><option value="generator">Generator</option><option value="lighting">Lighting</option><option value="demolition">Demolition</option><option value="equipment">Equipment</option><option value="other">Other</option></select></div><div class="field full"><label class="check-row"><input id="categoryActive" type="checkbox" checked /><span><strong>Active category</strong></span></label></div><div class="dialog-actions full"><button class="btn" type="button" data-close="categoryModal">Cancel</button><button class="btn accent" type="submit">Save category</button></div>
+    <input id="categoryId" type="hidden" /><div class="field"><label for="categoryName">Category name</label><input id="categoryName" required maxlength="70" /></div><div class="field"><label for="categoryIcon">Icon</label><select id="categoryIcon"><option value="saw">Saw</option><option value="stand">Saw stand / support</option><option value="drill">Drill / driver</option><option value="concrete">Rotary hammer / concrete</option><option value="grinder">Grinder</option><option value="laser">Laser</option><option value="vacuum">Vacuum / dust extractor</option><option value="compressor">Compressor</option><option value="nailer">Nailer / fastening</option><option value="cordless">Battery / cordless</option><option value="measure">Measuring</option><option value="electrical">Electrical / cords</option><option value="plumbing">Plumbing</option><option value="safety">Safety / harness</option><option value="storage">Storage / Jobox</option><option value="ladder">Ladder</option><option value="scaffold">Scaffold</option><option value="generator">Generator</option><option value="lighting">Lighting</option><option value="demolition">Demolition</option><option value="equipment">Equipment</option><option value="other">Other</option></select></div><div class="field full"><label class="check-row"><input id="categoryActive" type="checkbox" checked /><span><strong>Active category</strong></span></label></div><div class="dialog-actions full"><button class="btn" type="button" data-close="categoryModal">Cancel</button><button id="deleteCategoryBtn" class="btn danger" type="button">Delete category</button><button class="btn accent" type="submit">Save category</button></div>
   </form></div></div></div>
 
   <!-- WISHLIST -->

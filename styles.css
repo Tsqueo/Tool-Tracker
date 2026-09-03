@@ -108,3 +108,8 @@ html[data-theme="dark"]{--bg:#0b1220;--card:#111827;--card2:#182234;--ink:#f9faf
 /* V4.3.3 data-entry cleanup */
 .save-progress:not(.active){display:none;min-height:0}
 .save-progress.active{display:flex}
+
+/* V4.3.4 category-first inventory */
+.inventory-category-card{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);padding:0;overflow:hidden;display:grid;grid-template-columns:150px 1fr auto;align-items:center;text-align:left;box-shadow:var(--shadow);min-height:128px}.inventory-category-card img,.category-cover-placeholder{width:150px;height:128px;object-fit:cover;background:var(--card2)}.category-cover-placeholder{display:grid;place-items:center}.category-cover-placeholder svg{width:38px;height:38px}.category-cover-copy{display:grid;gap:5px;padding:16px}.category-cover-copy strong{font-size:1.12rem}.category-cover-copy small{color:var(--muted)}.inventory-category-card>b{padding:16px;color:#9ca3af;font-size:1.5rem}@media(max-width:700px){.inventory-category-card{grid-template-columns:112px 1fr auto;min-height:108px}.inventory-category-card img,.category-cover-placeholder{width:112px;height:108px}.tools-grid{grid-template-columns:1fr}}
+
+.startup-splash{position:fixed;inset:0;z-index:9999;background:#05070b;color:#fff;display:grid;place-items:center;align-content:center;gap:10px}.startup-splash img{width:96px;height:96px;border-radius:22px;object-fit:cover}.startup-splash strong{font-size:1.5rem}.startup-splash em{color:#f59e0b;font-weight:800}
