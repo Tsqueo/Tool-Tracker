@@ -46,11 +46,11 @@ const ICONS = {
 };
 
 const NAV_ICONS = {
-  home:'<svg viewBox="0 0 24 24" aria-hidden="true"><g style="stroke:#0f172a;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round"><path d="M3 11.5 12 4l9 7.5" style="fill:#fbbf24"/><path d="M5.5 10v10h13V10" style="fill:#fbbf24"/><path d="M9.5 20v-6h5v6" style="fill:#fff7ed"/></g></svg>',
-  inventory:'<svg viewBox="0 0 24 24" aria-hidden="true"><g style="stroke:#0f172a;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round"><path d="M3 9h18v11H3V9Z" style="fill:#fbbf24"/><path d="M8 9V6c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v3" style="fill:none"/><path d="M3 13h18" style="fill:none"/><path d="M5 11h3v4H5zM16 11h3v4h-3z" style="fill:#f59e0b"/><path d="M10 12h4v3h-4z" style="fill:#fff7ed"/></g></svg>',
-  jobs:'<svg viewBox="0 0 24 24" aria-hidden="true"><g style="stroke:#0f172a;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round"><path d="M6 21h7M8 21V8h3v13" style="fill:#fbbf24"/><path d="M3 8h18L15 4H8L3 8Z" style="fill:#fbbf24"/><path d="M9.5 4V2.5M8 11h3M8 14h3M8 17h3M8 20h3M11 8 8 11M11 11l-3 3M11 14l-3 3M11 17l-3 3" style="fill:none"/><path d="M19 8v6M17.5 14h3M19 14v3" style="fill:none"/><path d="M17.5 19h3L19 17l-1.5 2Z" style="fill:#fbbf24"/></g></svg>',
-  map:'<svg viewBox="0 0 24 24" aria-hidden="true"><g style="stroke:#0f172a;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z" style="fill:#fbbf24"/><path d="M9 3v15M15 6v15" style="fill:none"/><path d="m9 3 6 3v15l-6-3V3Z" style="fill:#f59e0b"/></g></svg>',
-  personal:'<svg viewBox="0 0 24 24" aria-hidden="true"><g style="stroke:#0f172a;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round"><rect x="5" y="10" width="14" height="11" rx="2" style="fill:#fbbf24"/><path d="M8 10V7a4 4 0 0 1 8 0v3" style="fill:none"/><circle cx="12" cy="15" r="1.2" style="fill:#0f172a"/><path d="M12 16v2" style="fill:none"/></g></svg>'
+  home:'<svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10M9.5 20v-6h5v6"/></g></svg>',
+  inventory:'<svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M3 12h18v9H3zM2.5 12h19v3h-19zM8 12V9.5a4 4 0 0 1 8 0V12"/><path d="m5 10 2-2-.8-2.4 1.6-1.6 2.4.8 2-2M12 11V5M11 5h2M17 11V5M15.5 5h3M16 3.5h2"/></g></svg>',
+  jobs:'<svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M7 21h7M8 21V7h4v14M8 10h4M8 14h4M8 18h4M8 7l4 3-4 4 4 4-3 3"/><path d="M3 7h19M3 7l6-4h5l8 4M11 3v4M5 7v4h4M20 7v9M18.5 16h3M20 16v2.5c0 1.2-.7 2-1.7 2"/></g></svg>',
+  map:'<svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15"/></g></svg>',
+  personal:'<svg viewBox="0 0 24 24" aria-hidden="true"><g><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></g></svg>'
 };
 
 const state = {
