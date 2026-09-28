@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V4.3.4 — Purpose Built.</title>
+  <title>Tool Tracker V4.3.5 — Purpose Built.</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -19,7 +19,7 @@
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3.4 · Purpose Built.</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3.5 · Purpose Built.</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -60,7 +60,7 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.3.4</div>
+            <div class="eyebrow">TOOL TRACKER · V4.3.5</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -140,7 +140,7 @@
 
       <section id="historyView" class="view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Tool History</h2><p class="muted">Timestamped changes from the crew.</p></div></div>
-        <div class="panel history-tools"><div class="panel-body"><div class="history-toolbar"><input id="historySearch" type="search" placeholder="Search tool ID, name, location or user…" /><div class="history-filters"><button class="btn smallbtn history-filter active" data-history-filter="all">All Activity</button><button class="btn smallbtn history-filter" data-history-filter="moves">Moves</button><button class="btn smallbtn history-filter" data-history-filter="verification">Verification</button><button class="btn smallbtn history-filter" data-history-filter="condition">Condition / Status</button><button class="btn smallbtn history-filter" data-history-filter="ids">Tool IDs</button><button class="btn smallbtn history-filter" data-history-filter="transfers">Ownership Transfers</button><button class="btn smallbtn history-filter" data-history-filter="added">Added Tools</button></div></div></div></div>
+        <div class="panel history-tools"><div class="panel-body"><div class="history-toolbar"><div class="history-search-row"><input id="historySearch" type="search" placeholder="Search tool ID, name, location or user…" /><input id="historyDate" type="date" aria-label="Filter history by date" /><button id="clearHistoryDate" class="btn smallbtn" type="button">Clear date</button></div><div class="history-filters"><button class="btn smallbtn history-filter active" data-history-filter="all">All Activity</button><button class="btn smallbtn history-filter" data-history-filter="moves">Moves</button><button class="btn smallbtn history-filter" data-history-filter="verification">Verification</button><button class="btn smallbtn history-filter" data-history-filter="condition">Condition / Status</button><button class="btn smallbtn history-filter" data-history-filter="ids">Tool IDs</button><button class="btn smallbtn history-filter" data-history-filter="transfers">Ownership Transfers</button><button class="btn smallbtn history-filter" data-history-filter="added">Added Tools</button></div></div></div></div>
         <div id="historyList" class="history-groups"></div>
       </section>
 
@@ -218,7 +218,7 @@
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">DEPARTMENT BULLETIN <b id="bulletinNo"></b></span><h3 id="moraleBulletin"></h3><p class="muted">STATUS: NOTICE IGNORED AS EXPECTED. · FILED WITHOUT ACTION.</p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">THE FOREMAN’S PUZZLE</span><h3 id="puzzleTitle">The Three Boxes</h3><p id="puzzleText">Three boxes are marked A, B and C. A says “The key is not here.” B says “The key is in C.” C says “B is lying.” Exactly one statement is true. Which box contains the key?</p><div class="card-actions"><button id="puzzleHint" class="btn">Hint</button><input id="puzzleAnswer" placeholder="A, B or C" maxlength="1"><button id="puzzleSubmit" class="btn accent">Submit Answer</button><button id="puzzleReveal" class="btn">Give Up</button></div><p id="puzzleResult" class="muted"></p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">USELESS KNOWLEDGE</span><h3 id="uselessFact">The hook on a tape measure is supposed to move.</h3><p class="muted">Its small amount of play compensates for the hook thickness when measuring inside versus outside an edge.</p><button id="moreFactsBtn" class="btn">Unfortunately, tell me more.</button><div id="moreFacts" class="more-facts"></div></div></article>
-          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">INCIDENT REPORT <b id="incidentNo"></b></span><h3>Unauthorized Drill Relocation</h3><p>A cordless drill was discovered approximately four feet from assigned storage. Witnesses described the situation as “pretty normal.”</p><p class="muted">STATUS: <span class="morale-resolved">HEROICALLY RESOLVED.</span> · <span class="morale-denied">MANAGEMENT DENIES INVOLVEMENT.</span></p></div></article>
+          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">INCIDENT REPORT <b id="incidentNo"></b></span><h3 id="incidentTitle">Unauthorized Drill Relocation</h3><p id="incidentText">A cordless drill was discovered approximately four feet from assigned storage. Witnesses described the situation as “pretty normal.”</p><p class="muted">STATUS: <span class="morale-resolved">HEROICALLY RESOLVED.</span> · <span class="morale-denied">MANAGEMENT DENIES INVOLVEMENT.</span></p></div></article>
         </div>
         <div class="morale-end"><strong>END OF WEEKLY MATERIAL</strong><span>You’ve reached the end of this week’s productivity loss.</span><b>Please return to pretending to work.</b><small>This department has no operational authority whatsoever.</small></div>
       </section>
@@ -316,7 +316,9 @@
 
 
   <!-- INVENTORY OWNERSHIP TRANSFER -->
-  <div id="transferModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog dialog-wide"><div class="dialog-head"><div><div class="eyebrow">ADMIN · OWNERSHIP TRANSFER</div><h2 id="transferTitle">Move tools</h2></div><button class="btn" data-close="transferModal">Close</button></div><div class="dialog-body"><input id="transferSource" type="hidden"><div id="transferCompanyFields" class="panel compact-panel hidden"><div class="panel-body"><div class="field"><label for="transferLocation">Company destination</label><select id="transferLocation"></select></div><p class="small muted">Each selected asset keeps its permanent identity, photos, receipts and history. Review its company Tool ID before transferring.</p></div></div><div id="transferList" class="transfer-list"></div><div id="transferSummary" class="transfer-summary"></div><div class="dialog-actions"><button class="btn" type="button" data-close="transferModal">Cancel</button><button id="applyTransferBtn" class="btn accent" type="button">Review & transfer</button></div></div></div></div>
+  <div id="transferModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog dialog-wide"><div class="dialog-head"><div><div class="eyebrow">ADMIN · OWNERSHIP TRANSFER</div><h2 id="transferTitle">Move tools</h2></div><button class="btn" data-close="transferModal">Close</button></div><div class="dialog-body transfer-dialog-body"><input id="transferSource" type="hidden"><div id="transferCompanyFields" class="panel compact-panel hidden transfer-controls"><div class="panel-body"><div class="field"><label for="transferLocation">Company destination</label><select id="transferLocation"></select></div><p class="small muted">Choose the destination first. Permanent identity, photos, receipts and history stay with every selected asset.</p></div></div><div id="transferList" class="transfer-list"></div><div class="transfer-action-bar"><div id="transferSummary" class="transfer-summary"></div><div class="dialog-actions"><button class="btn" type="button" data-close="transferModal">Cancel</button><button id="applyTransferBtn" class="btn accent" type="button">Review & transfer</button></div></div></div></div></div>
+
+  <div id="transferReviewModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><div><div class="eyebrow">REVIEW OWNERSHIP TRANSFER</div><h2 id="transferReviewTitle">Confirm transfer</h2></div><button class="btn" data-close="transferReviewModal">Close</button></div><div class="dialog-body"><div id="transferReviewBody" class="transfer-review-list"></div><p class="small muted">Permanent asset records, photos, purchase details and history will be preserved.</p><div class="dialog-actions"><button class="btn" type="button" data-close="transferReviewModal">Go back</button><button id="confirmTransferBtn" class="btn accent" type="button">Transfer assets</button></div></div></div></div>
 
   <!-- PAIRING -->
   <div id="pairingModal" class="modal hidden" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2>Paired equipment</h2><button class="btn" data-close="pairingModal">Close</button></div><div class="dialog-body"><form id="pairingForm" class="stack gap-md"><input id="pairingToolId" type="hidden"><div class="field"><label for="pairingSelect">Pair with</label><select id="pairingSelect"></select></div><p class="small muted">Pairing links the two assets. Moving one can offer to move its partner, but never moves it automatically.</p><div class="dialog-actions"><button class="btn" type="button" data-close="pairingModal">Cancel</button><button class="btn accent" type="submit">Save pairing</button></div></form></div></div></div>
