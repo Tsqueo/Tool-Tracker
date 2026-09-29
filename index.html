@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V4.3.5 — Purpose Built.</title>
+  <title>Tool Tracker V4.3.6 — Purpose Built.</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -19,7 +19,7 @@
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3.5 · Purpose Built.</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3.6 · Purpose Built.</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -60,7 +60,7 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.3.5</div>
+            <div class="eyebrow">TOOL TRACKER · V4.3.6</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -216,7 +216,7 @@
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Jobsite Morale Department</h2><p class="muted"><em>Productivity-neutral since 2026.</em></p></div></div>
         <div class="morale-office"><img src="mascot-master.png" alt="Hero and Jeeves, Jobsite Morale Department staff"><div><span class="eyebrow">AUTHORIZED PERSONNEL: QUESTIONABLE</span><strong>Hero & Jeeves</strong><small>Acting Directors of Morale, Snacks & Unverified Complaints</small></div></div><div class="morale-grid">
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">DEPARTMENT BULLETIN <b id="bulletinNo"></b></span><h3 id="moraleBulletin"></h3><p class="muted">STATUS: NOTICE IGNORED AS EXPECTED. · FILED WITHOUT ACTION.</p></div></article>
-          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">THE FOREMAN’S PUZZLE</span><h3 id="puzzleTitle">The Three Boxes</h3><p id="puzzleText">Three boxes are marked A, B and C. A says “The key is not here.” B says “The key is in C.” C says “B is lying.” Exactly one statement is true. Which box contains the key?</p><div class="card-actions"><button id="puzzleHint" class="btn">Hint</button><input id="puzzleAnswer" placeholder="A, B or C" maxlength="1"><button id="puzzleSubmit" class="btn accent">Submit Answer</button><button id="puzzleReveal" class="btn">Give Up</button></div><p id="puzzleResult" class="muted"></p></div></article>
+          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">THE FOREMAN’S PUZZLE</span><h3 id="puzzleTitle">The Three Boxes</h3><p id="puzzleText">Three boxes are marked A, B and C. A says “The key is not here.” B says “The key is in C.” C says “B is lying.” Exactly one statement is true. Which box contains the key?</p><div class="card-actions"><button id="puzzleHint" class="btn">Hint</button><input id="puzzleAnswer" placeholder="Type your answer" maxlength="40" autocomplete="off"><button id="puzzleSubmit" class="btn accent">Submit Answer</button><button id="puzzleReveal" class="btn">Give Up</button></div><p id="puzzleResult" class="muted"></p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">USELESS KNOWLEDGE</span><h3 id="uselessFact">The hook on a tape measure is supposed to move.</h3><p id="uselessFactDetail" class="muted">Its small amount of play compensates for the hook thickness when measuring inside versus outside an edge.</p><button id="moreFactsBtn" class="btn">Unfortunately, tell me more.</button><div id="moreFacts" class="more-facts"></div></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">INCIDENT REPORT <b id="incidentNo"></b></span><h3 id="incidentTitle">Unauthorized Drill Relocation</h3><p id="incidentText">A cordless drill was discovered approximately four feet from assigned storage. Witnesses described the situation as “pretty normal.”</p><p class="muted">STATUS: <span class="morale-resolved">HEROICALLY RESOLVED.</span> · <span class="morale-denied">MANAGEMENT DENIES INVOLVEMENT.</span></p></div></article>
         </div>
@@ -249,7 +249,9 @@
         <datalist id="brandOptions"><option>DeWalt</option><option>Bosch</option><option>Milwaukee</option><option>Makita</option><option>Hilti</option><option>Festool</option><option>Ridgid</option><option>Metabo</option></datalist>
         <div id="labelSuggestionWrap" class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-01</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div>
         <div class="field"><label for="toolLabel">Tool label / ID</label><input id="toolLabel" required maxlength="40" /></div>
-        <div class="field"><label for="toolSerial">Serial number</label><input id="toolSerial" maxlength="100" /></div><div id="duplicateWarning" class="full duplicate-warning hidden"></div>
+        <div class="field"><label for="toolSerial">Serial number</label><input id="toolSerial" maxlength="100" /></div>
+        <div class="field"><label for="toolIdentifyingMark">Identifying mark</label><input id="toolIdentifyingMark" maxlength="100" placeholder="Paint mark, initials, sticker…" /></div>
+        <div id="duplicateWarning" class="full duplicate-warning hidden"></div>
         <div class="field"><label for="toolCondition">Condition</label><select id="toolCondition"><option>New</option><option>Good</option><option>Fair</option><option>Missing Parts</option><option>Needs Service</option><option>Damaged</option></select></div>
         <div class="field"><label for="toolStatus">Status</label><select id="toolStatus"><option>Available</option><option>In Use</option><option>Repair</option><option>Missing</option><option>Retired</option></select></div>
         <div class="field full"><label for="toolLocation">Location</label><select id="toolLocation"></select></div>
@@ -267,7 +269,7 @@
           <div class="field full receipt-field"><label for="receiptFile">Receipt / proof of purchase</label><div class="inline-field"><input id="receiptFile" type="file" accept="image/*,application/pdf" capture="environment" /><button id="readReceiptBtn" class="btn smallbtn" type="button">Read receipt</button></div><span id="receiptScanStatus" class="small muted">Image receipts can suggest date, retailer and price; review every suggestion before saving.</span></div>
         </div></details>
         <div id="privateField" class="field full admin-only"><label class="check-row"><input id="privateTool" type="checkbox" /> <span><strong>Private admin tool</strong><small>Hidden from crew in the app.</small></span></label></div>
-        <div class="save-progress full" id="saveToolStatus" aria-live="polite"></div><div class="dialog-actions full"><button type="button" class="btn" data-close="toolModal">Cancel</button><button id="saveToolBtn" class="btn accent" type="submit">Save tool</button></div>
+        <div class="save-progress full" id="saveToolStatus" aria-live="polite"></div><div class="dialog-actions full"><button type="button" class="btn" data-close="toolModal">Cancel</button><button id="saveAnotherToolBtn" class="btn" type="submit" value="another">Save &amp; add matching unit</button><button id="saveToolBtn" class="btn accent" type="submit" value="done">Save tool</button></div>
       </form>
     </div></div>
   </div>

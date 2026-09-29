@@ -1,6 +1,6 @@
-# Tool Tracker V4.3.5 — Purpose Built.
+# Tool Tracker V4.3.6 — Purpose Built.
 
-V4.3.5 is the History, Jobsite Morale and ownership-transfer refinement release built directly from the deployed V4.3.4 baseline. It preserves the proven save/upload pipeline and Firebase configuration.
+V4.3.6 is the inventory-entry and cleanup release built directly from the tested V4.3.5 baseline. See `README-V4.3.6.md` for the complete scope.
 
 ## What changed
 
