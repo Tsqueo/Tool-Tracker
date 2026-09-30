@@ -2,11 +2,12 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
     function signedIn() { return request.auth != null; }
+    function admin() { return signedIn() && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin' && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.active != false; }
     function isImageOrPdf() { return request.resource.contentType.matches('image/.*') || request.resource.contentType == 'application/pdf'; }
     match /tool-files/{toolId}/{fileName} {
       allow read: if signedIn();
       allow create, update: if signedIn() && request.resource.size < 10 * 1024 * 1024 && isImageOrPdf();
-      allow delete: if false;
+      allow delete: if admin();
     }
     match /personal-files/{uid}/{toolId}/{fileName} {
       allow read, delete: if signedIn() && request.auth.uid == uid;
@@ -16,7 +17,7 @@ service firebase.storage {
     match /tool-photos/{toolId}/{fileName} {
       allow read: if signedIn();
       allow create, update: if signedIn() && request.resource.size < 8 * 1024 * 1024 && request.resource.contentType.matches('image/.*');
-      allow delete: if false;
+      allow delete: if admin();
     }
   }
 }

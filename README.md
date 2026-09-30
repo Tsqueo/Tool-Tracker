@@ -1,6 +1,6 @@
-# Tool Tracker V4.3.6 — Purpose Built.
+# Tool Tracker V4.4 — Purpose Built.
 
-V4.3.6 is the inventory-entry and cleanup release built directly from the tested V4.3.5 baseline. See `README-V4.3.6.md` for the complete scope.
+V4.4 is the Day One field-workflow, visual-system and morale-games release built from the corrected V4.3.6.1 baseline. See `README-V4.4.md` for the complete scope.
 
 ## What changed
 

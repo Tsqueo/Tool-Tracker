@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V4.3.6 — Purpose Built.</title>
+  <title>Tool Tracker V4.4 — Purpose Built.</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -19,7 +19,7 @@
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.3.6 · Purpose Built.</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.4 · Purpose Built.</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -60,11 +60,11 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.3.6</div>
+            <div class="eyebrow">TOOL TRACKER · V4.4</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
-          <div id="dashboardLogo" class="dashboard-company-logo"><img src="day-one-projects-2b.png" alt="Day One Projects logo" /></div>
+          <div id="dashboardLogo" class="dashboard-company-logo"><img src="day-one-projects-v44.png" alt="Day One Projects logo" /></div>
         </div>
 
         <div class="mascot-hero" aria-label="Tool Tracker mascots on a steel beam">
@@ -75,8 +75,8 @@
         <div class="hero-grid">
           <button class="stat stat-link" data-open-view="toolsView"><strong id="statTotal">0</strong><span>Inventory</span></button>
           <button class="stat stat-link" data-open-view="jobsView"><strong id="statJobs">0</strong><span>Active jobs</span></button>
-          <button class="stat stat-link" data-open-view="toolsView" data-tool-filter="attention"><strong id="statAttention">0</strong><span>Need attention</span></button>
-          <button class="stat stat-link" data-open-view="toolsView" data-tool-filter="missing"><strong id="statMissing">0</strong><span>Missing tools</span></button>
+          <button class="stat stat-link" data-open-view="attentionView"><strong id="statAttention">0</strong><span>Need attention</span></button>
+          <button class="stat stat-link" data-open-view="missingView"><strong id="statMissing">0</strong><span>Missing tools</span></button>
         </div>
 
         <div id="dashboardTiles" class="dashboard-tiles">
@@ -86,6 +86,7 @@
           <button class="dash-tile" id="quickMoveBtn"><span class="tile-icon" data-icon="move"></span><span><strong>Quick Move</strong><small>Move a tool in a few taps</small></span><b>›</b></button>
           <button class="dash-tile admin-only" id="jobCloseoutBtn"><span class="tile-icon" data-icon="closeout"></span><span><strong>Job Closeout</strong><small>Account for tools before wrapping up</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="wishlistView"><span class="tile-icon" data-icon="wishlist"></span><span><strong>Wishlist</strong><small>Crew requests & ideas</small></span><b>›</b></button>
+          <button class="dash-tile" data-open-view="assignmentsView"><span class="tile-icon" data-icon="account"></span><span><strong>Crew &amp; Assignments</strong><small>Assigned tools, handoffs &amp; requests</small></span><b>›</b></button>
           <button class="dash-tile admin-only" data-open-view="photosView"><span class="tile-icon" data-icon="folder"></span><span><strong>Photos & Documents</strong><small>Tool photos, receipts & records</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="historyView"><span class="tile-icon" data-icon="history"></span><span><strong>Tool History</strong><small>Who changed what and when</small></span><b>›</b></button>
           <button class="dash-tile admin-only" data-open-view="insuranceView"><span class="tile-icon" data-icon="admin"></span><span><strong>Insurance</strong><small>Replacement values & records</small></span><b>›</b></button>
@@ -212,12 +213,18 @@
         <div class="panel"><div class="panel-body"><div class="card-actions"><button id="manageToPersonalBtn" class="btn">Company → Personal</button><button id="manageToCompanyBtn" class="btn">Personal → Company</button></div><p class="small muted">Ownership transfers preserve permanent asset identity and history. Pairing remains pool-safe: Company↔Company and Personal↔Personal only.</p></div></div><div class="panel"><div class="panel-body dataset-toolbar"><input id="renumberSearch" type="search" placeholder="Search Tool ID, name or brand…"></div><div class="panel-body"><div id="renumberList" class="renumber-list"></div></div><div class="dataset-footer"><button id="renumberLoadMore" class="btn hidden" type="button">Load more</button></div></div>
       </section>
 
+      <section id="attentionView" class="view"><div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Needs Attention</h2><p class="muted">Verification, damage, repair and manually flagged assets—one queue with a next action.</p></div></div><div id="attentionQueue" class="card-list"></div></section>
+      <section id="missingView" class="view"><div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Missing Tools</h2><p class="muted">Last known location, report details and recovery actions.</p></div></div><div id="missingQueue" class="card-list"></div></section>
+      <section id="assignmentsView" class="view"><div class="section-heading"><div><button class="back-link" data-open-view="toolsView">‹ Inventory</button><h2>Crew &amp; Assignments</h2><p class="muted">Tools assigned to you, pending handoffs and crew requests.</p></div></div><div class="inventory-tabs"><button class="btn active" data-assignment-tab="mine">Assigned to me</button><button class="btn" data-assignment-tab="handoffs">Handoffs</button><button class="btn" data-open-view="wishlistView">Requests</button></div><div id="assignmentsList" class="card-list"></div></section>
+      <section id="estimateGameView" class="view"><div class="section-heading"><div><button class="back-link" data-open-view="moraleView">‹ Morale Department</button><span class="eyebrow">WEEKLY TAKEOFF</span><h2>Measure Twice, Guess Once</h2><p class="muted">One guess per level. The drawings get worse. Allegedly, you get better.</p></div><span id="estimateProgress" class="badge">0 of 3</span></div><div id="estimateLevels" class="estimate-levels"></div></section>
+
       <section id="moraleView" class="view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Jobsite Morale Department</h2><p class="muted"><em>Productivity-neutral since 2026.</em></p></div></div>
-        <div class="morale-office"><img src="mascot-master.png" alt="Hero and Jeeves, Jobsite Morale Department staff"><div><span class="eyebrow">AUTHORIZED PERSONNEL: QUESTIONABLE</span><strong>Hero & Jeeves</strong><small>Acting Directors of Morale, Snacks & Unverified Complaints</small></div></div><div class="morale-grid">
+        <div class="morale-office worn-heroes"><img src="morale-worn-heroes.png" alt="Two exhausted Tool Tracker heroes"><div><span class="eyebrow">WORN-OUT HEROES</span><strong>Three weekly opportunities to disappoint management.</strong><small>Hero &amp; Jeeves remain available in the loosest possible sense.</small></div></div><div class="morale-grid">
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">DEPARTMENT BULLETIN <b id="bulletinNo"></b></span><h3 id="moraleBulletin"></h3><p class="muted">STATUS: NOTICE IGNORED AS EXPECTED. · FILED WITHOUT ACTION.</p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">THE FOREMAN’S PUZZLE</span><h3 id="puzzleTitle">The Three Boxes</h3><p id="puzzleText">Three boxes are marked A, B and C. A says “The key is not here.” B says “The key is in C.” C says “B is lying.” Exactly one statement is true. Which box contains the key?</p><div class="card-actions"><button id="puzzleHint" class="btn">Hint</button><input id="puzzleAnswer" placeholder="Type your answer" maxlength="40" autocomplete="off"><button id="puzzleSubmit" class="btn accent">Submit Answer</button><button id="puzzleReveal" class="btn">Give Up</button></div><p id="puzzleResult" class="muted"></p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">USELESS KNOWLEDGE</span><h3 id="uselessFact">The hook on a tape measure is supposed to move.</h3><p id="uselessFactDetail" class="muted">Its small amount of play compensates for the hook thickness when measuring inside versus outside an edge.</p><button id="moreFactsBtn" class="btn">Unfortunately, tell me more.</button><div id="moreFacts" class="more-facts"></div></div></article>
+          <button class="panel morale-card estimate-launch" data-open-view="estimateGameView"><div class="panel-body"><span class="eyebrow">NEW WEEKLY GAME</span><h3>Measure Twice, Guess Once</h3><p>Apprentice, Journeyman and Foreman takeoffs. One locked guess at each.</p><span id="estimateCardProgress" class="badge">0 of 3 complete</span><b>Open game ›</b></div></button>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">INCIDENT REPORT <b id="incidentNo"></b></span><h3 id="incidentTitle">Unauthorized Drill Relocation</h3><p id="incidentText">A cordless drill was discovered approximately four feet from assigned storage. Witnesses described the situation as “pretty normal.”</p><p class="muted">STATUS: <span class="morale-resolved">HEROICALLY RESOLVED.</span> · <span class="morale-denied">MANAGEMENT DENIES INVOLVEMENT.</span></p></div></article>
         </div>
         <div class="morale-end"><strong>END OF WEEKLY MATERIAL</strong><span>You’ve reached the end of this week’s productivity loss.</span><b>Please return to pretending to work.</b><small>This department has no operational authority whatsoever.</small></div>
@@ -269,7 +276,7 @@
           <div class="field full receipt-field"><label for="receiptFile">Receipt / proof of purchase</label><div class="inline-field"><input id="receiptFile" type="file" accept="image/*,application/pdf" capture="environment" /><button id="readReceiptBtn" class="btn smallbtn" type="button">Read receipt</button></div><span id="receiptScanStatus" class="small muted">Image receipts can suggest date, retailer and price; review every suggestion before saving.</span></div>
         </div></details>
         <div id="privateField" class="field full admin-only"><label class="check-row"><input id="privateTool" type="checkbox" /> <span><strong>Private admin tool</strong><small>Hidden from crew in the app.</small></span></label></div>
-        <div class="save-progress full" id="saveToolStatus" aria-live="polite"></div><div class="dialog-actions full"><button type="button" class="btn" data-close="toolModal">Cancel</button><button id="saveAnotherToolBtn" class="btn" type="submit" value="another">Save &amp; add matching unit</button><button id="saveToolBtn" class="btn accent" type="submit" value="done">Save tool</button></div>
+        <div class="save-progress full" id="saveToolStatus" aria-live="polite"></div><div class="dialog-actions full"><button id="discardToolBtn" type="button" class="btn danger">Discard entry</button><button id="saveAnotherToolBtn" class="btn hidden" type="submit" value="another">Save &amp; add matching unit</button><button id="saveToolBtn" class="btn accent" type="submit" value="done">Save tool</button></div>
       </form>
     </div></div>
   </div>
@@ -331,6 +338,6 @@
 
   <div id="toast" class="toast hidden"></div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script type="module" src="app.js?v=4.3.6.1"></script>
+  <script type="module" src="app.js?v=4.4.0"></script>
 </body>
 </html>

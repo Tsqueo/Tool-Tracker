@@ -1,12 +1,12 @@
 {
-  "name": "Tool Tracker V4.3.6 — Purpose Built.",
+  "name": "Tool Tracker V4.4 — Purpose Built.",
   "short_name": "Tool Tracker",
   "description": "Purpose Built. Construction inventory, jobs, verification and insurance readiness.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#111827",
-  "theme_color": "#111827",
+  "background_color": "#050607",
+  "theme_color": "#050607",
   "icons": [
     {
       "src": "icon-192.png",
