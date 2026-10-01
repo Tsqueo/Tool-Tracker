@@ -1,6 +1,6 @@
-# Tool Tracker V4.4 — Day One Field Update
+# Tool Tracker V4.4.1 — Seasonal Tracking Update
 
-V4.4 is the substantial workflow and visual release built from the corrected V4.3.6.1 baseline.
+V4.4.1 builds on the substantial V4.4 workflow and visual release from the corrected V4.3.6.1 baseline.
 
 ## Inventory integrity
 
@@ -26,7 +26,10 @@ V4.4 is the substantial workflow and visual release built from the corrected V4.
 - Black TT loading screen retained.
 - Approved Day One Projects logo added to company-branded surfaces.
 - Footer icons use a consistent line system with blue active state.
-- Halloween and Christmas decoration hooks activate automatically using America/Vancouver dates and respect reduced-motion settings.
+- Halloween progresses automatically from subtle (Oct 1–14), to building (Oct 15–25), to full effects (Oct 26–Nov 1), then returns to normal Nov 2.
+- Christmas progresses automatically from Dec 1 through Jan 6.
+- A compact seasonal-effects control appears only while an event is active. Its visual-effects preference persists on the device; no event uses sound.
+- Seasonal animation respects reduced-motion settings.
 
 ## Morale Department
 
@@ -34,9 +37,9 @@ V4.4 is the substantial workflow and visual release built from the corrected V4.
 - The worn-out heroes image is the games header.
 - `Measure Twice, Guess Once` opens as its own page with Apprentice, Journeyman and Foreman estimates.
 - Each estimate provides a dimensioned drawing, A–D choices, an optional hint, one locked guess and a worked breakdown.
-- Weekly state resets with the existing Monday 4:30 AM America/Vancouver morale week.
+- Weekly state resets with the existing Monday 4:30 AM America/Vancouver morale week, and puzzle completion is tied to the specific puzzle/version so changed content never inherits an old completion.
 - Seasonal props are decorative only and are explicitly excluded from takeoffs.
 
 ## Deployment
 
-Upload the contents of the V4.4 folder (not the enclosing folder) to the GitHub Pages repository. The service-worker cache is `tool-tracker-v4.4.0` and the app script is loaded as `app.js?v=4.4.0`.
+Upload the contents of the V4.4.1 folder (not the enclosing folder) to the GitHub Pages repository. The service-worker cache is `tool-tracker-v4.4.1` and the app script is loaded as `app.js?v=4.4.1`.

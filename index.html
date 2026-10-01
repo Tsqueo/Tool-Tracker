@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V4.4 — Purpose Built.</title>
+  <title>Tool Tracker V4.4.1 — Purpose Built.</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -19,7 +19,7 @@
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.4 · Purpose Built.</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.4.1 · Purpose Built.</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -54,13 +54,18 @@
       </div>
     </header>
 
+    <div id="seasonBar" class="season-bar hidden" aria-live="polite">
+      <button id="seasonEffectsBtn" class="season-effects-btn" type="button" aria-pressed="true"></button>
+    </div>
+    <div id="seasonEffectsLayer" class="season-effects-layer" aria-hidden="true"></div>
+
     <main class="page">
       <div id="installBanner" class="install-banner hidden"><span>Install Tool Tracker on this device for quick jobsite access.</span><button id="installBtn" class="btn accent smallbtn">Install</button></div>
 
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.4</div>
+            <div class="eyebrow">TOOL TRACKER · V4.4.1</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -82,7 +87,6 @@
         <div id="dashboardTiles" class="dashboard-tiles">
           <button class="dash-tile" data-open-view="categoriesView"><span class="tile-icon" data-icon="categories"></span><span><strong>Tool Categories</strong><small>Customize your tool categories</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="locationsView"><span class="tile-icon" data-icon="locations"></span><span><strong>Locations</strong><small>Jobsites and storage</small></span><b>›</b></button>
-          <button class="dash-tile" data-open-view="toolsView" data-tool-filter="attention"><span class="tile-icon" data-icon="tools"></span><span><strong>Needs Attention</strong><small>Verification and tool issues</small></span><b>›</b></button>
           <button class="dash-tile" id="quickMoveBtn"><span class="tile-icon" data-icon="move"></span><span><strong>Quick Move</strong><small>Move a tool in a few taps</small></span><b>›</b></button>
           <button class="dash-tile admin-only" id="jobCloseoutBtn"><span class="tile-icon" data-icon="closeout"></span><span><strong>Job Closeout</strong><small>Account for tools before wrapping up</small></span><b>›</b></button>
           <button class="dash-tile" data-open-view="wishlistView"><span class="tile-icon" data-icon="wishlist"></span><span><strong>Wishlist</strong><small>Crew requests & ideas</small></span><b>›</b></button>
@@ -338,6 +342,6 @@
 
   <div id="toast" class="toast hidden"></div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script type="module" src="app.js?v=4.4.0"></script>
+  <script type="module" src="app.js?v=4.4.1"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
-# Tool Tracker V4.4 — Purpose Built.
+# Tool Tracker V4.4.1 — Purpose Built.
 
-V4.4 is the Day One field-workflow, visual-system and morale-games release built from the corrected V4.3.6.1 baseline. See `README-V4.4.md` for the complete scope.
+V4.4.1 adds staged seasonal effects, a persistent effects toggle, version-safe puzzle completion, and the dashboard cleanup to the V4.4 Day One field release. See `README-V4.4.md` for the complete scope.
 
 ## What changed
 
