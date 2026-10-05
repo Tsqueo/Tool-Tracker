@@ -1,0 +1,14 @@
+Tool Tracker V4.4.1.2 — staff inventory hotfix
+
+1. Extract this ZIP and upload ALL extracted files to the GitHub repository root, replacing existing files, as before. Do not upload the ZIP itself.
+2. After GitHub Pages deploys, open the app as Tony (Admin) while online. Leave it open briefly so older tool ownership fields can normalize.
+3. Have Jacob sign out and sign back in, then check company inventory and tool photos. The visible version should be V4.4.1.2.
+4. Check that Personal inventory is still visible only to Tony.
+
+This fixes the staff query to require BOTH privateTool=false and inventoryScope=company, matching the supplied Firestore rules. Older tools normalize conservatively: either personal marker keeps the tool personal.
+No Firebase rule change is required if the currently published rules match firestore.rules in this ZIP. If staff access is still denied, compare/publish that supplied rules file in Firebase Firestore Rules; uploading it to GitHub does not publish Firebase rules.
+
+Inventory loading/errors now show a persistent message and unavailable dashboard counts instead of claiming a verified inventory. Service-worker and asset revision changed to force the new build.
+
+This is a focused hotfix. Requests/Wishlist redesign, Insurance simplification, Reports rebuild and weekly takeoff rotation are not included.
+Validation: JavaScript syntax, constrained query, loading/error display, and personal-preserving legacy normalization passed locally. Actual Firebase crew access must be verified after deployment; no production login or deployed rule inspection was available.
