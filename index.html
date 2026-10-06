@@ -7,19 +7,19 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V4.4.1.2 — Purpose Built.</title>
+  <title>Tool Tracker V4.4.1.3 — Purpose Built.</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-  <link rel="stylesheet" href="styles.css?v=4.4.1.2-staff-fix" />
+  <link rel="stylesheet" href="styles.css?v=4.4.1.3-entry-fix" />
 </head>
 <body><div id="startupSplash" class="startup-splash"><img src="tt-logo.png" alt=""><strong>Tool Tracker</strong><em>Purpose Built.</em></div>
   <section id="authScreen" class="auth-wrap">
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.4.1.2 · Purpose Built.</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.4.1.3 · Purpose Built.</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -65,7 +65,7 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.4.1.2</div>
+            <div class="eyebrow">TOOL TRACKER · V4.4.1.3</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -262,8 +262,7 @@
         <div class="field"><label for="toolBrand">Brand</label><input id="toolBrand" list="brandOptions" maxlength="60" placeholder="DeWalt, Bosch, Milwaukee…" /></div>
         <div class="field"><label for="toolModel">Model number</label><input id="toolModel" maxlength="100" /></div>
         <datalist id="brandOptions"><option>DeWalt</option><option>Bosch</option><option>Milwaukee</option><option>Makita</option><option>Hilti</option><option>Festool</option><option>Ridgid</option><option>Metabo</option></datalist>
-        <div id="labelSuggestionWrap" class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-01</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div>
-        <div class="field"><label for="toolLabel">Tool label / ID</label><input id="toolLabel" required maxlength="40" /></div>
+        <div class="field"><label for="toolLabel">Tool label / ID</label><input id="toolLabel" required maxlength="40" /><div id="labelSuggestionWrap" class="full suggest"><span>Suggested next label: <strong id="labelSuggestion">T-01</strong></span><button id="useSuggestionBtn" type="button" class="btn smallbtn">Use it</button></div></div>
         <div class="field"><label for="toolSerial">Serial number</label><input id="toolSerial" maxlength="100" /></div>
         <div class="field"><label for="toolIdentifyingMark">Identifying mark</label><input id="toolIdentifyingMark" maxlength="100" placeholder="Paint mark, initials, sticker…" /></div>
         <div id="duplicateWarning" class="full duplicate-warning hidden"></div>
@@ -346,6 +345,6 @@
 
   <div id="toast" class="toast hidden"></div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script type="module" src="app.js?v=4.4.1.2-staff-fix"></script>
+  <script type="module" src="app.js?v=4.4.1.3-entry-fix"></script>
 </body>
 </html>

@@ -1,0 +1,13 @@
+Tool Tracker V4.4.1.3 — tool entry and Morale fixes
+
+Extract and upload contents to GitHub repository root, replacing existing files. No Firebase rule changes. Confirm V4.4.1.3 after refreshing/reopening.
+
+Next available brand ID now appears beneath the ID field and fills blank or previously suggested IDs. Manual and existing IDs are preserved. Company and Personal numbering stay separate; prior labels are included. Suggestions refresh after inventory/settings load.
+
+HR jokes: three total per visit, including the first. The button then closes the complaint box. Returning to Morale starts a new visit; background refreshes do not reset the limit.
+
+Useless Knowledge expansion matches the headline topic. Old mismatched expansion progress resets. Topic/week changes select the correct facts.
+
+Staff inventory fix retained. Syntax and targeted behavior checks passed. Live device/Firebase testing remains: check Jacob inventory; select brand, save a real tool and confirm next suggestion advances; test three HR jokes and matching facts.
+
+Full request workflow, annual content pools and other backlog work are not included.
