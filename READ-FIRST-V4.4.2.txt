@@ -1,0 +1,22 @@
+Tool Tracker V4.4.2 — return to use revision
+
+DEPLOYMENT
+Extract and upload contents to GitHub repository root, replacing existing files. No Firebase rule changes included. Open as Tony and confirm V4.4.2. Refresh/reopen each device if needed.
+
+NUMBERING
+Open Personal and scroll to Personal Bosch numbering review. Confirm laser identity before correcting P-B-44 to P-B-25. Correction is blocked if P-B-25 is occupied. No automatic laser renumbering. History/photos/receipts remain. Known mistaken historical P-B-43 on the restored GKS18V-25C saw no longer advances suggestions; the laser correction also explicitly excludes its old mistaken label from predictions. Other historical reservations remain. Expected next company B-43 and Personal P-B-26 depend on the live inventory still ending at B-42 / corrected P-B-25. This is a targeted repair, not a full live inventory audit. Simultaneous duplicate-ID creation across multiple devices is not newly solved.
+
+INSURANCE
+Choose Company, Personal or combined inventory. Only missing serial/value/photo fields initially show; Edit recorded information reveals all fields. A replacement value can be saved without a serial. Saves do not perform tool verification. Serial N/A is supported. Exports include ALL assets in scope, ignoring search/filter/pagination. Retired and explicitly excluded assets are omitted. CSV includes total and missing-value count. Print report opens a printable summary and complete table; use Print / Save as PDF. $25,000 is the renewal limit reported by Tony, not an assessment of coverage; confirm applicable assets and values with the broker. Personal inclusion is never assumed.
+
+MORALE
+52 sequential weekly sets, 52 Foreman reasoning puzzles, 156 takeoff questions (13 apprentice task families with dimension variations, coverage/volume journeyman tasks, multi-room foreman estimates), 52 bulletins/incidents, 52 home one-liners, 156 distinct HR jokes displayed three together, and 260 facts in 52 topic sets. Weekly selection advances without repeats for 52 weeks. Training arithmetic follows stated assumptions; it does not establish real construction specifications. Progress keys separate new game content from the old static game. Weekly refresh remains Monday 4:30 AM Vancouver.
+
+HALLOWEEN
+Retains October 26–November 1 full phase; checks the calendar on resume/focus and every minute. Full-phase fog/indicator made more visible. Effects toggle and reduced-motion preference respected. Halloween ends November 2. Phone appearance requires live verification; original cause of the reported non-change was not proven. Christmas work not expanded in this revision.
+
+OTHER
+Inventory toolbox icon now uses the shared outline style. Staff access fix retained. Bulk requests, notifications, batch assignment and broader reports redesign remain deferred.
+
+VALIDATION
+JavaScript syntax, separate ID sequences, historical-label repair, 52 unique weekly positions, content counts, distinct prompts/questions/options, independent journeyman/foreman arithmetic, season boundaries, insurance scopes/total/export completeness and partial saves passed local checks. Browser visual QA could not run because the browser download was unavailable. Live Firebase permissions, corrective save, report printing and device appearance must be checked after deployment.
