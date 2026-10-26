@@ -1,0 +1,9 @@
+Tool Tracker V4.4.2.1 — rebuilt full Halloween event
+
+Extract and upload all files to the GitHub repository root as before. No Firebase rule changes. Confirm V4.4.2.1 on Home. Halloween effects must be on. The full phase runs October 26 through November 1 in Vancouver time; it ends November 2.
+
+Replaces the faint fog shading with two animated SVG mist banks with visible curling edges near the lower part of the screen. Adds occasional seasonal visitors. Existing pumpkins and bats remain. The decoration does not receive clicks, plays no audio, and respects reduced motion. Visitors are staggered over approximately a minute; wait briefly after opening. Routine focus/calendar checks do not restart animation schedules. Turning Effects off removes all event decoration; reduced-motion mode uses a quiet static alternative.
+
+Preserves V4.4.2 numbering review, insurance reporting and content. Joke reveal-button correction remains queued: this patch does not change the current three-jokes-at-once layout. No live tool IDs are changed by uploading.
+
+Local syntax and behavior checks passed: full phase content, effect toggle, phase scoping, no repeated animation restart, season removal and Christmas retention. No live Firebase/device/browser visual verification was performed. Check the effects on your phone, both themes, and turn the toggle off to confirm removal.

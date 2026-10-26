@@ -150,3 +150,21 @@ html[data-theme="dark"] .tile-icon{background:rgba(123,199,240,.16);color:#49bdf
 body[data-season="halloween"][data-season-stage="full"] .season-fog{height:180px;width:100vw;opacity:.85;background:radial-gradient(ellipse,rgba(120,135,155,.45),transparent 70%)}
 body[data-season="halloween"][data-season-stage="full"] .season-effects-btn{border-color:#b76b21;box-shadow:0 0 12px rgba(211,125,27,.25)}
 @media(prefers-reduced-motion:reduce){.season-effects-layer *{animation:none!important}}
+
+/* Full Halloween event: decorative and non-interactive; no audio. */
+.halloween-fog-bank{position:absolute;pointer-events:none;width:210vw;height:105px;left:-105vw;bottom:98px;opacity:.72;filter:drop-shadow(0 -2px 5px rgba(138,165,181,.18));animation:rollingMist 22s linear infinite}
+.halloween-fog-bank .rolling-fog-art{width:100%;height:100%;overflow:visible}
+.halloween-fog-bank.fog-bank-back{bottom:145px;height:75px;opacity:.4;animation:rollingMist 31s linear infinite reverse}
+@keyframes rollingMist{0%{transform:translateX(-10vw) translateY(7px)}25%{transform:translateX(18vw) translateY(-7px)}50%{transform:translateX(45vw) translateY(3px)}75%{transform:translateX(72vw) translateY(-9px)}100%{transform:translateX(100vw) translateY(7px)}}
+.halloween-visitor{position:absolute;pointer-events:none;font-size:46px;line-height:1.15;opacity:0;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25));will-change:transform,opacity}
+.halloween-visitor small{font-size:.62em;display:block;line-height:.55}
+.witch-visitor{top:22%;left:0;animation:witchVisit 48s linear infinite;animation-delay:3s}
+@keyframes witchVisit{0%{opacity:0;transform:translateX(-100px) rotate(-9deg)}2%,17%{opacity:1}9%{transform:translateX(42vw) translateY(-18px) rotate(7deg)}20%,100%{opacity:0;transform:translateX(calc(100vw + 100px)) translateY(10px) rotate(-6deg)}}
+.skeleton-visitor{right:8px;bottom:105px;transform-origin:bottom center;animation:skeletonVisit 53s ease-in-out infinite;animation-delay:15s}
+@keyframes skeletonVisit{0%,2%{opacity:0;transform:translateY(100px) rotate(-12deg)}5%,12%{opacity:1;transform:translateY(0) rotate(9deg)}8%{transform:translateY(-8px) rotate(-9deg)}16%,100%{opacity:0;transform:translateY(100px) rotate(12deg)}}
+.frog-visitor{left:0;bottom:112px;font-size:38px;animation:frogVisit 43s linear infinite;animation-delay:7s}
+@keyframes frogVisit{0%{opacity:0;transform:translate(-60px,0)}2%,23%{opacity:1}6%{transform:translate(20vw,-35px) rotate(-8deg)}11%{transform:translate(40vw,0) rotate(0)}16%{transform:translate(65vw,-42px) rotate(8deg)}22%{transform:translate(90vw,0)}26%,100%{opacity:0;transform:translate(calc(100vw + 60px),0)}}
+.ghost-visitor{right:4px;top:35%;font-size:37px;animation:ghostVisit 61s ease-in-out infinite;animation-delay:27s}
+@keyframes ghostVisit{0%,2%{opacity:0;transform:translateX(65px)}5%,12%{opacity:.85;transform:translateX(-8px) translateY(-12px)}9%{transform:translateX(-20px) translateY(8px)}16%,100%{opacity:0;transform:translateX(65px) translateY(-20px)}}
+.season-paused *{animation-play-state:paused!important}
+@media(prefers-reduced-motion:reduce){.season-effects-layer *{animation:none!important}.halloween-fog-bank{left:-40vw;opacity:.4}.halloween-visitor{display:none}.skeleton-visitor{display:block;opacity:.8;transform:none;font-size:30px}}
