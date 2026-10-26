@@ -1,0 +1,4 @@
+V4.4.2.3 — Halloween Worlds
+Upload ALL extracted files and the halloween-art folder to the existing GitHub Pages project. No Firebase rules deployment required.
+Five optimized artwork backgrounds included. Different choice each new page load, no immediate repeat; navigation and background/resume keep the same scene. Full Halloween Oct 26–Nov 1 Vancouver time. Effects off restores ordinary theme. View Halloween scene shows uncropped artwork. Random branching lightning pauses in background and respects reduced motion.
+Original full-resolution renders supplied separately. No inventory data or numbering changed by this visual revision.

@@ -203,3 +203,28 @@ body[data-season="halloween"][data-season-stage="full"] .season-effects-btn{bord
 .frog-peek i{position:absolute;top:0;left:8px;width:18px;height:20px;border-radius:50%;background:radial-gradient(ellipse at 50% 48%,#101718 0 19%,#d3ce8b 24% 40%,#4f7051 45%);box-shadow:0 -2px 5px rgba(120,175,83,.15)}.frog-peek i+i{left:auto;right:8px}
 @keyframes frogStory{0%,78%,96%,100%{opacity:0;transform:translateY(55px)}82%,88%{opacity:1;transform:translateY(0)}85%{transform:translateY(-8px)}93%{opacity:0;transform:translate(25vw,-45px)}}
 @media(prefers-reduced-motion:reduce){.spooky-scene *{animation:none!important}.storm-flash,.storm-bolt,.broom-flight,.bat-sweep,.crypt-hand,.watching-eyes,.frog-peek{display:none!important}.storm-moon{opacity:.4;transform:none}.mist-drift{opacity:.32;transform:none}}
+
+/* V4.4.2.3 — full-screen illustrated worlds, separate weather timing. */
+body.halloween-world-active{isolation:isolate;background:#11101b;--ink:#f6f3ec;--muted:#c6c3cf;--line:rgba(255,224,179,.21)}
+#halloweenWorld{position:fixed;inset:0;z-index:-1;pointer-events:none;background:#11101b}
+#halloweenWorld[hidden],#halloweenWeather[hidden],.world-view[hidden]{display:none!important}
+.world-art,.world-shade,.world-motes{position:absolute;inset:0}.world-art{background-size:cover;background-position:center;background-repeat:no-repeat}.world-shade{background:linear-gradient(180deg,rgba(9,7,18,.18),rgba(9,7,18,.08) 35%,rgba(9,7,18,.35))}
+.halloween-world-active :is(.panel,.tool-card,.dash-tile,.stat,.category-card,.morale-card){background:rgba(15,14,25,.86)!important;color:#f6f3ec;backdrop-filter:blur(5px);border-color:rgba(255,211,151,.22)}
+.halloween-world-active :is(main,.app-shell,.page,.view){background:transparent}
+.halloween-world-active .mascot-hero{display:none}
+.halloween-world-active .storm-moon,.halloween-world-active .storm-flash,.halloween-world-active .storm-bolt,.halloween-world-active .spooky-edge-glow{display:none!important}
+.halloween-world-active .mist-drift{opacity:.36}.halloween-world-active .mist-drift-back{opacity:.2}
+.halloween-world-active .broom-flight{animation-delay:19s}.halloween-world-active .bat-sweep{animation-duration:79s}
+#halloweenWeather{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1001}
+.world-view{position:fixed;left:12px;bottom:86px;z-index:80;font-size:12px;padding:7px 11px;background:rgba(21,15,32,.93);color:#ffe0a8;border:1px solid #ad7439;box-shadow:0 2px 12px #0007}
+.world-dialog{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;border:0;padding:0;background:#08060d;color:#fff;overflow:hidden}.world-dialog::backdrop{background:#08060d}.world-dialog-art{position:absolute;inset:0;background-position:center;background-repeat:no-repeat;background-size:contain}.world-dialog-shade{position:absolute;inset:75% 0 0;background:linear-gradient(transparent,#08060dcc)}.world-dialog-controls{position:absolute;bottom:24px;left:20px;right:20px;display:flex;align-items:center;justify-content:space-between;gap:16px}.world-dialog-controls span{font-weight:700;text-shadow:0 2px 5px #000}
+.world-motes{overflow:hidden}.world-motes i{position:absolute;left:var(--x);bottom:-20px;width:3px;height:3px;border-radius:50%;background:#ffbc61;box-shadow:0 0 7px #ff6b1a;animation:worldRise var(--duration) var(--delay) linear infinite}
+[data-motion="bubbles"] .world-motes i{width:13px;height:13px;background:transparent;border:1px solid #b4deef80;box-shadow:inset 2px 1px 3px #e8c8ff66}
+[data-motion="fireworks"] .world-motes i{background:#cba5ff;box-shadow:0 0 8px #cba5ff}
+@keyframes worldRise{0%{transform:translate(0,0);opacity:0}12%,65%{opacity:.7}100%{transform:translate(var(--sway),-85vh);opacity:0}}
+.world-paused *{animation-play-state:paused!important}
+@media(min-aspect-ratio:1/1){#halloweenWorld[data-world="excavator"] .world-art,#halloweenWorld[data-world="skeleton"] .world-art,#halloweenWorld[data-world="laundromat"] .world-art{background-size:contain;background-color:#100c19}}
+@media(prefers-reduced-motion:reduce){.world-motes{display:none}#halloweenWeather{display:none!important}}
+@media print{#halloweenWorld,#halloweenWeather,.world-view,.world-dialog{display:none!important}body.halloween-world-active{background:white;--ink:#111;--muted:#555}}
+.halloween-world-active :is(.inventory-category-card,.weekly-card,.morale-section,.personal-tool-card,.hero-stat,.card){background:rgba(15,14,25,.86)!important;color:#f6f3ec;border-color:rgba(255,211,151,.22)}
+.halloween-world-active :is(.inventory-category-card small,.category-cover-copy small,.muted,.meta){color:#c6c3cf}
