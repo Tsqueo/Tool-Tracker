@@ -168,3 +168,38 @@ body[data-season="halloween"][data-season-stage="full"] .season-effects-btn{bord
 @keyframes ghostVisit{0%,2%{opacity:0;transform:translateX(65px)}5%,12%{opacity:.85;transform:translateX(-8px) translateY(-12px)}9%{transform:translateX(-20px) translateY(8px)}16%,100%{opacity:0;transform:translateX(65px) translateY(-20px)}}
 .season-paused *{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){.season-effects-layer *{animation:none!important}.halloween-fog-bank{left:-40vw;opacity:.4}.halloween-visitor{display:none}.skeleton-visitor{display:block;opacity:.8;transform:none;font-size:30px}}
+
+/* Cinematic Halloween scene — one soft lightning cue per 64-second cycle. */
+.spooky-scene{position:absolute;inset:100px 0 94px;overflow:hidden;pointer-events:none}
+.spooky-scene *{pointer-events:none!important}
+.spooky-edge-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 0 100%,rgba(74,31,98,.13),transparent 48%),radial-gradient(ellipse at 100% 0,rgba(178,91,18,.1),transparent 35%)}
+.storm-flash{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 0,#e9e4ff,rgba(213,216,255,.7) 50%,transparent);opacity:0;animation:stormCue 64s linear infinite;mix-blend-mode:screen}
+@keyframes stormCue{0%,10.8%,12.2%,100%{opacity:0}11.1%{opacity:.24}11.4%{opacity:.13}11.9%{opacity:0}}
+.storm-bolt{position:absolute;right:8%;top:-8px;width:80px;height:170px;filter:drop-shadow(0 0 8px #bba2ff);opacity:0;animation:boltCue 64s linear infinite}
+@keyframes boltCue{0%,10.8%,12.2%,100%{opacity:0}11.1%{opacity:.85}11.7%{opacity:.2}}
+.storm-moon{position:absolute;top:11%;right:8%;width:105px;height:105px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#e8d6ad,#a69ba9);box-shadow:0 0 24px rgba(197,167,222,.35);opacity:0;animation:moonCue 64s ease-in-out infinite;overflow:hidden}
+.storm-moon i{display:block;background:#292136;width:100%;height:100%;border-radius:50%;transform:translate(25px,-12px)}
+@keyframes moonCue{0%,8%,26%,100%{opacity:0;transform:translateY(8px)}11%,22%{opacity:.7;transform:translateY(0)}}
+.broom-flight{position:absolute;left:0;top:16%;width:clamp(175px,46vw,270px);opacity:0;filter:drop-shadow(0 0 5px rgba(160,121,207,.6));animation:broomStory 64s linear infinite;will-change:transform}
+.broom-flight svg{width:100%;display:block}
+@keyframes broomStory{0%,11%{opacity:0;transform:translateX(-300px) rotate(7deg)}12%{opacity:1;transform:translateX(-240px) rotate(7deg)}15%{opacity:1;transform:translateX(20vw) translateY(-27px) rotate(-6deg)}18%{opacity:1;transform:translateX(65vw) translateY(-45px) rotate(3deg)}22%,100%{opacity:0;transform:translateX(calc(100vw + 300px)) translateY(-25px) rotate(-4deg)}}
+.mist-drift{position:absolute;left:-45vw;bottom:-20px;width:170vw;height:160px;opacity:.7;animation:cloudRoll 23s ease-in-out infinite alternate;will-change:transform}
+.mist-drift svg{width:100%;height:100%;display:block}
+.mist-drift-back{bottom:24px;opacity:.43;height:130px;animation-duration:37s;animation-direction:alternate-reverse}
+@keyframes cloudRoll{0%{transform:translate(-12vw,12px) scaleY(.85)}50%{transform:translate(6vw,-6px) scaleY(1.1)}100%{transform:translate(28vw,8px) scaleY(.94)}}
+.bat-sweep{position:absolute;width:58px;left:0;top:14%;opacity:0;animation:batStory 64s linear infinite;filter:drop-shadow(0 0 2px rgba(203,170,225,.4))}
+.bat-sweep svg{width:100%;animation:wingBeat .45s ease-in-out infinite alternate;transform-origin:center}
+.sweep-two{top:22%;width:38px;animation-delay:1s}.sweep-three{top:9%;width:46px;animation-delay:1.7s}
+@keyframes batStory{0%,22%{opacity:0;transform:translateX(-100px)}24%,29%{opacity:1}26%{transform:translateX(40vw) translateY(25px)}32%,100%{opacity:0;transform:translateX(calc(100vw + 120px)) translateY(-20px)}}
+@keyframes wingBeat{from{transform:scaleY(.65)}to{transform:scaleY(1.05)}}
+.crypt-hand{position:absolute;right:4px;bottom:-170px;width:80px;opacity:0;filter:drop-shadow(-2px 0 7px #6c547b);animation:cryptStory 64s ease-in-out infinite;transform-origin:bottom center}
+.crypt-hand svg{display:block;width:100%}
+@keyframes cryptStory{0%,43%,60%,100%{opacity:0;transform:translateY(0) rotate(0)}47%,54%{opacity:.9;transform:translateY(-175px) rotate(-8deg)}51%{transform:translateY(-180px) rotate(7deg)}}
+.watching-eyes{position:absolute;left:3%;bottom:62px;display:flex;gap:13px;opacity:0;animation:eyesStory 64s linear infinite}
+.watching-eyes i{width:15px;height:7px;background:#cbef7b;border-radius:80% 20%;box-shadow:0 0 9px #85b73b;transform:rotate(12deg)}.watching-eyes i+i{transform:rotate(-12deg);border-radius:20% 80%}
+@keyframes eyesStory{0%,61%,78%,100%{opacity:0}64%,70%,74%{opacity:.8}71%{opacity:.1}}
+.frog-peek{position:absolute;left:7%;bottom:12px;width:65px;height:38px;opacity:0;animation:frogStory 64s ease-in-out infinite}
+.frog-peek span{position:absolute;inset:10px 0 0;border-radius:50%;background:#314b38;border:1px solid #658265;box-shadow:inset 0 -5px #1a2c24}
+.frog-peek i{position:absolute;top:0;left:8px;width:18px;height:20px;border-radius:50%;background:radial-gradient(ellipse at 50% 48%,#101718 0 19%,#d3ce8b 24% 40%,#4f7051 45%);box-shadow:0 -2px 5px rgba(120,175,83,.15)}.frog-peek i+i{left:auto;right:8px}
+@keyframes frogStory{0%,78%,96%,100%{opacity:0;transform:translateY(55px)}82%,88%{opacity:1;transform:translateY(0)}85%{transform:translateY(-8px)}93%{opacity:0;transform:translate(25vw,-45px)}}
+@media(prefers-reduced-motion:reduce){.spooky-scene *{animation:none!important}.storm-flash,.storm-bolt,.broom-flight,.bat-sweep,.crypt-hand,.watching-eyes,.frog-peek{display:none!important}.storm-moon{opacity:.4;transform:none}.mist-drift{opacity:.32;transform:none}}

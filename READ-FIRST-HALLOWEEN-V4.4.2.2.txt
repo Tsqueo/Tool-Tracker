@@ -1,0 +1,9 @@
+Tool Tracker V4.4.2.2 — spooky Halloween scene
+
+Extract all files and replace GitHub root contents as before. No Firebase rule changes. Confirm V4.4.2.2 on Home. Set Halloween Effects on. Allow about a minute to see the staggered sequence; the opening scene begins within roughly eight seconds.
+
+Full phase October 26–November 1 (Vancouver), removed November 2. Custom SVG artwork replaces the full-phase floating character emojis. Lightning cue and fly-by share a timeline, with additional occasional edge surprises. Mist uses irregular displaced clouds rather than sine-wave outlines. All effects are silent, decorative and pointer-transparent. One soft lightning cue per 64-second cycle; no strobing. Reduced-motion preference suppresses lightning and moving visitors and uses static atmosphere. Effects off empties the layer. Focus/calendar refreshes do not remount an unchanged scene. Animations pause when the document is hidden.
+
+This patch preserves V4.4.2 numbering repair, insurance reports and content. It does not rewrite puzzles or change the current HR joke display; those corrections remain queued. No live tool records are renamed by uploading this package. Existing Christmas behavior is retained, not expanded.
+
+Validation: app/service-worker syntax; stage-specific scene output; effects toggle; stable rendering; season removal; Christmas retention; reduced-motion rules; preservation of content arrays. Main vector artwork rendered and inspected. Full animated browser/device visual verification and live Firebase checks were not performed. Verify on your phone in the usual workflow.
