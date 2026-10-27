@@ -1,0 +1,20 @@
+TOOL TRACKER V4.4.2.5 — COMPLETE HALLOWEEN UPGRADE
+
+Upload every extracted file and the intact halloween-art folder to the existing GitHub repository root. Do not upload the outer ZIP folder or substitute the separate original-resolution artwork. No Firebase rules deployment is required.
+
+INCLUDED
+Nine approved Halloween background scenes; current lightning implementation retained unchanged.
+New transparent illustrated witch, skeleton hand and bats. Bats use curved randomized flight routes and animated wing sections, with at most three visitors at once.
+Glowing carved Morale pumpkin: tap for the weekly line, then enter the full department.
+Readable amber-on-dark Halloween Effects control in both app themes and on/off states.
+Progressive HR jokes: first joke visible; each tap appends the next; maximum three.
+14 curated weekly packs: 3 Halloween, 6 Christmas/New Year/winter, 5 regular. 42 individually written challenges with diagrams, 42 jokes, 14 morale lines, incidents and Foreman puzzles; five aligned facts per pack. No old stud-layout variants are selected.
+Halloween content runs October 1–November 1; holiday content December 1–January 6; regular content otherwise. Selection uses Vancouver date and Monday 04:30 weekly rollover. Content remains seasonal even with visual effects off. Each finite pack bank rotates and eventually repeats; this is not a year of unique content.
+New progress keys let users play the replacement challenges even if the old takeoff set was completed. Inventory data, labels, history and insurance functions are preserved.
+
+VALIDATION
+Syntax, asset/reference integrity, seasonal date boundaries including January and Monday 04:30, unique challenge IDs/questions and joke texts, progressive joke cap, bat lifecycle/reduced-motion controls, unchanged lightning and selected operational functions checked locally.
+A browser could not be installed in the build environment. Full visual animation, touch targets and actual device performance need a phone check after deployment. No live Firebase write was performed.
+
+PHONE CHECK
+Confirm V4.4.2.5, Effects on. Tap the pumpkin and enter Morale. Reveal jokes twice: earlier jokes remain and the button stops at 3. Open the Halloween challenges; the first set is route / potion order / delivery scheduling. Confirm witch, hand and bats render without rectangular backgrounds. Effects off should remove the scene and visitors. Numbering and insurance remain as before.

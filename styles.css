@@ -228,3 +228,25 @@ body.halloween-world-active{isolation:isolate;background:#11101b;--ink:#f6f3ec;-
 @media print{#halloweenWorld,#halloweenWeather,.world-view,.world-dialog{display:none!important}body.halloween-world-active{background:white;--ink:#111;--muted:#555}}
 .halloween-world-active :is(.inventory-category-card,.weekly-card,.morale-section,.personal-tool-card,.hero-stat,.card){background:rgba(15,14,25,.86)!important;color:#f6f3ec;border-color:rgba(255,211,151,.22)}
 .halloween-world-active :is(.inventory-category-card small,.category-cover-copy small,.muted,.meta){color:#c6c3cf}
+
+/* V4.4.2.5 — illustrated visitors and discoverable seasonal controls. */
+body[data-season="halloween"] #seasonEffectsBtn{color:#ffe1a1!important;background:rgba(29,18,39,.96)!important;border:1.5px solid #f7a842!important;box-shadow:0 0 12px #e9782855!important;font-weight:800}
+#seasonEffectsBtn:focus-visible,.morale-pumpkin:focus-visible{outline:3px solid #fff;outline-offset:4px}
+body[data-season="halloween"][data-season-effects="off"] #seasonEffectsBtn{color:#ffe1a1!important;background:#251b31!important}
+.morale-pumpkin{pointer-events:auto!important;cursor:pointer;border:0;background:transparent;padding:0;width:68px;height:78px;filter:drop-shadow(0 0 9px #fb921c77);animation:pumpkinInvite 3.3s ease-in-out infinite!important}
+.morale-pumpkin img{display:block;width:100%;height:61px;object-fit:contain}.morale-pumpkin span{display:block;white-space:nowrap;color:#ffe1a1;background:#22172be6;font-size:9px;font-weight:800;padding:3px;border-radius:5px;text-align:center}
+.morale-pumpkin-found .morale-pumpkin{animation:none!important}.morale-pumpkin-found .morale-pumpkin span{display:none}
+@keyframes pumpkinInvite{0%,100%{filter:drop-shadow(0 0 5px #fb921c66)}50%{filter:drop-shadow(0 0 14px #ffad32bb)}}
+.morale-after-dark{max-width:min(440px,90vw);border-radius:22px;background:#20152c;color:#fff1dc;border:1px solid #d4954c;padding:25px;box-shadow:0 10px 80px #0009}.morale-after-dark::backdrop{background:#08050bbf;backdrop-filter:blur(4px)}.morale-after-dark h2{font-size:1.25rem}.morale-after-dark p{font-size:1.1rem;line-height:1.55}
+.broom-flight img{display:block;width:100%;height:auto;animation:witchBob 2.5s ease-in-out infinite alternate}.broom-flight{width:clamp(210px,52vw,350px);filter:drop-shadow(0 2px 6px #0b071c80)}
+@keyframes witchBob{from{transform:translateY(-3px) rotate(-2deg)}to{transform:translateY(5px) rotate(2deg)}}
+.crypt-hand{width:94px;height:170px}.crypt-hand img{display:block;width:100%;height:100%;object-fit:contain;object-position:bottom}.halloween-world-active .bat-sweep{display:none!important}
+.illustrated-bats{position:fixed;inset:0;z-index:65;overflow:hidden;pointer-events:none}.illustrated-bat{position:absolute;left:0;top:0;will-change:transform;pointer-events:none;filter:drop-shadow(0 2px 3px #0c071a88)}.illustrated-bat img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.bat-left{clip-path:inset(0 50% 0 0);transform-origin:50% 50%;animation:leftWing var(--flap) ease-in-out infinite alternate}.bat-right{clip-path:inset(0 0 0 50%);transform-origin:50% 50%;animation:rightWing var(--flap) ease-in-out infinite alternate}.bat-body{clip-path:inset(0 42% 0 42%)}
+@keyframes leftWing{from{transform:perspective(160px) rotateY(-48deg) rotateZ(9deg)}to{transform:perspective(160px) rotateY(12deg) rotateZ(-5deg)}}
+@keyframes rightWing{from{transform:perspective(160px) rotateY(48deg) rotateZ(-9deg)}to{transform:perspective(160px) rotateY(-12deg) rotateZ(5deg)}}
+.challenge-diagram{width:100%;max-height:240px;display:block;border-radius:16px;margin:16px 0}.weekly-joke+.weekly-joke{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+@media(prefers-reduced-motion:reduce){.illustrated-bats{display:none!important}.morale-pumpkin,.broom-flight img{animation:none!important}}
+@media print{.illustrated-bats,.morale-pumpkin{display:none!important}}
+.morale-pumpkin{position:absolute}
+body.halloween-world-active{--card:#1b1728;--card2:#252034}

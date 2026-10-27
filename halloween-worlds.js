@@ -1,7 +1,7 @@
 /* Independent Halloween scenery. No inventory or Firebase writes. */
 (()=>{
 'use strict';
-const scenes=[['excavator','The Midnight Crew','sparks'],['laundromat','The Midnight Laundromat','bubbles'],['porch','All Hallows’ Porch','embers'],['fireworks','The Halloween Finale','fireworks'],['skeleton','The Pumpkin Gentleman','sparks']];
+const scenes=[['excavator','The Midnight Crew','sparks'],['laundromat','The Midnight Laundromat','bubbles'],['porch','All Hallows’ Porch','embers'],['fireworks','The Halloween Finale','fireworks'],['skeleton','The Pumpkin Gentleman','sparks'],['cauldron', 'The Brew Escapes', 'bubbles'],['pumpkin-express', 'The Pumpkin Express', 'sparks'],['snail-bakery', 'The Midnight Bakery', 'embers'],['fishing', 'The Catch of the Afterlife', 'sparks']];
 let previous=-1;try{previous=Number(localStorage.getItem('tt-last-halloween-world')??-1)}catch{}
 const candidates=scenes.map((_,i)=>i).filter(i=>i!==previous);const selected=candidates[Math.floor(Math.random()*candidates.length)];
 const [name,title,motion]=scenes[selected];let remembered=false,active=false,timer=0,frame=0,dialogOpen=false;

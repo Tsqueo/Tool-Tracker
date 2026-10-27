@@ -7,19 +7,19 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tool Tracker" />
-  <title>Tool Tracker V4.4.2.3 — Purpose Built.</title>
+  <title>Tool Tracker V4.4.2.5 — Purpose Built.</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-  <link rel="stylesheet" href="styles.css?v=4.4.2.3-worlds" />
+  <link rel="stylesheet" href="styles.css?v=4.4.2.5-worlds" />
 </head>
 <body><div id="startupSplash" class="startup-splash"><img src="tt-logo.png" alt=""><strong>Tool Tracker</strong><em>Purpose Built.</em></div>
   <section id="authScreen" class="auth-wrap">
     <div class="auth-card">
       <div class="brand auth-brand">
         <div class="brand-mark brand-mark-lg"><img src="tt-logo.png" alt="Tool Tracker logo" /></div>
-        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.4.2.3 · Purpose Built.</p></div>
+        <div><h1>Tool Tracker</h1><p class="muted">Construction inventory · V4.4.2.5 · Purpose Built.</p></div>
       </div>
       <form id="loginForm" class="stack gap-md">
         <div class="field"><label for="email">Employee email</label><input id="email" type="email" autocomplete="username" required /></div>
@@ -65,7 +65,7 @@
       <section id="dashboardView" class="view active">
         <div class="dashboard-intro">
           <div>
-            <div class="eyebrow">TOOL TRACKER · V4.4.2.3</div>
+            <div class="eyebrow">TOOL TRACKER · V4.4.2.5</div>
             <h2 id="greeting">Good afternoon</h2>
             <p class="muted" id="dashboardSubline">Here’s where everything is today.</p>
           </div>
@@ -223,7 +223,7 @@
       <section id="attentionView" class="view"><div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Needs Attention</h2><p class="muted">Verification, damage, repair and manually flagged assets—one queue with a next action.</p></div></div><div id="attentionQueue" class="card-list"></div></section>
       <section id="missingView" class="view"><div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Missing Tools</h2><p class="muted">Last known location, report details and recovery actions.</p></div></div><div id="missingQueue" class="card-list"></div></section>
       <section id="assignmentsView" class="view"><div class="section-heading"><div><button class="back-link" data-open-view="toolsView">‹ Inventory</button><h2>Crew &amp; Assignments</h2><p class="muted">Tools assigned to you, pending handoffs and crew requests.</p></div></div><div class="inventory-tabs"><button class="btn active" data-assignment-tab="mine">Assigned to me</button><button class="btn" data-assignment-tab="handoffs">Handoffs</button><button class="btn" data-open-view="wishlistView">Requests</button></div><div id="assignmentsList" class="card-list"></div></section>
-      <section id="estimateGameView" class="view"><div class="section-heading"><div><button class="back-link" data-open-view="moraleView">‹ Morale Department</button><span class="eyebrow">WEEKLY TAKEOFF</span><h2>Measure Twice, Guess Once</h2><p class="muted">One guess per level. The drawings get worse. Allegedly, you get better.</p></div><span id="estimateProgress" class="badge">0 of 3</span></div><div id="estimateLevels" class="estimate-levels"></div></section>
+      <section id="estimateGameView" class="view"><div class="section-heading"><div><button class="back-link" data-open-view="moraleView">‹ Morale Department</button><span class="eyebrow">WEEKLY CHALLENGES</span><h2>Measure Twice, Guess Once</h2><p class="muted">One guess per level. Logic, routes, observation and planning. A new set each week.</p></div><span id="estimateProgress" class="badge">0 of 3</span></div><div id="estimateLevels" class="estimate-levels"></div></section>
 
       <section id="moraleView" class="view">
         <div class="section-heading"><div><button class="back-link" data-open-view="dashboardView">‹ Dashboard</button><h2>Jobsite Morale Department</h2><p class="muted"><em>Productivity-neutral since 2026.</em></p></div></div>
@@ -231,9 +231,9 @@
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">DEPARTMENT BULLETIN <b id="bulletinNo"></b></span><h3 id="moraleBulletin"></h3><p class="muted">STATUS: NOTICE IGNORED AS EXPECTED. · FILED WITHOUT ACTION.</p></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">USELESS KNOWLEDGE</span><h3 id="uselessFact">The hook on a tape measure is supposed to move.</h3><p id="uselessFactDetail" class="muted">Its small amount of play compensates for the hook thickness when measuring inside versus outside an edge.</p><button id="moreFactsBtn" class="btn">Unfortunately, tell me more.</button><div id="moreFacts" class="more-facts"></div></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">INCIDENT REPORT <b id="incidentNo"></b></span><h3 id="incidentTitle">Unauthorized Drill Relocation</h3><p id="incidentText">A cordless drill was discovered approximately four feet from assigned storage. Witnesses described the situation as “pretty normal.”</p><p class="muted">STATUS: <span class="morale-resolved">HEROICALLY RESOLVED.</span> · <span class="morale-denied">MANAGEMENT DENIES INVOLVEMENT.</span></p></div></article>
-          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">HR-UNAPPROVED JOKE</span><h3 id="moraleJokeTitle">This week’s contribution to the complaint box</h3><p id="moraleDepartmentJoke"></p><button id="nextMoraleJokeBtn" class="btn">Another complaint, please</button></div></article>
+          <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">HR-UNAPPROVED JOKE</span><h3 id="moraleJokeTitle">This week’s contribution to the complaint box</h3><div id="moraleDepartmentJoke" aria-live="polite"></div><button id="nextMoraleJokeBtn" class="btn">Another complaint, please</button></div></article>
           <article class="panel morale-card"><div class="panel-body"><span class="eyebrow">THE FOREMAN’S PUZZLE</span><h3 id="puzzleTitle">The Three Boxes</h3><p id="puzzleText">Three boxes are marked A, B and C. A says “The key is not here.” B says “The key is in C.” C says “B is lying.” Exactly one statement is true. Which box contains the key?</p><div class="card-actions"><button id="puzzleHint" class="btn">Hint</button><input id="puzzleAnswer" placeholder="Type your answer" maxlength="40" autocomplete="off"><button id="puzzleSubmit" class="btn accent">Submit Answer</button><button id="puzzleReveal" class="btn">Give Up</button></div><p id="puzzleResult" class="muted"></p></div></article>
-          <button class="panel morale-card estimate-launch" data-open-view="estimateGameView"><div class="panel-body"><span class="eyebrow">NEW WEEKLY GAME</span><h3>Measure Twice, Guess Once</h3><p>Apprentice, Journeyman and Foreman takeoffs. One locked guess at each.</p><span id="estimateCardProgress" class="badge">0 of 3 complete</span><b>Open game ›</b></div></button>
+          <button class="panel morale-card estimate-launch" data-open-view="estimateGameView"><div class="panel-body"><span class="eyebrow">NEW WEEKLY GAME</span><h3>Measure Twice, Guess Once</h3><p>Three different weekly challenges. One locked guess at each level.</p><span id="estimateCardProgress" class="badge">0 of 3 complete</span><b>Open game ›</b></div></button>
         </div>
         <div class="morale-end"><strong>END OF WEEKLY MATERIAL</strong><span>You’ve reached the end of this week’s productivity loss.</span><b>Please return to pretending to work.</b><small>This department has no operational authority whatsoever.</small></div>
       </section>
@@ -345,7 +345,10 @@
 
   <div id="toast" class="toast hidden"></div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script type="module" src="app.js?v=4.4.2.3-worlds"></script>
-<script defer src="halloween-worlds.js?v=4.4.2.3-worlds"></script>
+  <script src="season-content.js?v=4.4.2.5"></script>
+  <script type="module" src="app.js?v=4.4.2.5-worlds"></script>
+<script defer src="halloween-worlds.js?v=4.4.2.5-worlds"></script>
+<dialog id="moraleAfterDark" class="morale-after-dark"><h2>Morale Department — After Dark</h2><p id="moraleAfterDarkLine"></p><div class="card-actions"><button id="moraleAfterDarkOpen" class="btn accent">Enter the department</button><button id="moraleAfterDarkClose" class="btn">Back to work</button></div></dialog>
+<script defer src="holiday-visitors.js?v=4.4.2.5"></script>
 </body>
 </html>

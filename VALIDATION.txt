@@ -1,0 +1,1 @@
+Local checks passed: node syntax; /tmp/test-complete.cjs; /tmp/test-visitors.cjs; local asset and service-worker reference integrity. Browser/device visual verification remains outstanding.
