@@ -1,3 +1,7 @@
+# Tool Tracker V5.0.1
+
+For this update, read **READ-FIRST-V5.0.1.txt** first. Install over V5.0; no new Firebase rules. The following V5.0 notes remain background documentation.
+
 TOOL TRACKER V5.0 — EXISTING APP UPGRADE
 
 Built from your V4.4.2.5-COMPLETE-HALLOWEEN ZIP. This package has not been deployed to your live app or Firebase project.

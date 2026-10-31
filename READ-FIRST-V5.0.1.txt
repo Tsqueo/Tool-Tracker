@@ -1,0 +1,58 @@
+TOOL TRACKER V5.0.1 — MOBILE CLEANUP & REQUESTS
+
+INSTALL OVER YOUR CURRENT V5.0
+1. Extract this ZIP.
+2. In your existing Tool-Tracker GitHub repository, upload the CONTENTS of
+   the extracted folder to the same root as index.html. Include the boss and
+   christmas-art folders. Replace the existing files and commit the upload.
+3. Wait for the repository's Pages deployment to finish successfully.
+4. Open Tool Tracker online, refresh, then close and reopen the app if needed.
+   The dashboard version should say V5.0.1.
+
+NO NEW FIREBASE RULES REQUIRED
+Firestore and Storage rules are unchanged from V5.0. Keep the V5 rules you
+already published. No inventory import, data deletion, new account, or game
+attempt reset is required. Do not upload this ZIP into Firebase Storage.
+
+WHAT CHANGED
+- Boss puzzle occupies its own screen. App navigation, seasonal badge,
+  visitors and scene controls are hidden while playing.
+- Crew, Helper, Start, Place task and Remove fit together in the phone editor.
+  A compact shot clock stays visible. Leaving pauses the same attempt.
+- Seasonal controls are also hidden during Measure Twice, Guess Once.
+- My tools: expandable location groups, compact photos, search, row actions,
+  and selection for bulk return/move. Bulk moves record each tool in history;
+  paired tools are not automatically included.
+- Personal: expandable photo categories, alphabetic sorting and search across
+  all groups. Purchase/receipt records remain in tool details. Privacy unchanged.
+- Company inventory category browsing defaults to A–Z, Uncategorized last.
+- Requests: Active/Completed tabs, useful empty state, clearer history search,
+  photo/category inventory picker, selected-tool summary, enlarged photo preview,
+  and automatically generated titles (optional custom title).
+- New job option within requests: admins create a job and location when sending.
+  Crew enter a proposed job name/address for admin confirmation. Admin must
+  confirm the job before marking items Ready for pickup.
+- Wishlist is labelled Purchase suggestions. Admin can link an unlisted request
+  item to a purchase suggestion; the job request stays open. Repeat clicks do
+  not create duplicate linked suggestions.
+- Zero Needs attention/Missing cards are hidden only after inventory loads.
+  Nonzero counts use restrained text accents, with normal card backgrounds.
+- Incident Report comes immediately before Useless Knowledge.
+- Existing small pumpkin, Christmas artwork, seasonal dates and game difficulty
+  are retained. Consumables remain outside this update.
+
+QUICK CHECK AFTER INSTALL
+Open Boss puzzle: the app bottom tabs must disappear and Place task must stay
+above the bottom edge when any task is selected. Leave and reopen to confirm
+that the same attempt/time resumes. Check My tools, Personal and Requests.
+For notifications, use separate admin/crew accounts: send a crew request,
+open it as admin to clear the unread count, then reply with the crew away from
+that conversation. The crew bell should count one unread conversation.
+
+VALIDATION
+JavaScript syntax/static assets, phone UI checks with isolated Firebase test
+stubs, request creation/new job, crew proposal/admin confirmation, linked purchase
+suggestions, compact browsing, and bulk return were checked. Existing clock,
+calendar and 3,000-schedule engine checks pass. No live production writes were
+performed. Real multi-account Firebase permissions/notification checks remain
+an installation check; test stubs do not prove production permission behavior.
