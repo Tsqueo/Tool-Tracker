@@ -31,7 +31,81 @@ service cloud.firestore {
         ])
         && request.resource.data.lastVerified == request.resource.data.conditionPhotoAt
         && request.resource.data.photoURL != resource.data.photoURL);
+      allow update: if activeUser() && resource.data.privateTool != true && resource.data.inventoryScope != 'personal'
+        && resource.data.pendingRequestId is string && resource.data.pendingRequestId != ''
+        && get(/databases/$(database)/documents/toolRequests/$(resource.data.pendingRequestId)).data.createdBy == request.auth.uid
+        && request.resource.data.pendingRequestId == '' && request.resource.data.assignedToUid == request.auth.uid
+        && request.resource.data.status == 'In Use'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['pendingRequestId','status','assignedToUid','assignedToName','locationId','locationName','updatedAt','updatedBy','updatedByName']);
       allow delete: if admin();
+    }
+
+    // V5 request threads are private to the requester and active admins.
+    function ownsRequest(id) { return activeUser() && (admin() || get(/databases/$(database)/documents/toolRequests/$(id)).data.createdBy == request.auth.uid); }
+    function receiveLine(before, after, i) {
+      return i >= before.size() || (after[i].key == before[i].key && after[i].toolId == before[i].toolId
+        && after[i].label == before[i].label && after[i].keys().hasOnly(['key','toolId','label','status'])
+        && (after[i].status == before[i].status || (before[i].status == 'Ready for pickup' && after[i].status == 'Received')));
+    }
+    function receivedOnly(before, after) {
+      return before.size() == after.size() && before.size() <= 20
+        && receiveLine(before,after,0)
+        && receiveLine(before,after,1)
+        && receiveLine(before,after,2)
+        && receiveLine(before,after,3)
+        && receiveLine(before,after,4)
+        && receiveLine(before,after,5)
+        && receiveLine(before,after,6)
+        && receiveLine(before,after,7)
+        && receiveLine(before,after,8)
+        && receiveLine(before,after,9)
+        && receiveLine(before,after,10)
+        && receiveLine(before,after,11)
+        && receiveLine(before,after,12)
+        && receiveLine(before,after,13)
+        && receiveLine(before,after,14)
+        && receiveLine(before,after,15)
+        && receiveLine(before,after,16)
+        && receiveLine(before,after,17)
+        && receiveLine(before,after,18)
+        && receiveLine(before,after,19)
+      ;
+    }
+    match /toolRequests/{id} {
+      allow read: if activeUser() && (admin() || resource.data.createdBy == request.auth.uid);
+      allow create: if activeUser() && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.lastActor == request.auth.uid
+        && request.resource.data.lines.size() > 0 && request.resource.data.lines.size() <= 20;
+      allow update: if activeUser() && (admin() || (resource.data.createdBy == request.auth.uid
+        && request.resource.data.createdBy == resource.data.createdBy
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lines','readBy','updatedAt','lastActor','searchText'])
+        && receivedOnly(resource.data.lines,request.resource.data.lines)
+        && request.resource.data.readBy.diff(resource.data.readBy).affectedKeys().hasOnly([request.auth.uid])
+        && (request.resource.data.lastActor == resource.data.lastActor || request.resource.data.lastActor == request.auth.uid)));
+      allow delete: if false;
+      match /messages/{messageId} {
+        allow read: if ownsRequest(id);
+        allow create: if ownsRequest(id) && request.resource.data.uid == request.auth.uid
+          && request.resource.data.keys().hasOnly(['uid','name','text','at'])
+          && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 1500;
+        allow update, delete: if false;
+      }
+    }
+    match /users/{uid}/bossWeeks/{week} {
+      allow read: if activeUser() && request.auth.uid == uid;
+      allow create: if activeUser() && request.auth.uid == uid && request.resource.data.used == 0
+        && request.resource.data.version == 0 && request.resource.data.unlocked == true;
+      allow update: if activeUser() && request.auth.uid == uid
+        && request.resource.data.unlocked == true
+        && request.resource.data.used >= resource.data.used && request.resource.data.used <= 2
+        && request.resource.data.used <= resource.data.used + 1
+        && request.resource.data.version == resource.data.version + 1
+        && (request.resource.data.used > resource.data.used
+          || !('attempt' in resource.data)
+          || (request.resource.data.attempt.phase != 'plan' && resource.data.attempt.phase == 'plan')
+          || (request.resource.data.attempt.phase == resource.data.attempt.phase
+            && request.resource.data.attempt.remaining <= resource.data.attempt.remaining + 300));
+      allow delete: if false;
     }
 
     match /verificationPhotos/{id} { allow read: if admin(); allow create: if activeUser(); allow update, delete: if false; }

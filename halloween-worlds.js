@@ -6,11 +6,11 @@ let previous=-1;try{previous=Number(localStorage.getItem('tt-last-halloween-worl
 const candidates=scenes.map((_,i)=>i).filter(i=>i!==previous);const selected=candidates[Math.floor(Math.random()*candidates.length)];
 const [name,title,motion]=scenes[selected];let remembered=false,active=false,timer=0,frame=0,dialogOpen=false;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const backdrop=document.createElement('div');backdrop.id='halloweenWorld';backdrop.setAttribute('aria-hidden','true');
+const backdrop=document.createElement('div');backdrop.id='halloweenWorld';backdrop.hidden=true;backdrop.setAttribute('aria-hidden','true');
 backdrop.innerHTML='<div class="world-art"></div><div class="world-shade"></div><div class="world-motes"></div>';
 document.body.prepend(backdrop);
 const art=backdrop.querySelector('.world-art');
-const canvas=document.createElement('canvas');canvas.id='halloweenWeather';canvas.setAttribute('aria-hidden','true');document.body.append(canvas);const ctx=canvas.getContext('2d');
+const canvas=document.createElement('canvas');canvas.id='halloweenWeather';canvas.hidden=true;canvas.setAttribute('aria-hidden','true');document.body.append(canvas);const ctx=canvas.getContext('2d');
 const button=document.createElement('button');button.className='world-view btn';button.textContent='View Halloween scene';button.hidden=true;document.body.append(button);
 const dialog=document.createElement('dialog');dialog.className='world-dialog';dialog.innerHTML='<div class="world-dialog-art"></div><div class="world-dialog-shade"></div><div class="world-dialog-controls"><span></span><button class="btn">Back to app</button></div>';document.body.append(dialog);dialog.querySelector('span').textContent=title;
 button.onclick=()=>{dialogOpen=true;dialog.showModal()};dialog.querySelector('button').onclick=()=>dialog.close();dialog.addEventListener('close',()=>dialogOpen=false);
