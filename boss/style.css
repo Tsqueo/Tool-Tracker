@@ -22,3 +22,7 @@ main{max-width:1510px;margin:auto;padding:42px 4vw 30px}h1,h2,h3,p{margin-top:0}
 }
 /* More board space while keeping the shot clock visible. */
 .topbar{height:52px}#bossFace{top:58px}
+
+#bossFace.meltdown{animation:deadlineShake .07s steps(2) infinite!important;filter:drop-shadow(0 0 12px #ff291a)}#bossFace.meltdown:before,#bossFace.meltdown:after{content:"💨";position:absolute;top:0;font-size:32px;animation:deadlineSteam .22s steps(2) infinite}#bossFace.meltdown:before{left:-25px}#bossFace.meltdown:after{right:-25px;animation-delay:.1s}@keyframes deadlineShake{from{transform:translate(-4px,2px) rotate(-3deg)}to{transform:translate(4px,-2px) rotate(3deg)}}@keyframes deadlineSteam{to{opacity:0;translate:0 -24px}}
+
+#bossFace.meltdown .boss-sprite{animation-duration:.1s!important}#bossFace.meltdown .steam{animation-duration:.2s!important}
