@@ -1,0 +1,506 @@
+{
+  "version": "5.1.0",
+  "base": "5.0.1",
+  "files": [
+    {
+      "path": "READ-FIRST-V5.1.0.txt",
+      "size": 4257,
+      "sha256": "826df58c8751d9e39b87898850686f132276ef00a1cd7fd4b9c4fefa1217507d"
+    },
+    {
+      "path": "README.md",
+      "size": 468,
+      "sha256": "c95b2a82ab470f6bc27f823be43287b7bdba911ce04ebf3b911add015cf3f16d"
+    },
+    {
+      "path": "annual-content-v51.js",
+      "size": 95461,
+      "sha256": "12a2ee271eb841c16dddbe54bc1ca903962e6407349fb43f62832eaebfa07047"
+    },
+    {
+      "path": "annual-puzzles.js",
+      "size": 16707,
+      "sha256": "e1824699ddd67ad46a6e35b2306eacc67e70c35649a3ad29f917ae8be267947a"
+    },
+    {
+      "path": "app.js",
+      "size": 197011,
+      "sha256": "d8a8a161ccde071e36f36cedb825c38bfbad84e1f39706e12d5799c9a54d5838"
+    },
+    {
+      "path": "apple-touch-icon.png",
+      "size": 34023,
+      "sha256": "07d789faf4c3d04d5d4aa8f9c59b416cf9832ca3267c3923cc7cbff3f0dce423"
+    },
+    {
+      "path": "artwork-manifest.json",
+      "size": 2798,
+      "sha256": "44fe649eda21cb6a9c72241c6c7457e560ba5f819afd865171a13e8e05c7cb95"
+    },
+    {
+      "path": "boss/app.js",
+      "size": 22796,
+      "sha256": "5881abeab93d7a2690efa143d03e8e304b4af0723710422a8be95e03920840d6"
+    },
+    {
+      "path": "boss/boss-atlas.webp",
+      "size": 362862,
+      "sha256": "b6572488dd947306eb1a606d20a6483708cbe9ff7e5e4d72c43d301892d7c939"
+    },
+    {
+      "path": "boss/cases.js",
+      "size": 7267,
+      "sha256": "fc9ccf27484922fb8c03406f7baa6ff7c180ef3dc670221cfec3162072f12ce9"
+    },
+    {
+      "path": "boss/engine.js",
+      "size": 6588,
+      "sha256": "22148f97e43224029067234545437ec7b5295d208dd2565da01a0e63d1f481ab"
+    },
+    {
+      "path": "boss/index.html",
+      "size": 12947,
+      "sha256": "f04bcf44bd8187b5caccafbdf77fce60dd7c8cb4d914409ebcf1f6a11777f037"
+    },
+    {
+      "path": "boss/investigation.css",
+      "size": 3151,
+      "sha256": "dbfe5c4919ae370109f86864458313d5dacd32b647effff49403728f301879b3"
+    },
+    {
+      "path": "boss/investigation.html",
+      "size": 1873,
+      "sha256": "ecb49e2272e4ff13624c0b52cd95183e6884671dc474c57ad0231fd4bfd0ea5c"
+    },
+    {
+      "path": "boss/investigation.js",
+      "size": 5858,
+      "sha256": "22255baf651915cb53c6728245ee26b48bd969e2e334126a79a0a7858f98569d"
+    },
+    {
+      "path": "boss/scenarios.js",
+      "size": 3384,
+      "sha256": "d6e74a890469fd99e8c974c32370e47a0870809899909117dc4bc2ed96f839c4"
+    },
+    {
+      "path": "boss/style.css",
+      "size": 21774,
+      "sha256": "3be23514070f940820f6157325215f03e479c7e3972c03d614e5a108433a2864"
+    },
+    {
+      "path": "christmas-art/beebo-pinecone.webp",
+      "size": 396010,
+      "sha256": "9c173b7febbbdc3848c23327e9ed4283a5f43eb85e194ca655da05937dcf51a1"
+    },
+    {
+      "path": "christmas-art/beebo-roadtrip.webp",
+      "size": 384712,
+      "sha256": "cd9ec003c824f29b5fbdfe7bd7e497e15d3cced76e42ce658e8e34d6e5d33891"
+    },
+    {
+      "path": "christmas-art/beebo-rudolph.png",
+      "size": 2750594,
+      "sha256": "c0d98384d182ef639803942132003216e0a347f39872b7b0ae4fb97ab5d6bb28"
+    },
+    {
+      "path": "christmas-art/beebo-rudolph.webp",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "christmas-art/charlie-linus.webp",
+      "size": 271684,
+      "sha256": "888f5ad93376b08aed6ed1b581c0bc9143040d930f7495a2da8c0994ce5333de"
+    },
+    {
+      "path": "christmas-art/christmas-fire.webp",
+      "size": 455280,
+      "sha256": "21e73eee75fad2e483e13702cfba0c6631b305e3080e488dbfb295cfef01b30c"
+    },
+    {
+      "path": "christmas-art/christmas-lake.webp",
+      "size": 378148,
+      "sha256": "73c521ebb97f2edbda4d8ea67625986b2468b24095fb947940e4813008ae7dc1"
+    },
+    {
+      "path": "christmas-art/christmas-tree-village.webp",
+      "size": 522586,
+      "sha256": "d5c0cd10c7fc0809b36247a37561242396d97b83169f2b1406dc9524a1e1daca"
+    },
+    {
+      "path": "christmas-art/empty-pond.webp",
+      "size": 397124,
+      "sha256": "ffb6b56dc413844e694bd8def69dd75341d96b315c2075f61f1c7209ded93c8a"
+    },
+    {
+      "path": "christmas-art/gingerbread.png",
+      "size": 2985006,
+      "sha256": "829d87d42e7a6c9ba7cc621f6d6df036fc33a7c0a08f9a0f1bf4b951f5dd7c18"
+    },
+    {
+      "path": "christmas-art/gingerbread.webp",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "christmas-art/grinch-max.webp",
+      "size": 320762,
+      "sha256": "8613d8d07a9563f38cced161e0291d28b8194d5e017fe69d12371c2d52fb274f"
+    },
+    {
+      "path": "christmas-art/northern-express.webp",
+      "size": 601768,
+      "sha256": "a5a10f432330fcda4153187c916d8baaff34b680c4b737975456de08868da83d"
+    },
+    {
+      "path": "christmas-art/rudolph-snow-day.webp",
+      "size": 327734,
+      "sha256": "590d6307fdda1d6624c2faf908bd8aaaa04bed51697ef86d6c537f53fecacfab"
+    },
+    {
+      "path": "christmas-art/rudolph-tree.webp",
+      "size": 450950,
+      "sha256": "5ff71221b9c0f6120e8a9cd13936ee40f6b935f1b7f23f09ce81b6cb4370dc5f"
+    },
+    {
+      "path": "christmas-art/santa-flight.webp",
+      "size": 368816,
+      "sha256": "ca438ec5f18a12536832b6a73600c9441bb6627fce38eb98c3301ca0dfa18ead"
+    },
+    {
+      "path": "christmas-art/snowglobe-workshop.webp",
+      "size": 605664,
+      "sha256": "90938a02dc8c6462a1fd4841c5f2d93748c6dbb66732cd4555367bcb0bd714d9"
+    },
+    {
+      "path": "christmas-art/tree-farm.webp",
+      "size": 405370,
+      "sha256": "62413e56a0b259f90d8d5b9d23fd81862a28b636c199ff9027f4684e3ed7f63c"
+    },
+    {
+      "path": "christmas-art/visitors.webp",
+      "size": 364216,
+      "sha256": "65631c4894c4dad6b76640b4b2ef9fcce4fce3a832201449d537fd019474534b"
+    },
+    {
+      "path": "christmas-scenes.js",
+      "size": 1579,
+      "sha256": "c679a068f04edd381aaf2ccfcb0fc99b55a3607db5939e05230387d186f37344"
+    },
+    {
+      "path": "christmas-worlds.js",
+      "size": 8880,
+      "sha256": "dc66ec843f225e2d2665d03065bfcb8a6b6e612a800cd1e6cd6d825cc6dc4cce"
+    },
+    {
+      "path": "dashboard-mascots-beam.jpg",
+      "size": 341201,
+      "sha256": "5a5e5975e95b01f3bb10e495e44a70bd6d3e45f3a2b5500535d4e4bb7b378c37"
+    },
+    {
+      "path": "dashboard-mascots-wide.jpg",
+      "size": 175233,
+      "sha256": "e4851d0955719fc6892ee6e163732ff80adbb5edabcde6bbb89124d3f94e59d3"
+    },
+    {
+      "path": "day-one-projects-2b.png",
+      "size": 67212,
+      "sha256": "3701e96c35ec168fdb41397de8efc516acd2905f9de4abf97287cb293b038b49"
+    },
+    {
+      "path": "day-one-projects-v44.png",
+      "size": 303508,
+      "sha256": "0ddb8204cd00d42390d80f2d063480e880637fbf3cc7fdf5a0e5adcf226e4cac"
+    },
+    {
+      "path": "door-content-v51.js",
+      "size": 5552,
+      "sha256": "bfea41a16df567258745c40e17002ecc25fc5fa558e0a360c094ca1b899d929f"
+    },
+    {
+      "path": "firebase-config.js",
+      "size": 357,
+      "sha256": "dc262e6ec33b110a55eae2ef4db67be95e70e6457781f40d373d27cf1f508ab2"
+    },
+    {
+      "path": "firestore.rules",
+      "size": 9433,
+      "sha256": "b08b8610f780c95d4fdbcf874a1d4640a4ce4de439e47f69c19a6143988f54d4"
+    },
+    {
+      "path": "halloween-art/bat.webp",
+      "size": 153436,
+      "sha256": "49b58d2a992b768d5a6ac283388bd574f4d940d45221feb5603646b3267054bb"
+    },
+    {
+      "path": "halloween-art/cauldron.webp",
+      "size": 430148,
+      "sha256": "c13a33fd4051337ffd12ebe8785e52975f60d2bd3e3f1d8dafb25d0b97ab883d"
+    },
+    {
+      "path": "halloween-art/excavator.webp",
+      "size": 565368,
+      "sha256": "6a53c48be4d087a771d5c22b572bf1948b47fcf9d564b1873213701802b18050"
+    },
+    {
+      "path": "halloween-art/fireworks.webp",
+      "size": 528068,
+      "sha256": "1ed15c69e42d69f7b721f1ce69d7baca06b68edc333da4170bc6a81d4c487650"
+    },
+    {
+      "path": "halloween-art/fishing.webp",
+      "size": 426000,
+      "sha256": "3264dbdec63e54cb03b03c4a15e50796ecdd92dca47367738c40964531853b61"
+    },
+    {
+      "path": "halloween-art/hand.webp",
+      "size": 159226,
+      "sha256": "5d041a55182f7e3fac1fca7df7e72d58ff0d9fcbbac82c4647e5658d23f99efb"
+    },
+    {
+      "path": "halloween-art/laundromat.webp",
+      "size": 526792,
+      "sha256": "3905c31c2cf15dc5d845b1d4ad237b8c41fecac5e8ce5b8c2e953a17ae1a0d9c"
+    },
+    {
+      "path": "halloween-art/morale-pumpkin.webp",
+      "size": 292930,
+      "sha256": "041ee10bf8deb302e511494b43842ce05661d13388f5caebc3155e7886e3c0c5"
+    },
+    {
+      "path": "halloween-art/porch.webp",
+      "size": 488782,
+      "sha256": "4ce31a436023c8f6216c5ed218abfbc05dd430b37c2a729582d7521e6e855636"
+    },
+    {
+      "path": "halloween-art/pumpkin-express.webp",
+      "size": 532636,
+      "sha256": "f3fee2495af2efcf20acc7386fe8208e89af84b92fa8acf34ae47b42c9e08a57"
+    },
+    {
+      "path": "halloween-art/skeleton.webp",
+      "size": 367080,
+      "sha256": "8f571951e7a4eb4eecfd4197be4466ef0c37295a5f3fcb702cdb0ebc9cbee075"
+    },
+    {
+      "path": "halloween-art/snail-bakery.webp",
+      "size": 457350,
+      "sha256": "8d135dbbf80336ec9dd78c66dd559235110e33e26b519c3a80aadca035d86e5e"
+    },
+    {
+      "path": "halloween-art/witch.webp",
+      "size": 345954,
+      "sha256": "e82e9e4ce1c15f46743cbd36328252c840af1db0783dfd4cb84589f2239c88b2"
+    },
+    {
+      "path": "halloween-worlds.js",
+      "size": 5198,
+      "sha256": "96e1d6371fec879f897008c405424adb50ce2c44235ff3c272b70c686be5eb01"
+    },
+    {
+      "path": "history/READ-FIRST-V5.0.1.txt",
+      "size": 3534,
+      "sha256": "fe6300c5f4e65af5e5194bb39079a4a2218bb26e55c5a158641c172eb7489904"
+    },
+    {
+      "path": "history/READ-FIRST-V5.0.txt",
+      "size": 6267,
+      "sha256": "6769785bf10b01f95d79a2fe869db1e64be96520da3c55b4a6b267fea9c07b7e"
+    },
+    {
+      "path": "holiday-visitors.js",
+      "size": 2239,
+      "sha256": "8917e61e07d7e382e0ac6979e735b6b451244e32606d149bd27f3413a1a1ed93"
+    },
+    {
+      "path": "icon-192.png",
+      "size": 66161,
+      "sha256": "256c530d312faa4389186cfb0b14abb6c2e8bc4f8fe268e61dec5436d1256ca5"
+    },
+    {
+      "path": "icon-512.png",
+      "size": 379348,
+      "sha256": "b9ef55e32ad35aad361ae752af7cdc3a076160f6d51581ec8c7ba4f9c57fd9bd"
+    },
+    {
+      "path": "icon.svg",
+      "size": 584,
+      "sha256": "a0fd109aff1bb2ae5021e53d0ff974ff810b81b1c5e335fba4cc51f6a9f54eb2"
+    },
+    {
+      "path": "index.html",
+      "size": 55179,
+      "sha256": "cb243991143300618262bda5cdcbbabc40496959c363e8bd8ea40a81e7fb168b"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "size": 572,
+      "sha256": "46f3e9635bd26370fa6832baffd2572bda904ae93249197630c3e6050fbaf8d9"
+    },
+    {
+      "path": "mascot-master.png",
+      "size": 451570,
+      "sha256": "7d196efd4f4b7d60d2b1744098b429ecc0931b80def5f683d7d55a49ee10dd84"
+    },
+    {
+      "path": "morale-worn-heroes.png",
+      "size": 468853,
+      "sha256": "0f692df750937065ade84b79785d80b9af4efef5cc8ac28c51179f12a612a3b2"
+    },
+    {
+      "path": "season-calendar.js",
+      "size": 1324,
+      "sha256": "de2a2855f925cf70848b7be4c0808325122b113168711cd5e2ab54948dcc6cdb"
+    },
+    {
+      "path": "season-content.js",
+      "size": 60767,
+      "sha256": "a6dd02dc3883e5fa7419e12ddcd44dcace9b57cc00207f8d9635ea18c680924c"
+    },
+    {
+      "path": "service-worker.js",
+      "size": 3224,
+      "sha256": "07bc26062704f6cf700bd5a4d4bfb0e93f17815adebbf48cd6e5d8c246754877"
+    },
+    {
+      "path": "storage.rules",
+      "size": 1761,
+      "sha256": "30441901bd27b00b9fc32768001b682cfda98996efff9900850215e0b361d2c3"
+    },
+    {
+      "path": "styles.css",
+      "size": 67730,
+      "sha256": "daecc83f45a6da9fc94ec022e33cce5d1deb829a752edba43355e2fdea6618f3"
+    },
+    {
+      "path": "tt-logo.png",
+      "size": 162019,
+      "sha256": "84d4f23df10ffd6b9fafcbf8fab103ec118f3fc52757ebd30a43fd571e4a4ca8"
+    },
+    {
+      "path": "v5-features.js",
+      "size": 29722,
+      "sha256": "62ca811e7ae27a70623349491c48ee0f5d427ec1f9b1b467c7f4ba0a2ab560ba"
+    },
+    {
+      "path": "v5.css",
+      "size": 10223,
+      "sha256": "8e787cf00fce8f14fdb73443e2a5444dbc16886551f27a1df891bcb003002aee"
+    },
+    {
+      "path": "winter/art/angels-v4.png",
+      "size": 1516660,
+      "sha256": "1b3adf4a47768c808ec94a2cadd51e86ed82afabe519ef68c4772dfcc210ad7b"
+    },
+    {
+      "path": "winter/art/beebo-fight-v3.png",
+      "size": 1505405,
+      "sha256": "20bc191622620dc059d18bb5f41bfb8b9b0e49bf2157e0633c290f2328980523"
+    },
+    {
+      "path": "winter/art/beebo-rest-v2.png",
+      "size": 2598482,
+      "sha256": "ab3ccf327c32fb35dc1db73694523340c38a2b4f55c7f9e74bc4473866f1b235"
+    },
+    {
+      "path": "winter/art/cocoa-story-v7.png",
+      "size": 2532665,
+      "sha256": "f1eddb8f22847c421f8df3e19b4f5b4e0c4fcfd831cd82a61d9ab6f5d2bfce3b"
+    },
+    {
+      "path": "winter/art/cookie-story-v8.png",
+      "size": 2570250,
+      "sha256": "3348d8a4e4b4befcac472caab1392e67c3fb66845a32a023a370a7b51115c135"
+    },
+    {
+      "path": "winter/art/extras-motion-v2.png",
+      "size": 1651000,
+      "sha256": "d2a95312c3b76461f72b3ee089a909064fcde27a9b808a18d2d828c714ee06c4"
+    },
+    {
+      "path": "winter/art/fight-cast-v3.png",
+      "size": 1468482,
+      "sha256": "23dff5709a3b6ecca1d84226fcf75163f8314b5b1e21bead29b571676dce38b7"
+    },
+    {
+      "path": "winter/art/friends-v6.png",
+      "size": 2239988,
+      "sha256": "87be66c42336d9db23859188644e6c671b5935c9e5cec0163c0f674e25487c71"
+    },
+    {
+      "path": "winter/art/hat-story-v7.png",
+      "size": 2384243,
+      "sha256": "a5f5adc0eb55f0764a9ccdd0733828aad1e7b12dd6f2a08731ee088d67ffdd9e"
+    },
+    {
+      "path": "winter/art/nose-story-v8.png",
+      "size": 2439710,
+      "sha256": "1c566411cb3eaa565de3a7e2a94d4d4c136be7acfce09a2bada2a4ef52e781a9"
+    },
+    {
+      "path": "winter/art/props-v4.png",
+      "size": 1701014,
+      "sha256": "6add3baf358e57ee158186062e0fb3ae8631d5c14b58838d17180f6f79b0823b"
+    },
+    {
+      "path": "winter/art/props-v5.png",
+      "size": 603656,
+      "sha256": "36ee69680e2916bf1e6a4e3ba8be7948e0bfd639b82e0f8757fa26ba1b3fc7d1"
+    },
+    {
+      "path": "winter/art/reference-friends-v6.png",
+      "size": 1364433,
+      "sha256": "677076dc4112a2e0afbe39f0cee2e2fd414286e7d35bce0e63ac7eefc97155a1"
+    },
+    {
+      "path": "winter/art/rudolph-v4.png",
+      "size": 1367126,
+      "sha256": "00b74a0829e9c425f44284e87df04a173c1e683aa5100cbb36961996e7f3b66e"
+    },
+    {
+      "path": "winter/art/snow-parts-v7.png",
+      "size": 1737556,
+      "sha256": "26caa3f416c8bd437ed1b1497ee93a1849f5ffe6b896fd67d5f500ee62ceb319"
+    },
+    {
+      "path": "winter/art/toboggan-v4-cutout.png",
+      "size": 2455558,
+      "sha256": "45184392ff7e70e76ce229f384e75dad0d70d2582e4f2f176480419700f5f7b1"
+    },
+    {
+      "path": "winter/art/toy-train-v8.png",
+      "size": 2515676,
+      "sha256": "9daed7f56160b42fc31c0abb032b0dcdd9a5388992341ff7b0a0f261f624167c"
+    },
+    {
+      "path": "winter/art/visitors.webp",
+      "size": 364216,
+      "sha256": "65631c4894c4dad6b76640b4b2ef9fcce4fce3a832201449d537fd019474534b"
+    },
+    {
+      "path": "winter/fight.css",
+      "size": 1005,
+      "sha256": "6958632f67abe59c4bb147bc88adf4bde08e01b21062ba5b3270a6965948455c"
+    },
+    {
+      "path": "winter/host.js",
+      "size": 3594,
+      "sha256": "4e4005a073b1e79e80aeba0f995784bcbafa4325a9903a41df729d4fc449660f"
+    },
+    {
+      "path": "winter/index.html",
+      "size": 997,
+      "sha256": "478758483e098c638060ea33e1ea027da5df6cec55d4bc735f87a3006064e7c4"
+    },
+    {
+      "path": "winter/winter.css",
+      "size": 8447,
+      "sha256": "658d879348a0a778bf7dfea2da98d0f32547cc9e4d0ec54d6aa980c85f71f5f4"
+    },
+    {
+      "path": "winter/winter.js",
+      "size": 39913,
+      "sha256": "d9de4d8c5a0e99e3dcd2aa15a0bc143f85d6aa5aa9df1d992865e7d385ae62ac"
+    }
+  ]
+}

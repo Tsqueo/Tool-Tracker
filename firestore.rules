@@ -91,6 +91,16 @@ service cloud.firestore {
         allow update, delete: if false;
       }
     }
+    // Personal weekly game progress; no access to inventory or another user's state.
+    match /users/{uid}/moraleWeeks/{week} {
+      allow read: if activeUser() && request.auth.uid == uid;
+      allow create, update: if activeUser() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['foreman','estimate','facts','updatedAt'])
+        && request.resource.data.foreman is bool
+        && request.resource.data.estimate is map && request.resource.data.estimate.size() <= 3
+        && request.resource.data.facts is int && request.resource.data.facts >= 0 && request.resource.data.facts <= 4;
+      allow delete: if false;
+    }
     match /users/{uid}/bossWeeks/{week} {
       allow read: if activeUser() && request.auth.uid == uid;
       allow create: if activeUser() && request.auth.uid == uid && request.resource.data.used == 0

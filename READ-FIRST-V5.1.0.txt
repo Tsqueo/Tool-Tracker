@@ -1,0 +1,69 @@
+TOOL TRACKER V5.1.0 — COMPLETE APP REBUILD
+
+This ZIP upgrades the actual Tool Tracker app. It is not the standalone
+Christmas preview. It has not been deployed to your live GitHub Pages site
+or Firebase project.
+
+INSTALL
+1. Extract this ZIP. Keep a backup of the currently deployed app.
+2. Firebase Console > Firestore Database > Rules: publish firestore.rules
+   from this package. V5.1 adds a private per-user moraleWeeks collection so
+   weekly Foreman, Measure Twice and fact progress can sync across devices.
+   Storage rules are unchanged from V5.0.1.
+3. Upload the extracted CONTENTS to the root of your existing Tool Tracker
+   GitHub repository, alongside index.html. Include every folder, especially
+   boss, winter, christmas-art and halloween-art. Commit the replacement.
+4. Wait for GitHub Pages to finish its deployment. Open the app online,
+   refresh, then close and reopen the installed app. Confirm V5.1.0 appears.
+   Keep the first online load open while artwork is cached.
+
+Do not import inventory, reset users, delete app data, or upload the ZIP into
+Firebase Storage. Existing tools, requests, accounts and saved Boss attempts
+are retained. Weekly content progress uses new per-user keys for this update;
+old locally stored V5.0.1 content scores are not imported into new questions.
+
+INCLUDED
+- All existing V5.0.1 inventory, request, job, browsing and personal-tool fixes.
+- Sixteen Christmas backdrops, including the repaired Beebo and gingerbread
+  artwork. View Christmas scene includes backdrop selection and snowfall.
+- Nineteen character scenes from the approved preview. The scene bag visits
+  every scene before reshuffling. Characters pause away from the dashboard.
+- Moving sleigh reindeer legs; clipped atlas boundaries for the snowman and
+  Donner; larger snow-angel Bumble with matching powder positions; Beebo's
+  parcel breaks away as he emerges. Yukon strikes the icicle three times.
+- The preview's snowfall intensity curve, including the 100% setting.
+  Seasonal dates and automatic weekly intensity remain on the Pacific clock.
+  Christmas lights are NIGHT ONLY in the app. No daytime-preview override.
+- Fifty-two weekly Measure Twice sets (156 challenges), with calculations,
+  observation, route tables, constrained orders, packing and multi-step logic.
+- Fifty-two Foreman puzzles with revised weak/ambiguous entries, fifty-two
+  typed door problems, and fifty-two coherent fact topics with five facts each.
+- Expanded joke rotation, with three complaint-box jokes per weekly visit.
+- A new Boss investigation mechanic: Who Signed This Off? Review drawing,
+  delivery, photograph-log and witness records; submit cause, evidence and
+  corrective action. Six incident files alternate with the existing scheduling
+  game on successive weeks. Existing in-progress Boss attempts keep their game.
+- The same five-minute solve clock, two weekly attempts, pause/resume and
+  version-conflict protection. Timeouts show the Boss meltdown for two seconds
+  before the result. No free retry or clock reset.
+- Weekly content changes at Monday 4:30 a.m. America/Vancouver, shared by all
+  users. Annual Foreman/Measure Twice/fact order reshuffles after 52 weeks.
+
+CHECKED
+JavaScript syntax and local asset references; Pacific calendar boundaries;
+3,000 scheduling simulations and eight solvable scheduling scenarios;
+reservation/pause/retry clocks; investigation saves, conflicts and timeout;
+19 scenes across three deterministic variants including interrupt cleanup;
+annual content counts, topic matching and reset selection; isolated browser
+checks for the actual app, phone controls, game entry and progression.
+
+Production Firebase permissions and real two-device synchronization still
+need the normal post-install check with your own accounts. No production
+writes were made while building. Browser tests used isolated Firebase stubs.
+
+POST-INSTALL CHECK
+Sign in, open inventory and an existing request. Solve a weekly challenge,
+then open the same account on a second device and check its saved progress.
+Open the Boss puzzle, start/pause/return, and confirm the same remaining clock.
+Christmas scenes activate automatically from November 30 through January 9;
+Christmas is not forced on outside its seasonal window.
