@@ -46,5 +46,5 @@ function simulate(plan,options={}){
  const waits=TASKS.filter(t=>states[t.id].start!==null&&states[t.id].start>plan[t.id].start).map(t=>({task:t.name,minutes:(states[t.id].start-plan[t.id].start)*15}));
  return {states,events,ready,allDone,finish,cost,overtime,completed:finished.length,waits,missed,options:{...options},plan:JSON.parse(JSON.stringify(plan))};
 }
-root.BossEngine={CREW,TASKS,time,simulate,crewFor,duration};
+if(root.BossNames){CREW.forEach((c,i)=>c.name=root.BossNames.names[i]);TASKS.forEach(t=>t.note=root.BossNames.rename(t.note));const originalSimulate=simulate;root.BossEngine={CREW,TASKS,time,simulate:(...args)=>{const r=originalSimulate(...args);r.events.forEach(e=>e.text=root.BossNames.rename(e.text));return r},crewFor,duration};}else root.BossEngine={CREW,TASKS,time,simulate,crewFor,duration};
 })(typeof window==='undefined'?globalThis:window);

@@ -1,0 +1,5 @@
+/* Stable internal crew IDs, varied display names. Never changes actual user records. */
+(()=>{'use strict';const sets=[['Ada','Bo','Cam','Drew'],['Maya','Luis','Erin','Noah'],['Jules','Owen','Priya','Cole'],['Alex','Nora','Sam','Leah'],['Kai','Tess','Marco','Riley'],['Jordan','Rosa','Eli','Quinn'],['Avery','Ben','Zoe','Devon'],['Morgan','Ivy','Leo','Jesse']],week=window.TTCalendar?.week()||new Date().toISOString().slice(0,10),n=Math.floor((Date.parse(week)-Date.parse('2026-11-02'))/604800000),names=sets[((n%sets.length)+sets.length)%sets.length];function rename(s){return String(s).replace(/\b(Ada|Bo|Cam|Drew)\b/gi,m=>{const name=names[['ada','bo','cam','drew'].indexOf(m.toLowerCase())];return m===m.toUpperCase()?name.toUpperCase():name})}window.BossNames={names,rename};
+// Static briefing text must agree with the names used by the engine.
+const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);while(walker.nextNode()){const node=walker.currentNode;if(!['SCRIPT','STYLE'].includes(node.parentNode?.tagName))node.textContent=rename(node.textContent)}
+})();
