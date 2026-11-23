@@ -20,3 +20,10 @@
 @media(max-width:700px){#dashboardView .mascot-hero,#dashboardView .mascot-hero>img{height:190px!important}#dashboardView .mascot-hero>img{object-position:center 55%!important}}
 /* Seasonal scenes continue to own the hero area in December. */
 body.christmas-world-active #dashboardView .mascot-hero{display:none!important}
+
+/* V5.3.1: preserve the entire mascot artwork, with caption outside the image. */
+#dashboardView .mascot-hero{width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;display:block!important;background:var(--card)!important}
+#dashboardView .mascot-hero>img{display:block!important;width:100%!important;max-width:none!important;height:auto!important;max-height:none!important;object-fit:contain!important;object-position:center!important}
+#dashboardView .mascot-caption{position:static!important;max-width:none!important;margin:0!important;border-radius:0!important;left:auto!important;bottom:auto!important;padding:12px 16px!important;background:#111827!important;color:white!important}
+#dashboardView .dash-tile{border-radius:0!important;background:transparent!important;box-shadow:none!important}
+body.christmas-world-active #dashboardView .mascot-hero{display:none!important}

@@ -1,0 +1,6 @@
+V5.3.1 GitHub-only repair for V5.3.0
+Extract and upload the loose files in this ZIP to the existing repository ROOT, replacing matching files. Commit. No Firebase rules, boss or winter uploads. Wait for latest Pages deployment to turn green. Fully close/reopen the app online. Confirm V5.3.1, inventory counts and full mascot image. If financial migration fails, its full error remains visible; send a screenshot. Leave crew use paused until financial access checks and receipt migration succeed.
+
+Fixes: financial migration no longer prevents realtime inventory startup. Persistent migration status/error and retry. Full-width natural-height mascot image; caption below image.
+
+Checked: JavaScript syntax and startup regression covering an unresolved migration, a rejected transfer, persistent error and successful retry. Existing financial migration logic is unchanged. A fresh browser preview was blocked by browser policy. Production Firebase data and phone layout remain to be verified.

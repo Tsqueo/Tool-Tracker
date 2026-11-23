@@ -603,9 +603,16 @@ renderMorale();
 
 paintIcons();
 applySeasonalDecor();
+function beginFinancialMigration(){
+  if(!isAdmin())return;
+  let banner=document.getElementById('financialMigrationStatus');
+  if(!banner){banner=document.createElement('div');banner.id='financialMigrationStatus';banner.className='panel';banner.setAttribute('role','status');banner.style.cssText='padding:14px;margin:12px 0;grid-column:1/-1';document.querySelector('main').prepend(banner)}
+  banner.replaceChildren();const message=document.createElement('span');message.textContent='Inventory can be used while financial records are secured. Keep this app open online.';banner.append(message);banner.hidden=false;
+  privacy.prepare().then(()=>{banner.hidden=true;renderTools();renderPersonalTools();inventoryV52?.refresh()}).catch(err=>{console.error('Financial migration:',err);message.textContent='Inventory is available. Financial privacy migration needs attention: '+(err.message||String(err))+'. Keep crew use paused until this is resolved. ';const retry=document.createElement('button');retry.className='btn';retry.type='button';retry.textContent='Retry financial migration';retry.onclick=beginFinancialMigration;banner.append(retry)});
+}
 onAuthStateChanged(auth,async user=>{document.getElementById('startupSplash')?.classList.add('hidden');
   state.user=user;
-  if(user){$('authScreen').classList.add('hidden');$('app').classList.remove('hidden');$('profileEmail').value=user.email||'';try{await ensureUserProfile(user);if(state.profile?.active===false){toast('This crew account is inactive.',true);await signOut(auth);return}$('currentUserName').textContent=displayName();$('displayNameInput').value=displayName();$('businessName').value=state.settings.businessName||'Day One Projects';$('profileTheme').value=state.profile.theme||localStorage.getItem('tt-theme')||'system';applyTheme($('profileTheme').value);applyRoleUI();updateGreeting();await privacy.prepare();startRealtime();history.replaceState({view:'dashboardView'},'',location.href);openView('dashboardView',false)}catch(err){console.error(err);toast(`Firebase setup error: ${err.message}`,true)}}
+  if(user){$('authScreen').classList.add('hidden');$('app').classList.remove('hidden');$('profileEmail').value=user.email||'';try{await ensureUserProfile(user);if(state.profile?.active===false){toast('This crew account is inactive.',true);await signOut(auth);return}$('currentUserName').textContent=displayName();$('displayNameInput').value=displayName();$('businessName').value=state.settings.businessName||'Day One Projects';$('profileTheme').value=state.profile.theme||localStorage.getItem('tt-theme')||'system';applyTheme($('profileTheme').value);applyRoleUI();updateGreeting();startRealtime();beginFinancialMigration();history.replaceState({view:'dashboardView'},'',location.href);openView('dashboardView',false)}catch(err){console.error(err);toast(`Firebase setup error: ${err.message}`,true)}}
   else{state.profile=null;state.tools=[];inventoryV52?.refresh();state.unsubscribers.forEach(fn=>fn());state.unsubscribers=[];startV5();$('app').classList.add('hidden');$('authScreen').classList.remove('hidden')}
 });
 
@@ -652,7 +659,7 @@ $('moraleAfterDarkClose')?.addEventListener('click',()=>$('moraleAfterDark').clo
 $('moraleAfterDarkOpen')?.addEventListener('click',()=>{$('moraleAfterDark').close();openView('moraleView')});
 if(localStorage.getItem('tt-morale-pumpkin-found')==='yes')document.body.classList.add('morale-pumpkin-found');
 
-import { installV5 } from './v5-features.js?v=5.3.0';
+import { installV5 } from './v5-features.js?v=5.3.1';
 const {renderRequests,renderMyTools,openBoss,startV5,updateNotifications}=installV5({moveTools:(rows,options)=>operations.change(rows,options),inventoryIssues:()=>companyTools().filter(t=>t.status!=='Retired'&&(verificationState(t).needs||!t.photoURL)).length,state,db,storage,collection,doc,getDoc,setDoc,addDoc,updateDoc,onSnapshot,query,where,serverTimestamp,runTransaction,writeBatch,ref,uploadBytes,getDownloadURL,isAdmin,companyTools,displayName,esc,toast,openView,openModal,closeModal,writeHistory,markAttention,openMoveModal:moveTool,toolImage,statusForLocation,moralePuzzleKey,estimateState,currentFactsKey,renderMorale,renderEstimateGame});
 
 function estimateQuip(i,data){
