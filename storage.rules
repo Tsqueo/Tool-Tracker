@@ -4,6 +4,10 @@ service firebase.storage {
     function signedIn() { return request.auth != null; }
     function admin() { return signedIn() && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin' && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.active != false; }
     function isImageOrPdf() { return request.resource.contentType.matches('image/.*') || request.resource.contentType == 'application/pdf'; }
+    match /financial-files/{toolId}/{fileName} {
+      allow read, delete: if admin();
+      allow create, update: if admin() && request.resource.size < 10 * 1024 * 1024 && isImageOrPdf();
+    }
     match /tool-files/{toolId}/{fileName} {
       allow read: if signedIn();
       allow create, update: if signedIn() && request.resource.size < 10 * 1024 * 1024 && isImageOrPdf();

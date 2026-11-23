@@ -1,0 +1,24 @@
+TOOL TRACKER V5.3.0 — INTERFACE + FINANCIAL PRIVACY
+
+This is one cumulative UPDATE package for an existing V5.1.0, V5.2.0 or V5.2.1 installation. It includes the V5.2.1 morale hotfix. Keep your existing artwork and firebase-config.js. Do not replace the repository with only this package.
+
+WHAT CHANGED
+Same black/white/blue palette, flatter sections and tool rows, compact dashboard statistics, smaller corners, reduced shadows, compact search with expandable filters and active-filter count. Clear now also clears the power-source filter.
+Prices, purchase information, warranty and receipt references are stored in admin-only toolFinancials records. New receipts use an admin-only financial-files storage path. Existing value-related history is moved to admin-only financialHistory. Crew retains Company tools, photos, categories, quantities, locations and assignments. Personal inventory remains admin-only.
+The V5.2.1 challenge renderer, fact-reveal and joke-position fixes are included. December artwork and scenes are carried forward; no additional December source upload is intended.
+
+INSTALL IN THIS ORDER — BRIEF MAINTENANCE WINDOW
+1. Ask crew to close the app during installation. Export/back up the existing Firestore database and Storage before the financial migration. Keep the current GitHub version available as a source backup.
+2. In Firebase > Firestore Database > Rules, publish the complete firestore.rules supplied here.
+3. In Firebase > Storage > Rules, publish the complete storage.rules supplied here. This release needs BOTH rule updates; it is not GitHub-only.
+4. Extract the ZIP. Upload the loose application files to the GitHub repository root, replacing matching files, then commit. The READ-FIRST and validation report are reference documents; they need not be uploaded. Do not upload the ZIP itself.
+5. Upload the CONTENTS of boss into the existing boss directory, and the CONTENTS of winter into the existing winter directory. Commit each batch. Preserve existing artwork directories. These folders are cumulative V5.2 changes in case they were not uploaded earlier. Do not nest boss/boss or winter/winter.
+6. Wait for GitHub deployment, reopen online as Tony/admin, and confirm V5.3.0. The first admin login moves existing financial fields, receipts and financial history. Keep it open until inventory loads. Each asset's financial fields move atomically; interrupted runs can be retried. Receipt files are copied before their original objects are removed so old receipt download links stop working. Receipt migration needs network access and may take longer. A migration error blocks normal admin startup; resolve it before inviting crew back. Do not fall back to the old app after migrating data: old versions cannot read separated financial records.
+7. Admin verification: check Company and Personal counts/labels, several purchase prices/replacement values, an existing receipt, a new receipt upload, insurance totals/PDF and an edit/save/reopen. Verify both app and Firebase contents: tools documents must have no financial fields; toolFinancials must retain them. Confirm old receipt paths are deleted.
+8. Test with an actual crew account: Company photos/categories/counts/assignment details work; Personal inventory, values and receipts are unavailable. Firebase Rules Playground must deny crew reads of toolFinancials, financialHistory, financial-files and Personal tool records; allow admin reads. Check a normal crew tool edit/move/verification still saves. These live permission checks have NOT been run here.
+9. Verify Measure Twice loads three cards, one fact tap opens one fact, joke position survives reopening, existing solved puzzle state remains, and Filters/Clear work on Tony's phone. Then resume crew use.
+
+VALIDATION / LIMITS
+Passed JavaScript syntax checks and source-based game, label, movement/Undo and financial routing/migration tests. Browser sample data confirmed Filters/active count, category browsing, dashboard navigation and crew tool details without financial fields. Production Firebase, Storage receipt transfer, Rules emulator and Tony's phone were not accessible for testing. Financial privacy is not confirmed deployed until step 8 passes. Previously downloaded receipts/data cannot be recalled. Current admin receipt links are bearer download links: keep them private.
+
+No live production records or Firebase rules were changed while building this package.

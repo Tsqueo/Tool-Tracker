@@ -8,16 +8,19 @@ service cloud.firestore {
 
     match /users/{uid} {
       allow read: if activeUser();
-      allow create: if signedIn() && (request.auth.uid == uid || admin());
+      allow create: if admin() || (signedIn() && request.auth.uid == uid && request.resource.data.role == 'staff' && request.resource.data.active == true);
       allow update: if admin() || (activeUser() && request.auth.uid == uid
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName','theme','avatarURL','updatedAt']));
       allow delete: if admin();
     }
 
+    match /toolFinancials/{toolId} { allow read, write: if admin(); }
+    match /financialHistory/{id} { allow read, write: if admin(); }
+    function noFinancial(data) { return !data.keys().hasAny(['purchaseDate','purchasePrice','retailer','warrantyExpiry','receiptURL','receiptPath','receiptName','replacementCost','replacementCostReviewedAt','replacementCostBasis']); }
     match /tools/{toolId} {
       allow read: if activeUser() && (resource.data.privateTool != true && resource.data.inventoryScope != 'personal' || admin());
-      allow create: if activeUser() && (request.resource.data.privateTool != true && request.resource.data.inventoryScope != 'personal' || admin());
-      allow update: if admin() || (activeUser()
+      allow create: if noFinancial(request.resource.data) && activeUser() && (request.resource.data.privateTool != true && request.resource.data.inventoryScope != 'personal' || admin());
+      allow update: if (admin() && noFinancial(request.resource.data)) || (activeUser()
         && resource.data.privateTool != true && resource.data.inventoryScope != 'personal'
         && request.resource.data.privateTool != true && request.resource.data.inventoryScope != 'personal'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
@@ -121,7 +124,7 @@ service cloud.firestore {
 
     match /verificationPhotos/{id} { allow read: if admin(); allow create: if activeUser(); allow update, delete: if false; }
     match /personalHistory/{id} { allow read: if admin(); allow create: if admin(); allow update, delete: if false; }
-    match /history/{id} { allow read: if activeUser(); allow create: if activeUser(); allow update, delete: if false; }
+    match /history/{id} { allow read: if activeUser(); allow create: if activeUser(); allow update: if false; allow delete: if admin(); }
     match /jobs/{id} { allow read: if activeUser(); allow write: if admin(); }
     match /locations/{id} { allow read: if activeUser(); allow write: if admin(); }
     match /categories/{id} { allow read: if activeUser(); allow write: if admin(); }
