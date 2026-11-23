@@ -27,3 +27,17 @@ body.christmas-world-active #dashboardView .mascot-hero{display:none!important}
 #dashboardView .mascot-caption{position:static!important;max-width:none!important;margin:0!important;border-radius:0!important;left:auto!important;bottom:auto!important;padding:12px 16px!important;background:#111827!important;color:white!important}
 #dashboardView .dash-tile{border-radius:0!important;background:transparent!important;box-shadow:none!important}
 body.christmas-world-active #dashboardView .mascot-hero{display:none!important}
+/* V5.4 recovery overrides: image area and morale content are separate. */
+#dashboardView .mascot-hero{width:100%!important;max-width:none!important;height:260px!important;min-height:0!important;aspect-ratio:auto!important;display:flex!important;align-items:center;justify-content:center;background:#e6edf1!important;margin-bottom:0!important}
+#dashboardView .mascot-hero>img{width:100%!important;height:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important}
+.dashboard-morale{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;background:#111827;color:white;border-radius:0 0 6px 6px;margin-bottom:18px}.dashboard-morale strong{font-size:1rem;line-height:1.45}.dashboard-morale #moraleLink{display:block!important;flex-shrink:0;color:#53c8ef;background:transparent;border:1px solid #52616e;padding:10px 12px;font-size:.875rem!important;min-height:44px}
+#dashboardView .hero-grid{display:flex!important;flex-wrap:wrap;justify-content:flex-start;margin:18px 0 8px!important;width:100%;gap:0!important}#dashboardView .hero-grid>.stat{flex:1 1 130px!important;min-height:76px!important;padding:12px 16px!important}#dashboardView .hero-grid>.stat[hidden]{display:none!important}#clearToolIssues{margin:8px 0 18px!important}
+.inventory-browse-nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}.browse-current{flex:1 1 120px;color:var(--muted);font-size:.9rem}.inventory-browse-nav .btn{font-size:.9rem}.migration-status{padding:14px;margin:12px 0;line-height:1.45}.inventory-browse-nav+.tools-grid{margin-top:8px}
+#personalToolsGrid:has(.inventory-category-card){grid-template-columns:1fr!important}.inventory-category-card[hidden]{display:none!important}
+@media(max-width:700px){#dashboardView .mascot-hero{height:230px!important}#dashboardView .mascot-hero>img{height:100%!important}.dashboard-morale{display:grid;gap:10px;padding:12px 14px}.dashboard-morale #moraleLink{justify-self:start}#dashboardView .hero-grid>.stat{flex-basis:40%!important}#dashboardView .hero-grid>.stat strong{font-size:1.7rem!important}.inventory-browse-nav .btn{padding:10px 12px}}
+body.christmas-world-active #dashboardView .mascot-hero,body.halloween-world-active #dashboardView .mascot-hero{display:none!important}
+/* Frame the existing portrait artwork around the complete worker and cat.
+   Only surplus sky/steel is outside the frame; neither mascot is cropped. */
+#dashboardView .mascot-hero{height:auto!important;aspect-ratio:auto!important;overflow:hidden!important}
+#dashboardView .mascot-hero>img{width:100%!important;max-width:480px!important;height:auto!important;max-height:none!important;aspect-ratio:1.44!important;object-fit:cover!important;object-position:center 36%!important}
+@media(max-width:700px){#dashboardView .mascot-hero{height:auto!important}#dashboardView .mascot-hero>img{height:auto!important}}

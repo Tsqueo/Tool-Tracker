@@ -1,0 +1,27 @@
+CONFIRMED IN THIS BUILD
+- All application JavaScript parses; cache file paths resolve; release hashes verified.
+- Production Company and Personal category/card renderers: scope separation,
+  counts, uncategorized/legacy categories, search/reset, All categories and Clear.
+- Dashboard numeric/zero/nonzero/loading states; joke/link exist exactly once,
+  outside the image container. CSS framing covers the complete mascot subject
+  bounds of the existing 1152x1536 artwork. Mobile and desktop overrides reviewed.
+- 52 weekly challenge renders and progress, fact tap persistence and joke reopening.
+- Label pools/draft provenance; stale edit rejection; move/assignment/Undo guards.
+- Financial split, repeatable atomic field migration, private financial history,
+  admin transaction writes, crew saves omit financial fields.
+- Receipt server transfer mocked API tests: read-only mode, verified copy before
+  reference/delete, interruption/resume, concurrent edit, bad checksum, missing
+  original, external link rejection. Values and other receipt metadata preserved.
+- 36 challenge definitions, 52 Foreman selections, October-only seasonal rotation,
+  units/fractions and all three Boss game mechanics.
+
+NOT VERIFIED HERE
+- No production Firebase data, rules, Storage settings or GitHub deployment changed.
+- Real receipt transfer requires the supplied Cloud Shell script; its authenticated
+  Google APIs have not been exercised against Tony's project.
+- No Firebase Rules emulator/live crew authorization test was available.
+- Browser QA was blocked: the available browser tab was on chrome-error:// and the
+  browser policy refused access. No browser-policy workaround was attempted.
+  Phone layout, end-to-end save/export and deployed permissions need the included
+  acceptance checks. This is a built/tested recovery package, not a claim that
+  all production issues are already resolved.

@@ -41,5 +41,5 @@ export function installInventoryStabilization(api){
  $('insuranceScope')?.addEventListener('change',()=>{insuranceCategory='';api.renderInsurance?.();renderInsuranceFilter()});
  // Observe only legacy grids, never this module's generated sibling nodes.
  for(const id of ['toolsGrid','personalToolsGrid'])if($(id))new MutationObserver(()=>refreshScope(id==='personalToolsGrid'?'personal':'company')).observe($(id),{childList:true});
- mountContents();return{refresh,hydrateToolForm,toolFields,enhanceDetails,filterInsuranceRows,printInventory};
+ mountContents();return{refresh,showCategories:scope=>{gallery[scope]=false;refreshScope(scope)},hydrateToolForm,toolFields,enhanceDetails,filterInsuranceRows,printInventory};
 }

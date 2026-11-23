@@ -13,21 +13,11 @@ export function createFinancialPrivacy(api){
   const all=await getDocs(collection(db,'tools'));
   for(const item of all.docs){if(!Object.keys(splitFinancial(item.data()).financial).length)continue;await runTransaction(db,async tx=>{const live=await tx.get(item.ref);const {financial}=splitFinancial(live.data());if(!Object.keys(financial).length)return;tx.set(doc(db,'toolFinancials',item.id),financial,{merge:true});tx.update(item.ref,Object.fromEntries(Object.keys(financial).map(k=>[k,deleteField()])))});}
   const financials=await getDocs(collection(db,'toolFinancials'));
-  for(const item of financials.docs){let data=item.data();
-   if(data.receiptLegacyPath){await deleteObject(ref(storage,data.receiptLegacyPath));await updateDoc(item.ref,{receiptLegacyPath:deleteField()});delete data.receiptLegacyPath}
-   if(data.receiptPath&&!data.receiptPath.startsWith('financial-files/')){
-    // Replace the old shared object, then delete it so its old download token stops working.
-    if(!data.receiptURL)throw Error('A legacy receipt has no download URL. Financial migration needs review.');
-    const response=await fetch(data.receiptURL);if(!response.ok)throw Error('Could not secure an existing receipt. Please retry before crew use.');
-    const blob=await response.blob(),path=`financial-files/${item.id}/migrated-${crypto.randomUUID()}`;
-    await uploadBytes(ref(storage,path),blob,{contentType:blob.type||'application/pdf'});
-    const url=await getDownloadURL(ref(storage,path));await updateDoc(item.ref,{receiptPath:path,receiptURL:url,receiptLegacyPath:data.receiptPath});
-    await deleteObject(ref(storage,data.receiptPath));await updateDoc(item.ref,{receiptLegacyPath:deleteField()});data={...data,receiptPath:path,receiptURL:url};
-   }records.set(item.id,data);
-  }
+  let pendingReceipts=0;for(const item of financials.docs){const data=item.data();records.set(item.id,data);if(data.receiptLegacyPath||(data.receiptPath&&!data.receiptPath.startsWith('financial-files/'))||(!data.receiptPath&&data.receiptURL))pendingReceipts++}
   // Historical value notes were previously visible to crew too.
   const history=await getDocs(collection(db,'history'));
-  for(const item of history.docs)if(/insurance|replacement cost/i.test(item.data().action||'')){const batch=writeBatch(db);batch.set(doc(db,'financialHistory',item.id),item.data());batch.delete(item.ref);await batch.commit()}
+  for(const item of history.docs)if(/insurance|replacement cost|purchase|retailer|warranty|receipt|paid/i.test(item.data().action||'')){const batch=writeBatch(db);batch.set(doc(db,'financialHistory',item.id),item.data());batch.delete(item.ref);await batch.commit()}
+  return {pendingReceipts};
  }
  return {records,prepare,transaction,set:(r,d,o)=>write('set',r,d,o),update:(r,d)=>write('update',r,d)};
 }
