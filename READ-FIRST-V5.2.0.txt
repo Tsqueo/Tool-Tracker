@@ -1,0 +1,31 @@
+TOOL TRACKER V5.2.0 — INVENTORY & MORALE STABILIZATION
+
+INSTALL THE SMALL UPDATE ZIP if your app is the unchanged V5.1.0 build.
+The full rebuild is an alternative/recovery copy, not a second installation step.
+
+1. Back up/download the current GitHub repository.
+2. Firebase Console > Firestore Database > Rules: replace the rules with the included firestore.rules and Publish. The new rules support contents descriptions, verification attribution, movement Undo metadata and Foreman outcome sync. Keep your existing firebase-config.js and Storage rules.
+3. Extract the UPDATE ZIP on your computer. Do not upload the ZIP itself.
+4. Upload the loose app files to your existing Tool-Tracker repository ROOT, replacing matching filenames, then commit. Upload the contents of the boss and winter folders into their matching existing folders, committing each folder separately. Do not create an extra nested Tool-Tracker folder. The update contains no replacement Christmas artwork.
+5. Wait for GitHub Pages deployment to finish. Close/reopen the installed app or refresh the browser. Confirm V5.2.0 on sign-in/dashboard.
+6. Test one Personal addition (correct next ID), a tool detail assignment, one return to Shop + Undo, and a Company/Personal photo PDF.
+
+WHAT CHANGED
+- Restored automatic labels recalculate; explicit manual labels remain. Known stale legacy P-B-45 drafts after the earlier correction refresh to the current personal sequence.
+- Company/Personal photo galleries, expanded search and admin-only photo PDF inventory exports. Print > Save as PDF is used; no extra service or subscription.
+- Assignment details, crew filters/photos, verifier/date and missing-tool context. Historical verifier/person information that was never recorded is labelled unavailable, not invented.
+- General Inventory bulk move/crew assignment with review, explicit paired selection, consistent assignment clearing on returns, atomic movement history, 60-second Undo and stale-edit protection. An explicit assignment choice overrides the default return-clears-assignment behaviour.
+- Packouts & Job Boxes category/icon and optional Use / contents description; Ladders renamed Ladders & Platforms. Additive category setup happens on admin sign-in. No detailed contents tracking, battery pairing or camera-recognition change.
+- Category quantities, recorded replacement totals and missing valuations; links to filtered Insurance. Financial fields remain admin-only.
+- Notifications include current inventory attention/photo issues alongside unread requests.
+- Foreman solved/revealed status and answer/explanation persist. Corrected flawed puzzles, improved unit input and decimal display.
+- Weekly challenge content has 12 different families per tier; 52 Foreman selections; rotating names; construction facts; fresh jokes/bulletins; October-only Halloween.
+- Boss rotation alternates load planning, investigation and shift planning. Existing in-progress/finished Boss attempts keep their original mode.
+
+GAME STATE
+V5.2 uses a new weekly content/progress namespace for Foreman and the three weekly challenges, so old answers cannot mark different replacement puzzles as completed. These games restart once after this upgrade. Existing Boss attempts are preserved until the normal weekly reset. Weekly boundaries use the existing Pacific Monday 4:30 a.m. clock.
+
+VALIDATION
+Syntax checks, local mock transaction tests, label/draft regressions, game-content/season/unit/load-engine tests and browser checks using sample inventory passed. No writes to Tony’s production Firebase or GitHub were made. Live Firebase rules/deployment and phone print-dialog checks still need the post-install test above.
+
+CAMERA RECOGNITION IS DEFERRED.

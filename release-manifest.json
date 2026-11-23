@@ -1,16 +1,21 @@
 {
-  "version": "5.1.0",
-  "base": "5.0.1",
+  "version": "5.2.0",
+  "base": "5.1.0",
   "files": [
     {
-      "path": "READ-FIRST-V5.1.0.txt",
-      "size": 4257,
-      "sha256": "826df58c8751d9e39b87898850686f132276ef00a1cd7fd4b9c4fefa1217507d"
+      "path": "READ-FIRST-V5.2.0.txt",
+      "size": 3723,
+      "sha256": "025379bd2f27183faa45f44bc7333df1f2caaf5b10258ed09acffafe1abd1018"
     },
     {
       "path": "README.md",
-      "size": 468,
-      "sha256": "c95b2a82ab470f6bc27f823be43287b7bdba911ce04ebf3b911add015cf3f16d"
+      "size": 260,
+      "sha256": "bf529f5991b6889f2acb11c635bf5dc251c590c5b0de016b35f9d04fef703dd0"
+    },
+    {
+      "path": "VALIDATION-V5.2.0.md",
+      "size": 1975,
+      "sha256": "bd0f5185149fd91616b0fcb24a191f6a73b9f559a5b3b7a79e4f7771963310e7"
     },
     {
       "path": "annual-content-v51.js",
@@ -19,13 +24,13 @@
     },
     {
       "path": "annual-puzzles.js",
-      "size": 16707,
-      "sha256": "e1824699ddd67ad46a6e35b2306eacc67e70c35649a3ad29f917ae8be267947a"
+      "size": 16652,
+      "sha256": "b0179c2d52a67858acb1d7c85df34bd32c42e77d2cd56d404c3ac17c01374c45"
     },
     {
       "path": "app.js",
-      "size": 197011,
-      "sha256": "d8a8a161ccde071e36f36cedb825c38bfbad84e1f39706e12d5799c9a54d5838"
+      "size": 200998,
+      "sha256": "8950407b7ab5868e91076a5bef6cee774d8b339458af10e258c475704f6d80eb"
     },
     {
       "path": "apple-touch-icon.png",
@@ -39,8 +44,8 @@
     },
     {
       "path": "boss/app.js",
-      "size": 22796,
-      "sha256": "5881abeab93d7a2690efa143d03e8e304b4af0723710422a8be95e03920840d6"
+      "size": 23053,
+      "sha256": "affe1c8549d9fe53f4699c45a098df019184076e93fbc8f7ba72291597e7a5c7"
     },
     {
       "path": "boss/boss-atlas.webp",
@@ -54,13 +59,18 @@
     },
     {
       "path": "boss/engine.js",
-      "size": 6588,
-      "sha256": "22148f97e43224029067234545437ec7b5295d208dd2565da01a0e63d1f481ab"
+      "size": 6926,
+      "sha256": "5399485a9741f1e61e11da8fff7fc005a7eb8921618dbbb9fa63941b73a9ea10"
+    },
+    {
+      "path": "boss/games-tests.cjs",
+      "size": 3304,
+      "sha256": "49d9ef1211310e0274200d8a06e3bd4004bdfb582e9acbb72576ecae10f08a74"
     },
     {
       "path": "boss/index.html",
-      "size": 12947,
-      "sha256": "f04bcf44bd8187b5caccafbdf77fce60dd7c8cb4d914409ebcf1f6a11777f037"
+      "size": 12979,
+      "sha256": "f66d9cd6e1f0bbe15d0d50eab8722a9e86aad22a748f6f06aa6887015ffe35d3"
     },
     {
       "path": "boss/investigation.css",
@@ -74,13 +84,33 @@
     },
     {
       "path": "boss/investigation.js",
-      "size": 5858,
-      "sha256": "22255baf651915cb53c6728245ee26b48bd969e2e334126a79a0a7858f98569d"
+      "size": 5878,
+      "sha256": "80636d1625847249e609af2dc0356d4e2d2c4243f4236a6bc1860b7118383191"
+    },
+    {
+      "path": "boss/names.js",
+      "size": 1089,
+      "sha256": "1f84be06883ffe42699616b1d20bbfc95e3c20ae728335e1f913c7de1d6624e6"
+    },
+    {
+      "path": "boss/packing-engine.js",
+      "size": 3427,
+      "sha256": "f000b8bf20b73c22708b1e70db53917842049019d4dc1819d2860d80104d289b"
+    },
+    {
+      "path": "boss/packing.html",
+      "size": 2669,
+      "sha256": "3b21c0db116361f9562fb7f2aacfd36b2ff2505992272c86a559ad1ca8831362"
+    },
+    {
+      "path": "boss/packing.js",
+      "size": 5731,
+      "sha256": "b42e86c54f84cbbb9b24686f4e90c28bd22ebc20b3f76f33855b1acf848d51c6"
     },
     {
       "path": "boss/scenarios.js",
-      "size": 3384,
-      "sha256": "d6e74a890469fd99e8c974c32370e47a0870809899909117dc4bc2ed96f839c4"
+      "size": 3470,
+      "sha256": "80aafdc35b78a45f30a40bb6a5804cae96427f12191a44953515e7bcf92d42f9"
     },
     {
       "path": "boss/style.css",
@@ -190,7 +220,7 @@
     {
       "path": "christmas-worlds.js",
       "size": 8880,
-      "sha256": "dc66ec843f225e2d2665d03065bfcb8a6b6e612a800cd1e6cd6d825cc6dc4cce"
+      "sha256": "13e966f84daa2c0d5e0f9ab664c08dc31ebbd66bdc277eed34b18f5db02df72e"
     },
     {
       "path": "dashboard-mascots-beam.jpg",
@@ -224,8 +254,13 @@
     },
     {
       "path": "firestore.rules",
-      "size": 9433,
-      "sha256": "b08b8610f780c95d4fdbcf874a1d4640a4ce4de439e47f69c19a6143988f54d4"
+      "size": 9749,
+      "sha256": "a338fdb3585dfec6fd95e5364e2f7d001e82ac7130949bd9dc12b10adde2d7cb"
+    },
+    {
+      "path": "games-stabilization.js",
+      "size": 27992,
+      "sha256": "17b9511b5f5c9aa866f7fed7a7093b801efccd1a73a208dcd5aad58876be920c"
     },
     {
       "path": "halloween-art/bat.webp",
@@ -329,13 +364,23 @@
     },
     {
       "path": "index.html",
-      "size": 55179,
-      "sha256": "cb243991143300618262bda5cdcbbabc40496959c363e8bd8ea40a81e7fb168b"
+      "size": 55307,
+      "sha256": "7178964ab3341af493658c29a509674d4d1ce63c6cfcd41c6415cb748606f6c5"
+    },
+    {
+      "path": "inventory-stabilization.css",
+      "size": 2561,
+      "sha256": "cb47ea4d19719c533f1fe1d7c0c731179752c31e81684c2cf69532a206e59a80"
+    },
+    {
+      "path": "inventory-stabilization.js",
+      "size": 12281,
+      "sha256": "87a1433eaf4145bbb5f8c927d63c6ac4510fe3e4eb92f9baefe82e0001d523b0"
     },
     {
       "path": "manifest.webmanifest",
       "size": 572,
-      "sha256": "46f3e9635bd26370fa6832baffd2572bda904ae93249197630c3e6050fbaf8d9"
+      "sha256": "02022d011ef02be89bee591926083f3433b8ea547c3d6ca5f96e2a21edf296f3"
     },
     {
       "path": "mascot-master.png",
@@ -346,6 +391,11 @@
       "path": "morale-worn-heroes.png",
       "size": 468853,
       "sha256": "0f692df750937065ade84b79785d80b9af4efef5cc8ac28c51179f12a612a3b2"
+    },
+    {
+      "path": "operations-stabilization.js",
+      "size": 8358,
+      "sha256": "a2ec66a388ccc85299f8a9cc2e28e520bcf996148c9ecbdf67117e745f421193"
     },
     {
       "path": "season-calendar.js",
@@ -359,8 +409,8 @@
     },
     {
       "path": "service-worker.js",
-      "size": 3224,
-      "sha256": "07bc26062704f6cf700bd5a4d4bfb0e93f17815adebbf48cd6e5d8c246754877"
+      "size": 3457,
+      "sha256": "58c02fc3b04a206701ceba78cebc7ee354029fc020c401df82cc084a772365cc"
     },
     {
       "path": "storage.rules",
@@ -379,13 +429,13 @@
     },
     {
       "path": "v5-features.js",
-      "size": 29722,
-      "sha256": "62ca811e7ae27a70623349491c48ee0f5d427ec1f9b1b467c7f4ba0a2ab560ba"
+      "size": 30229,
+      "sha256": "297b5755214f36d3cd23894a572363d3d6deecb44b6e03a27fe91a0def56ab02"
     },
     {
       "path": "v5.css",
       "size": 10223,
-      "sha256": "8e787cf00fce8f14fdb73443e2a5444dbc16886551f27a1df891bcb003002aee"
+      "sha256": "49df34feb7627f5679fa3a364259e81ab2a46d0e1bbfd1f1240ba9abd0b0b9f7"
     },
     {
       "path": "winter/art/angels-v4.png",
@@ -495,7 +545,7 @@
     {
       "path": "winter/winter.css",
       "size": 8447,
-      "sha256": "658d879348a0a778bf7dfea2da98d0f32547cc9e4d0ec54d6aa980c85f71f5f4"
+      "sha256": "2c9a9da881ba15a322fd52e72e196d0310bf8159c23a550ce375d26055ff98d6"
     },
     {
       "path": "winter/winter.js",
